@@ -1,11 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(drawtiq)/about/page": "app/(drawtiq)/about/page.js",
   "/(drawtiq)/page": "app/(drawtiq)/page.js",
-  "/(drawtiq)/service-graphic-design/page": "app/(drawtiq)/service-graphic-design/page.js",
-  "/(drawtiq)/services/page": "app/(drawtiq)/services/page.js",
-  "/(drawtiq)/contact/page": "app/(drawtiq)/contact/page.js",
-  "/(drawtiq)/service-ui-ux/page": "app/(drawtiq)/service-ui-ux/page.js",
-  "/(drawtiq)/case-study/[project]/page": "app/(drawtiq)/case-study/[project]/page.js",
   "/(drawtiq)/work/page": "app/(drawtiq)/work/page.js"
 }

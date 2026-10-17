@@ -1,108 +1,30 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/app/_not-found/page-6fb9ada0cb303a88.js"
-    ],
-    "/layout": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/css/f489e6efc7c7f6a0.css",
-      "static/chunks/app/layout-709f2af1e5ea7527.js"
-    ],
-    "/(drawtiq)/about/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/about/page-1193040efad5feaa.js"
+    "/(drawtiq)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/page.js"
     ],
     "/(drawtiq)/layout": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/223-bb70a07af0afe0f3.js",
-      "static/chunks/app/(drawtiq)/layout-0b44fc3bd5f74736.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/layout.js"
     ],
-    "/(drawtiq)/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/173-28e86bef68881c77.js",
-      "static/chunks/app/(drawtiq)/page-dd49c80736135912.js"
-    ],
-    "/(drawtiq)/service-graphic-design/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/service-graphic-design/page-a9e74771981d37a5.js"
-    ],
-    "/(drawtiq)/services/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/services/page-8d5a8b480fca24a6.js"
-    ],
-    "/(drawtiq)/contact/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/app/(drawtiq)/contact/page-db86aff8f4419300.js"
-    ],
-    "/(drawtiq)/service-ui-ux/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/service-ui-ux/page-7482d4ddd9861dfd.js"
-    ],
-    "/(drawtiq)/case-study/[project]/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/case-study/[project]/page-3d0f5e424e2d5a0e.js"
-    ],
-    "/(drawtiq)/case-study/layout": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/223-bb70a07af0afe0f3.js",
-      "static/chunks/app/(drawtiq)/case-study/layout-109f5613b89910a3.js"
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/(drawtiq)/work/page": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/231-f03e2aa0a39a8bed.js",
-      "static/chunks/app/(drawtiq)/work/page-c91a02921d3e492f.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/work/page.js"
     ],
     "/(drawtiq)/work/layout": [
-      "static/chunks/webpack-8e384da40982861a.js",
-      "static/chunks/fd9d1056-e3489de6ce1f07f6.js",
-      "static/chunks/23-2d3bf2d8d0798172.js",
-      "static/chunks/main-app-29e485257e538ec1.js",
-      "static/chunks/223-bb70a07af0afe0f3.js",
-      "static/chunks/app/(drawtiq)/work/layout-bc488909e7546c06.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/work/layout.js"
     ]
   }
 }

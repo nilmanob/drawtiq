@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -35,14 +34,28 @@ export default function HomePage() {
           <div className="art-grid"></div>
           <div className="art-orbit orbit-one"></div>
           <div className="art-orbit orbit-two"></div>
-          <Image
+          <svg
             className="drawn-mark"
-            src="data:image/svg+xml,%3Csvg viewBox='0 0 500 470' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='%23171916' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M128 90 C220 24 350 83 365 190 C385 308 282 386 174 354 C73 324 47 207 102 124 C160 39 289 63 327 145 C366 231 302 315 224 313 C153 311 112 253 133 194 C152 140 211 122 260 153'/%3E%3Cpath d='M250 72 L250 356 M108 215 L386 215' stroke-dasharray='3 8' opacity='.3'/%3E%3C/svg%3E"
-            alt="Drawn geometric D symbol"
-            width={500}
-            height={470}
-            priority
-          />
+            viewBox="0 0 500 470"
+            role="img"
+            aria-label="Drawn geometric D symbol"
+          >
+            <path
+              className="draw-path"
+              d="M128 90 C220 24 350 83 365 190 C385 308 282 386 174 354 C73 324 47 207 102 124 C160 39 289 63 327 145 C366 231 302 315 224 313 C153 311 112 253 133 194 C152 140 211 122 260 153"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M250 72 L250 356 M108 215 L386 215"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeDasharray="3 8"
+              opacity=".3"
+            />
+          </svg>
           <div className="art-sticker">
             Ideas<br />into impact<span>✳</span>
           </div>
@@ -90,10 +103,10 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="work-grid">
-          <a
+          <Link
             className="project project-large reveal"
-            href="#contact"
-            aria-label="Discuss a fintech project"
+            href="/case-study/northstar"
+            aria-label="Explore Northstar Finance case study"
           >
             <div className="project-visual visual-fintech">
               <div className="mock-window">
@@ -111,7 +124,7 @@ export default function HomePage() {
                     d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
                     fill="none"
                     stroke="#c8ff43"
-                    stroke-width="3"
+                    strokeWidth="3"
                   />
                   <path
                     d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8 L500 140 L0 140Z"
@@ -136,9 +149,13 @@ export default function HomePage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" href="#contact" aria-label="Discuss a brand identity project">
+          <Link
+            className="project project-small reveal"
+            href="/case-study/bloomwell"
+            aria-label="Explore Bloomwell case study"
+          >
             <div className="project-visual visual-bloom">
               <div className="bloom-card">
                 <span className="bloom-symbol">b.</span>
@@ -157,9 +174,13 @@ export default function HomePage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" href="#contact" aria-label="Discuss an e-commerce design project">
+          <Link
+            className="project project-small reveal"
+            href="/case-study/form-object"
+            aria-label="Explore Form & Object case study"
+          >
             <div className="project-visual visual-form">
               <div className="form-package">
                 <span>FORM / OBJECT</span>
@@ -177,12 +198,12 @@ export default function HomePage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a
+          <Link
             className="project project-large reveal"
-            href="#contact"
-            aria-label="Discuss a SaaS dashboard project"
+            href="/case-study/orbit"
+            aria-label="Explore Orbit Workspace case study"
           >
             <div className="project-visual visual-orbit">
               <div className="orbit-panel">
@@ -235,7 +256,7 @@ export default function HomePage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
         </div>
         <div className="work-bottom">
           <span className="mono">MORE GOOD THINGS ARE IN THE MAKING.</span>
@@ -360,9 +381,9 @@ export default function HomePage() {
             <div className="studio-paper">
               <span className="mono">DRAWING NO. 008</span>
               <svg viewBox="0 0 400 400" aria-hidden="true">
-                <path d="M70 200 C70 70 330 70 330 200 S70 330 70 200Z" fill="none" stroke="currentColor" stroke-width="2" />
-                <path d="M120 200 C120 120 280 120 280 200 S120 280 120 200Z" fill="none" stroke="currentColor" stroke-width="2" />
-                <path d="M200 70V330M70 200H330" stroke="currentColor" stroke-dasharray="3 7" opacity=".4" />
+                <path d="M70 200 C70 70 330 70 330 200 S70 330 70 200Z" fill="none" stroke="currentColor" strokeWidth="2" />
+                <path d="M120 200 C120 120 280 120 280 200 S120 280 120 200Z" fill="none" stroke="currentColor" strokeWidth="2" />
+                <path d="M200 70V330M70 200H330" stroke="currentColor" strokeDasharray="3 7" opacity=".4" />
                 <circle cx="200" cy="200" r="12" fill="var(--accent)" />
               </svg>
               <span className="mono">FORM / FUNCTION / FEELING</span>
@@ -508,8 +529,8 @@ export default function HomePage() {
               <input name="email" type="email" autoComplete="email" placeholder="you@company.com" required />
             </label>
             <label>What do you need?
-              <select name="service" required>
-                <option value="" disabled selected>Select a service</option>
+              <select name="service" required defaultValue="">
+                <option value="" disabled>Select a service</option>
                 <option>UI/UX & Product Design</option>
                 <option>Brand Identity</option>
                 <option>Graphic Design</option>

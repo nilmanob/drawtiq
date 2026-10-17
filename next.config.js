@@ -9,6 +9,14 @@ const nextConfig = {
   },
   // Optimize font loading with next/font when needed
   // Keep Google Fonts in HTML for design fidelity
+  async rewrites() {
+    return [
+      {
+        source: '/case-study.html',
+        destination: '/case-study',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

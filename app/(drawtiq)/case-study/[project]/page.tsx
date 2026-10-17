@@ -81,6 +81,32 @@ const cases = {
       "A collection of ideas needs a visual rhythm that supports reading instead of competing with it. This concept uses typography and a flexible grid to make each note feel part of one system.",
     category: "Case study / Graphic",
   },
+  formObject: {
+    title: "Form & Object",
+    sub: "Less, but better.",
+    lead: "A considered visual world for everyday objects that deserve a little more thought.",
+    discipline: "Graphic design · Art direction",
+    industry: "E-commerce",
+    scope: "Campaign, packaging, art direction",
+    brand: "FORM / OBJECT",
+    number: "FORM",
+    challenge:
+      "A product range needs to feel cohesive without losing the character of individual objects. This concept uses restrained typography and tactile composition to bring a point of view to the collection.",
+    category: "Case study / Graphic",
+  },
+  fieldNotes: {
+    title: "Field Notes",
+    sub: "Make room to think.",
+    lead: "An editorial design concept for sharing ideas, observations, and work in progress.",
+    discipline: "Graphic design · Editorial",
+    industry: "Publishing",
+    scope: "Art direction, typography, layouts",
+    brand: "FIELD NOTES",
+    number: "006",
+    challenge:
+      "A collection of ideas needs a visual rhythm that supports reading instead of competing with it. This concept uses typography and a flexible grid to make each note feel part of one system.",
+    category: "Case study / Graphic",
+  },
 };
 
 type Props = {
@@ -139,39 +165,135 @@ export default function CaseStudyPage({ params }: Props) {
       </section>
 
       <section className="section-wrap">
-        <div className="case-visual visual-fintech">
-          <div className="mock-window">
-            <div className="mock-top">
-              <b id="case-brand">{data.brand}</b>
-              <span>•••</span>
+        {(projectKey === "northstar") && (
+          <div className="case-visual visual-fintech">
+            <div className="mock-window">
+              <div className="mock-top">
+                <b id="case-brand">{data.brand}</b>
+                <span>•••</span>
+              </div>
+              <div className="mock-balance">
+                <small>Overview / Monthly snapshot</small>
+                <strong id="case-number">{data.number}</strong>
+                <span className="growth">↗ Clearer insights, less friction</span>
+              </div>
+              <svg viewBox="0 0 500 140" preserveAspectRatio="none">
+                <path
+                  d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
+                  fill="none"
+                  stroke="#c8ff43"
+                  strokeWidth="3"
+                />
+                <path
+                  d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8 L500 140 L0 140Z"
+                  fill="#c8ff43"
+                  opacity=".08"
+                />
+              </svg>
+              <div className="mock-bottom">
+                <span>Overview</span>
+                <span>Activity</span>
+                <span>Insights</span>
+              </div>
             </div>
-            <div className="mock-balance">
-              <small>Overview / Monthly snapshot</small>
-              <strong id="case-number">{data.number}</strong>
-              <span className="growth">↗ Clearer insights, less friction</span>
-            </div>
-            <svg viewBox="0 0 500 140" preserveAspectRatio="none">
-              <path
-                d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
-                fill="none"
-                stroke="#c8ff43"
-                stroke-width="3"
-              />
-              <path
-                d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8 L500 140 L0 140Z"
-                fill="#c8ff43"
-                opacity=".08"
-              />
-            </svg>
-            <div className="mock-bottom">
-              <span>Overview</span>
-              <span>Activity</span>
-              <span>Insights</span>
-            </div>
+            <div className="fintech-orb"></div>
+            <span className="visual-label mono">DESIGN EXPLORATION / DRAWTIQ</span>
           </div>
-          <div className="fintech-orb"></div>
-          <span className="visual-label mono">DESIGN EXPLORATION / DRAWtiq</span>
-        </div>
+        )}
+
+        {(projectKey === "bloomwell") && (
+          <div className="case-visual visual-bloom" style={{ minHeight: "440px" }}>
+            <div className="bloom-card">
+              <span className="bloom-symbol">b.</span>
+              <span className="bloom-name">bloomwell</span>
+              <span className="bloom-sub">A softer kind of wellness.</span>
+              <div className="bloom-petal petal-a"></div>
+              <div className="bloom-petal petal-b"></div>
+            </div>
+            <span className="visual-label mono">IDENTITY & DIGITAL EXPERIENCE / DRAWTIQ</span>
+          </div>
+        )}
+
+        {(projectKey === "form-object" || projectKey === "formObject") && (
+          <div className="case-visual visual-form" style={{ minHeight: "440px" }}>
+            <div className="form-package">
+              <span>FORM / OBJECT</span>
+              <strong>Less, but<strong>better.</strong></strong>
+              <div className="form-circle"></div>
+              <small>Everyday objects, considered.</small>
+            </div>
+            <span className="visual-label mono">ART DIRECTION & PACKAGING / DRAWTIQ</span>
+          </div>
+        )}
+
+        {(projectKey === "orbit") && (
+          <div className="case-visual visual-orbit" style={{ background: "#1c201a", minHeight: "460px" }}>
+            <div className="orbit-panel" style={{ width: "70%" }}>
+              <div className="orbit-sidebar">
+                <b>orbit.</b>
+                <span>Overview</span>
+                <span>Projects</span>
+                <span>Reports</span>
+                <span>Settings</span>
+              </div>
+              <div className="orbit-main">
+                <small>MONDAY, OCTOBER 12</small>
+                <h4>Your team, in sync.</h4>
+                <div className="orbit-stats">
+                  <div>
+                    <small>Active projects</small>
+                    <b>18</b>
+                  </div>
+                  <div>
+                    <small>Team velocity</small>
+                    <b>+24%</b>
+                  </div>
+                  <div>
+                    <small>On track</small>
+                    <b>92%</b>
+                  </div>
+                </div>
+                <div className="orbit-chart">
+                  <i style={{ height: "32%" }}></i>
+                  <i style={{ height: "48%" }}></i>
+                  <i style={{ height: "39%" }}></i>
+                  <i style={{ height: "63%" }}></i>
+                  <i style={{ height: "55%" }}></i>
+                  <i style={{ height: "78%" }}></i>
+                  <i style={{ height: "67%" }}></i>
+                  <i style={{ height: "92%" }}></i>
+                  <i style={{ height: "72%" }}></i>
+                  <i style={{ height: "100%" }}></i>
+                </div>
+              </div>
+            </div>
+            <div className="orbit-shape"></div>
+            <span className="visual-label mono">SAAS WORKSPACE UX / DRAWTIQ</span>
+          </div>
+        )}
+
+        {(projectKey === "goodkind") && (
+          <div className="case-visual visual-bloom" style={{ background: "#e8d7c6", minHeight: "440px" }}>
+            <div className="bloom-card" style={{ background: "#f9eee2" }}>
+              <span className="bloom-symbol" style={{ color: "#b2674b" }}>g.</span>
+              <span className="bloom-name">goodkind</span>
+              <span className="bloom-sub">Care, made visible.</span>
+            </div>
+            <span className="visual-label mono">COMMUNITY BRAND IDENTITY / DRAWTIQ</span>
+          </div>
+        )}
+
+        {(projectKey === "field-notes" || projectKey === "fieldNotes") && (
+          <div className="case-visual visual-form" style={{ background: "#d6dfd2", minHeight: "440px" }}>
+            <div className="form-package" style={{ background: "#f5f3ed" }}>
+              <span>FIELD NOTES / 006</span>
+              <strong>Make room<strong>to think.</strong></strong>
+              <div className="form-circle"></div>
+              <small>Notes on better work.</small>
+            </div>
+            <span className="visual-label mono">EDITORIAL DESIGN / DRAWTIQ</span>
+          </div>
+        )}
       </section>
 
       <section className="section-wrap">

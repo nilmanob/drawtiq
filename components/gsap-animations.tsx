@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -8,18 +9,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function useDrawtiqAnimations() {
   useGSAP(() => {
-    const heroArt = document.querySelector(".hero-art") as HTMLElement | null;
-    const drawnPath = document.querySelector(".draw-path") as HTMLElement | null;
     const orbitEls = document.querySelectorAll(".art-orbit") as NodeListOf<HTMLElement>;
     const sticker = document.querySelector(".art-sticker") as HTMLElement | null;
     const uiTop = document.querySelector(".ui-top") as HTMLElement | null;
     const uiBottom = document.querySelector(".ui-bottom") as HTMLElement | null;
 
-    if (heroArt && drawnPath) {
-      const path = drawnPath;
-      const tl = gsap.timeline({ delay: 0.35, defaults: { duration: 2.4, ease: "power3.out" } });
-      tl.from(path, { strokeDashoffset: 1300, stagger: 0.05 });
-    }
+    gsap.set(".drawn-mark", { clearProps: true });
 
     if (orbitEls.length > 0) {
       gsap.to(orbitEls[0], {

@@ -131,17 +131,58 @@ button {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid transparent;
-  transition: transform .35s var(--ease), background .3s, border-color .3s;
+  transition: height .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), transform .35s var(--ease);
 }
 
 .site-header.scrolled {
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
-  backdrop-filter: blur(14px);
-  border-color: var(--line);
+  height: 68px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: color-mix(in srgb, var(--line) 80%, transparent);
+  box-shadow: 0 4px 28px -2px rgba(23, 25, 22, 0.06);
+}
+
+html[data-theme="dark"] .site-header.scrolled {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--line) 85%, transparent);
+  box-shadow: 0 4px 30px -2px rgba(0, 0, 0, 0.5);
 }
 
 .site-header.hidden {
   transform: translateY(-105%);
+}
+
+.site-logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.site-logo {
+  height: 27px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  transition: height .35s var(--ease), opacity .25s var(--ease);
+}
+
+.site-header.scrolled .site-logo {
+  height: 24px;
+}
+
+.footer-logo {
+  height: 30px;
+  width: auto;
+  margin-bottom: 6px;
+}
+
+html[data-theme="dark"] .site-logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.site-logo-link:hover .site-logo {
+  opacity: .85;
 }
 
 .wordmark {
@@ -406,6 +447,15 @@ blockquote em {
   stroke-dasharray: 1300;
   stroke-dashoffset: 1300;
   animation: draw 2.4s .35s var(--ease) forwards;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .art-orbit {

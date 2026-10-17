@@ -29,9 +29,9 @@ export default function AboutPage() {
                 d="M70 200 C70 70 330 70 330 200 S70 330 70 200Z M120 200 C120 120 280 120 280 200 S120 280 120 200Z"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               />
-              <path d="M200 70V330M70 200H330" stroke="currentColor" stroke-dasharray="3 7" opacity=".4" />
+              <path d="M200 70V330M70 200H330" stroke="currentColor" strokeDasharray="3 7" opacity=".4" />
               <circle cx="200" cy="200" r="12" fill="#c8ff43" />
             </svg>
             <div className="art-sticker">Made with<br />intention<span>✳</span></div>
@@ -101,7 +101,7 @@ export default function AboutPage() {
           <article className="team-card">
             <div className="team-art">
               <svg viewBox="0 0 160 160" aria-hidden="true">
-                <circle cx="80" cy="80" r="48" fill="none" stroke="currentColor" stroke-width="1.5" />
+                <circle cx="80" cy="80" r="48" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <path d="M30 80H130M80 30V130M45 45L115 115M115 45L45 115" stroke="currentColor" opacity=".6" />
                 <circle cx="80" cy="80" r="16" fill="#c8ff43" />
               </svg>
@@ -127,7 +127,7 @@ export default function AboutPage() {
           <article className="team-card">
             <div className="team-art">
               <svg viewBox="0 0 160 160" aria-hidden="true">
-                <path d="M80 24L136 128H24Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+                <path d="M80 24L136 128H24Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <circle cx="80" cy="86" r="25" fill="#c8ff43" />
                 <path d="M80 24V128" stroke="currentColor" opacity=".4" />
               </svg>
@@ -140,7 +140,7 @@ export default function AboutPage() {
           <article className="team-card">
             <div className="team-art">
               <svg viewBox="0 0 160 160" aria-hidden="true">
-                <path d="M40 40H120V120H40Z M56 56H104V104H56Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+                <path d="M40 40H120V120H40Z M56 56H104V104H56Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <circle cx="80" cy="80" r="12" fill="#c8ff43" />
               </svg>
             </div>

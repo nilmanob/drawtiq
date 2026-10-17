@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import type { Viewport } from "next";
 import "./../styles/global.css";
 
 export const metadata: Metadata = {
-  title: "Drawtiq — Design that moves brands forward",
+  title: {
+    default: "Drawtiq — Design that moves brands forward",
+    template: "%s | Drawtiq",
+  },
   description:
     "Drawtiq is an independent design agency crafting intuitive digital products, thoughtful user experiences, and distinctive brand identities.",
   keywords: ["design agency", "UI/UX design", "brand identity", "graphic design", "product design", "Drawtiq"],
@@ -23,10 +27,15 @@ export const metadata: Metadata = {
       "Thoughtful digital products. Distinctive brand experiences.",
   },
   category: "Design Agency",
-  themeColor: "#f5f3ed",
+  // themeColor: "#f5f3ed",
   icons: {
-    icon: "/assets/favicon.svg",
+    icon: "/assets/Drawtiq-favicon.png",
+    apple: "/assets/Drawtiq-favicon.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#f5f3ed",
 };
 
 export default function RootLayout({
@@ -39,7 +48,8 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/assets/Drawtiq-favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/assets/Drawtiq-favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

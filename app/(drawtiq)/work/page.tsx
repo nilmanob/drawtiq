@@ -37,10 +37,10 @@ export default function WorkPage() {
         </div>
 
         <div className="portfolio-grid">
-          <a
+          <Link
             className="project project-large reveal"
             data-category="uiux"
-            href="case-study.html?project=northstar"
+            href="/case-study/northstar"
           >
             <div className="project-visual visual-fintech">
               <div className="mock-window">
@@ -58,7 +58,7 @@ export default function WorkPage() {
                     d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
                     fill="none"
                     stroke="#c8ff43"
-                    stroke-width="3"
+                    strokeWidth="3"
                   />
                 </svg>
                 <div className="mock-bottom">
@@ -78,9 +78,9 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" data-category="branding" href="case-study.html?project=bloomwell">
+          <Link className="project project-small reveal" data-category="branding" href="/case-study/bloomwell">
             <div className="project-visual visual-bloom">
               <div className="bloom-card">
                 <span className="bloom-symbol">b.</span>
@@ -99,9 +99,9 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" data-category="graphic" href="case-study.html?project=form-object">
+          <Link className="project project-small reveal" data-category="graphic" href="/case-study/form-object">
             <div className="project-visual visual-form">
               <div className="form-package">
                 <span>FORM / OBJECT</span>
@@ -119,12 +119,12 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a
+          <Link
             className="project project-large reveal"
             data-category="uiux"
-            href="case-study.html?project=orbit"
+            href="/case-study/orbit"
           >
             <div className="project-visual visual-orbit">
               <div className="orbit-panel">
@@ -177,9 +177,9 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" data-category="branding" href="case-study.html?project=goodkind">
+          <Link className="project project-small reveal" data-category="branding" href="/case-study/goodkind">
             <div className="project-visual visual-bloom" style={{ background: "#e8d7c6" }}>
               <div className="bloom-card" style={{ background: "#f9eee2" }}>
                 <span className="bloom-symbol" style={{ color: "#b2674b" }}>g.</span>
@@ -196,9 +196,9 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
 
-          <a className="project project-small reveal" data-category="graphic" href="case-study.html?project=field-notes">
+          <Link className="project project-small reveal" data-category="graphic" href="/case-study/field-notes">
             <div className="project-visual visual-form" style={{ background: "#d6dfd2" }}>
               <div className="form-package" style={{ background: "#f5f3ed" }}>
                 <span>FIELD NOTES / 006</span>
@@ -216,7 +216,7 @@ export default function WorkPage() {
               </div>
               <span className="round-arrow">↗</span>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div className="page-cta">

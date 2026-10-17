@@ -90,9 +90,14 @@ export default function CaseStudyLayout({ children }: { children: ReactNode }) {
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
+              const pathname = window.location.pathname;
+              const pathSlug = pathname.split('/').filter(Boolean).pop();
               const params = new URLSearchParams(window.location.search);
-              const key = params.get('project') || 'northstar';
-              const data = ${JSON.stringify(cases.northstar)};
+              const paramKey = params.get('project');
+              const key = paramKey || (pathSlug && pathSlug !== 'case-study' ? pathSlug : 'northstar');
+              const allCases = ${JSON.stringify(cases)};
+              const normalizedKey = key === 'form-object' ? 'formObject' : key === 'field-notes' ? 'fieldNotes' : key;
+              const data = allCases[normalizedKey] || allCases.northstar;
               const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
               set('case-title', data.title + ' — ' + data.sub);
               set('case-lead', data.lead);

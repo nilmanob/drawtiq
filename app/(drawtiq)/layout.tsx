@@ -7,17 +7,10 @@ import { CursorLabel } from "@/components/cursor-label";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useDrawtiqAnimations, useRevealOnScroll } from "@/components/gsap-animations";
-import { useReducedMotion } from "@/hooks/use-scroll-animations";
 import GsapBootstrap from "@/components/gsap-init";
+import AnimationsProvider from "@/components/animations-provider";
 
 export default function DrawtiqLayout({ children }: { children: ReactNode }) {
-  useDrawtiqAnimations();
-
-  useReducedMotion();
-
-  useRevealOnScroll();
-
   return (
     <ThemeProvider>
       <>
@@ -30,7 +23,7 @@ export default function DrawtiqLayout({ children }: { children: ReactNode }) {
             <Link href="/about">Studio <i>03</i></Link>
             <Link href="/#insights">Insights <i>04</i></Link>
             <Link href="/contact" className="mobile-contact">
-              Have a good idea? <span>Let’s talk ↗</span>
+              Have a good idea? <span>Let's talk ↗</span>
             </Link>
           </nav>
         </div>
@@ -40,6 +33,7 @@ export default function DrawtiqLayout({ children }: { children: ReactNode }) {
         <Footer />
         <CursorLabel />
         <GsapBootstrap />
+        <AnimationsProvider />
       </>
     </ThemeProvider>
   );

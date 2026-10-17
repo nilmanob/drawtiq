@@ -59,8 +59,8 @@ export default function ContactPage() {
 
           <div className="form-two">
             <label>What do you need?
-              <select name="service" required>
-                <option value="" disabled selected>Select a service</option>
+              <select name="service" required defaultValue="">
+                <option value="" disabled>Select a service</option>
                 <option>UI/UX & Product Design</option>
                 <option>Brand Identity</option>
                 <option>Graphic Design</option>
@@ -70,8 +70,8 @@ export default function ContactPage() {
               </select>
             </label>
             <label>Estimated budget
-              <select name="budget">
-                <option value="" selected>Choose a range (optional)</option>
+              <select name="budget" defaultValue="">
+                <option value="">Choose a range (optional)</option>
                 <option>Under $1,000</option>
                 <option>$1,000–$3,000</option>
                 <option>$3,000–$7,500</option>
