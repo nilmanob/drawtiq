@@ -8,7 +8,7 @@ Next.js conversion of the Drawtiq design agency website.
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [https://enchanting-sorbet-b7a714.netlify.app/](https://enchanting-sorbet-b7a714.netlify.app/)
 
 ## Structure
 
