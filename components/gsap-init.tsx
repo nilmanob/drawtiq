@@ -12,11 +12,11 @@ export default function GsapBootstrap() {
         "drawtiq-filter-script",
       ];
 
-      for (const existing of document.querySelectorAll("script[id]")) {
+      document.querySelectorAll("script[id]").forEach((existing) => {
         if (ids.includes(existing.getAttribute("id") || "")) {
           existing.remove();
         }
-      }
+      });
 
       const global = document.createElement("script");
       global.id = "drawtiq-global";
