@@ -111,14 +111,13 @@ export default function CaseStudyPage({ params }: Props) {
   };
 
   return (
-    <main id="main">
-      <section className="page-hero section-wrap detail-hero">
+    <main id="main">        <section className="page-hero section-wrap detail-hero">
         <p className="eyebrow">
           <span className="status-dot"></span>
           {data.category}
         </p>
-        <h1 id="case-title">{data.title}<br /><em>{data.sub}</em></h1>
-        <p className="lead" id="case-lead">{data.lead}</p>
+        <h1 id="case-title" data-reveal data-reveal-delay="0.05">{data.title}<br /><em>{data.sub}</em></h1>
+        <p className="lead" id="case-lead" data-reveal data-reveal-delay="0.15">{data.lead}</p>
         <div className="case-meta">
           <div>
             <span className="mono">DISCIPLINE</span>
@@ -179,8 +178,8 @@ export default function CaseStudyPage({ params }: Props) {
         <div className="case-story">
           <div>
             <p className="eyebrow">01 / The challenge</p>
-            <h2 id="case-problem-title">Find the signal in the noise.</h2>
-            <p id="case-challenge">{data.challenge}</p>
+            <h2 id="case-problem-title" data-reveal data-reveal-delay="0.2">Find the signal in the noise.</h2>
+            <p id="case-challenge" data-reveal data-reveal-delay="0.25">{data.challenge}</p>
           </div>
           <div>
             <p>
@@ -193,7 +192,7 @@ export default function CaseStudyPage({ params }: Props) {
         <div className="case-story">
           <div>
             <p className="eyebrow">02 / The approach</p>
-            <h2 id="case-approach">Start with the human question.</h2>
+            <h2 id="case-approach" data-reveal data-reveal-delay="0.3">Start with the human question.</h2>
             <p id="case-approach">
               We organized the experience around the questions a user arrives with: Where do I stand? What changed?
               What should I look at next?
@@ -209,7 +208,7 @@ export default function CaseStudyPage({ params }: Props) {
         <div className="case-story">
           <div>
             <p className="eyebrow">03 / The solution</p>
-            <h2 id="case-solution">Clarity built into the system.</h2>
+            <h2 id="case-solution" data-reveal data-reveal-delay="0.35">Clarity built into the system.</h2>
             <p>
               A considered type scale, restrained palette, modular cards, and simple chart language create a more
               coherent product experience. Responsive layouts keep the hierarchy intact as the available space changes.
@@ -233,7 +232,7 @@ export default function CaseStudyPage({ params }: Props) {
         <div className="case-story">
           <div>
             <p className="eyebrow">04 / The outcome</p>
-            <h2 id="case-outcome">Designed for better decisions.</h2>
+            <h2 id="case-outcome" data-reveal data-reveal-delay="0.4">Designed for better decisions.</h2>
             <p>
               This is a design concept, so there are no verified client performance results or before-and-after
               metrics to report. In a live engagement, the next step would be to validate the experience with usability
@@ -249,7 +248,7 @@ export default function CaseStudyPage({ params }: Props) {
 
       <div className="page-cta">
         <div>
-          <h2>Have a similar challenge?</h2>
+          <h2 data-reveal data-reveal-delay="0.45">Have a similar challenge?</h2>
           <p>Let’s shape a thoughtful solution around your users and goals.</p>
         </div>
         <Link href="/contact" className="button button-dark">
@@ -257,7 +256,7 @@ export default function CaseStudyPage({ params }: Props) {
         </Link>
       </div>
       <p style={{ padding: "40px 0" }}>
-        <Link href="/work" className="text-link">
+        <Link href="/work" className="text-link" data-reveal data-reveal-delay="0.5">
           ← Back to all work <span>↗</span>
         </Link>
       </p>

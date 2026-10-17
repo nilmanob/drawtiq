@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import Script from "next/script";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SkipLink } from "@/components/skip-link";
@@ -8,8 +7,17 @@ import { CursorLabel } from "@/components/cursor-label";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useDrawtiqAnimations, useRevealOnScroll } from "@/components/gsap-animations";
+import { useReducedMotion } from "@/hooks/use-scroll-animations";
+import GsapBootstrap from "@/components/gsap-init";
 
 export default function DrawtiqLayout({ children }: { children: ReactNode }) {
+  useDrawtiqAnimations();
+
+  useReducedMotion();
+
+  useRevealOnScroll();
+
   return (
     <ThemeProvider>
       <>
@@ -31,41 +39,7 @@ export default function DrawtiqLayout({ children }: { children: ReactNode }) {
 
         <Footer />
         <CursorLabel />
-        <Script
-          id="drawtiq-init"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="drawtiq-form-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (() => {
-                const form = document.getElementById('project-form');
-                const hint = document.getElementById('form-hint');
-                if (form) form.addEventListener('submit', e => {
-                  e.preventDefault();
-                  if (!form.reportValidity()) return;
-                  const data = new FormData(form);
-                  const subject = encodeURIComponent('Drawtiq project inquiry — ' + data.get('service'));
-                  const body = encodeURIComponent(
-                    'Hello Drawtiq,\\n\\n' +
-                    'Name: ' + data.get('name') + '\\n' +
-                    'Email: ' + data.get('email') + '\\n' +
-                    'Service: ' + data.get('service') + '\\n' +
-                    (data.get('budget') ? 'Budget: ' + data.get('budget') + '\\n' : '') +
-                    (data.get('brief') && data.get('brief').name ? 'Brief file selected: ' + data.get('brief').name + ' (please attach it manually in your email app)\\n' : '') + '\\n' +
-                    'Project details:\\n' + data.get('message') + '\\n\\nSent from the Drawtiq website.'
-                  );
-                  hint.textContent = 'Opening your email app…';
-                  window.location.href = 'mailto:hello@drawtiq.studio?subject=' + subject + '&body=' + body;
-                });
-                const yearEl = document.getElementById('year');
-                if (yearEl) yearEl.textContent = new Date().getFullYear();
-              })();
-            `,
-          }}
-        />
+        <GsapBootstrap />
       </>
     </ThemeProvider>
   );
