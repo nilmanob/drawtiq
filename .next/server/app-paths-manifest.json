@@ -1,4 +1,7 @@
 {
   "/(drawtiq)/page": "app/(drawtiq)/page.js",
+  "/(drawtiq)/about/page": "app/(drawtiq)/about/page.js",
+  "/(drawtiq)/services/page": "app/(drawtiq)/services/page.js",
+  "/(drawtiq)/contact/page": "app/(drawtiq)/contact/page.js",
   "/(drawtiq)/work/page": "app/(drawtiq)/work/page.js"
 }

@@ -25,6 +25,21 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(drawtiq)/work/layout.js"
+    ],
+    "/(drawtiq)/services/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/services/page.js"
+    ],
+    "/(drawtiq)/about/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/about/page.js"
+    ],
+    "/(drawtiq)/contact/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/contact/page.js"
     ]
   }
 }
