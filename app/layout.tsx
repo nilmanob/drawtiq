@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import "./../styles/global.css";
+
+export const metadata: Metadata = {
+  title: "Drawtiq — Design that moves brands forward",
+  description:
+    "Drawtiq is an independent design agency crafting intuitive digital products, thoughtful user experiences, and distinctive brand identities.",
+  keywords: ["design agency", "UI/UX design", "brand identity", "graphic design", "product design", "Drawtiq"],
+  authors: [{ name: "Drawtiq Studio" }],
+  creator: "Drawtiq",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    title: "Drawtiq — Design that moves brands forward",
+    description:
+      "Thoughtful digital products. Distinctive brand experiences.",
+    siteName: "Drawtiq",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Drawtiq — Design that moves brands forward",
+    description:
+      "Thoughtful digital products. Distinctive brand experiences.",
+  },
+  category: "Design Agency",
+  themeColor: "#f5f3ed",
+  icons: {
+    icon: "/assets/favicon.svg",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" data-theme="light">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
