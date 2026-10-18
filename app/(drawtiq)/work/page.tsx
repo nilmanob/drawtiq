@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Selected Work | Drawtiq",
+  title: "Selected Work",
   description:
     "Explore Drawtiq concept projects across UI/UX design, brand identity, and graphic design.",
   alternates: {
@@ -29,6 +29,7 @@ export default function WorkPage() {
       </section>
 
       <section className="page-content section-wrap">
+        <h2 className="sr-only">Selected projects</h2>
         <div className="filter-bar" role="group" aria-label="Filter portfolio projects">
           <button className="filter-btn" data-filter="all" aria-pressed="true">All work</button>
           <button className="filter-btn" data-filter="uiux" aria-pressed="false">UI/UX</button>

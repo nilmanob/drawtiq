@@ -19,8 +19,10 @@ export function Footer() {
         <div className="footer-links">
           <Link href="/work">Work</Link>
           <Link href="/services">Services</Link>
+          <Link href="/pricing">Pricing</Link>
           <Link href="/about">Studio</Link>
-          <Link href="/#insights">Insights</Link>
+          <Link href="/insights">Insights</Link>
+          <Link href="/careers">Careers</Link>
         </div>
         <div className="footer-social">
           <a href="https://www.behance.net/" target="_blank" rel="noreferrer">Behance ↗</a>
@@ -31,7 +33,6 @@ export function Footer() {
       <div className="section-wrap footer-bottom">
         <span>© <span id="year">{year}</span> Drawtiq Studio. Made with intention.</span>
         <span className="mono">DESIGNED TO MOVE YOU.</span>
-        <a href="#top">Back to top ↑</a>
       </div>
     </footer>
   );

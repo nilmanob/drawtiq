@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Services | Drawtiq",
+  title: "Services",
   description:
-    "UI/UX, digital product design, brand identity, and graphic design services by Drawtiq.",
+    "UI/UX, digital product design, brand identity, graphic design, motion design, and video editing services by Drawtiq.",
 };
 
 export default function ServicesPage() {
@@ -21,6 +21,7 @@ export default function ServicesPage() {
       </section>
 
       <section className="page-content section-wrap">
+        <h2 className="sr-only">Our services</h2>
         <div className="service-list">
           <Link className="service-row" href="/service-ui-ux">
             <span className="service-number mono">01</span>
@@ -60,6 +61,26 @@ export default function ServicesPage() {
               <p>Ideas with a visual point of view.</p>
             </div>
             <div className="service-detail">Campaigns · Packaging · Editorial · Social · Print</div>
+            <span className="service-arrow">↗</span>
+          </Link>
+          <Link className="service-row" href="/service-motion-design">
+            <span className="service-number mono">05</span>
+            <div className="service-icon icon-motion">◉</div>
+            <div className="service-title">
+              <h3>Motion Design</h3>
+              <p>Give ideas movement, rhythm, and life.</p>
+            </div>
+            <div className="service-detail">Storyboards · Animation · Motion systems · Lottie</div>
+            <span className="service-arrow">↗</span>
+          </Link>
+          <Link className="service-row" href="/service-video-editing">
+            <span className="service-number mono">06</span>
+            <div className="service-icon icon-video">✂</div>
+            <div className="service-title">
+              <h3>Video Editing</h3>
+              <p>Cut, pace, and polish the story.</p>
+            </div>
+            <div className="service-detail">Edit · Color · Sound · Social cutdowns · Titles</div>
             <span className="service-arrow">↗</span>
           </Link>
         </div>

@@ -119,7 +119,7 @@ const getCaseData = (project: string): CaseData => (cases[project as keyof typeo
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = getCaseData(params.project);
   return {
-    title: `${data.title} — Case Study | Drawtiq`,
+    title: `${data.title} — Case Study`,
     description: `Design concept for ${data.title}. ${data.lead}`,
     alternates: { canonical: `/case-study/${params.project}` },
   };

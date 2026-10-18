@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Contact | Drawtiq",
+  title: "Contact",
   description:
     "Start a conversation with Drawtiq about UI/UX design, branding, or graphic design.",
 };
@@ -64,6 +64,8 @@ export default function ContactPage() {
                 <option>UI/UX & Product Design</option>
                 <option>Brand Identity</option>
                 <option>Graphic Design</option>
+                <option>Motion Design</option>
+                <option>Video Editing</option>
                 <option>Website Design</option>
                 <option>Ongoing design support</option>
                 <option>A bit of everything</option>

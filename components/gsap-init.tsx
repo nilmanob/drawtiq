@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function GsapBootstrap() {
+  const pathname = usePathname();
+
+  // Re-bootstrap on every client-side navigation so reveals, the contact form,
+  // and the portfolio filters are re-initialised for the new page's DOM.
   useEffect(() => {
     const load = () => {
       const ids = [
@@ -37,7 +42,6 @@ export default function GsapBootstrap() {
           document.querySelectorAll(".reveal").forEach((el) => {
             const delay = parseFloat(el.dataset.revealDelay || "0");
             gsap.from(el, {
-              opacity: 0,
               y: 34,
               duration: 1,
               ease: "power3.out",
@@ -64,13 +68,13 @@ export default function GsapBootstrap() {
             const data = new FormData(form);
             const subject = encodeURIComponent("Drawtiq project inquiry — " + data.get("service"));
             const body = encodeURIComponent(
-              "Hello Drawtiq,\n\n" +
-              "Name: " + data.get("name") + "\n" +
-              "Email: " + data.get("email") + "\n" +
-              "Service: " + data.get("service") + "\n" +
-              (data.get("budget") ? "Budget: " + data.get("budget") + "\n" : "") +
-              (data.get("brief") && data.get("brief").name ? "Brief file selected: " + data.get("brief").name + " (please attach it manually in your email app)\n" : "") +
-              "\nProject details:\n" + data.get("message") + "\n\nSent from the Drawtiq website."
+              "Hello Drawtiq,\\n\\n" +
+              "Name: " + data.get("name") + "\\n" +
+              "Email: " + data.get("email") + "\\n" +
+              "Service: " + data.get("service") + "\\n" +
+              (data.get("budget") ? "Budget: " + data.get("budget") + "\\n" : "") +
+              (data.get("brief") && data.get("brief").name ? "Brief file selected: " + data.get("brief").name + " (please attach it manually in your email app)\\n" : "") +
+              "\\nProject details:\\n" + data.get("message") + "\\n\\nSent from the Drawtiq website."
             );
             hint.textContent = "Opening your email app…";
             window.location.href = "mailto:hello@drawtiq.studio?subject=" + subject + "&body=" + body;
@@ -111,7 +115,7 @@ export default function GsapBootstrap() {
     };
 
     load();
-  }, []);
+  }, [pathname]);
 
   return null;
 }

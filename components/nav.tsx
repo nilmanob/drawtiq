@@ -35,8 +35,10 @@ export function Nav() {
       <nav className="desktop-nav" aria-label="Main navigation">
         <Link href="/work">Work</Link>
         <Link href="/services">Services</Link>
+        <Link href="/pricing">Pricing</Link>
         <Link href="/about">Studio</Link>
-        <Link href="/#insights">Insights</Link>
+        <Link href="/insights">Insights</Link>
+        <Link href="/careers">Careers</Link>
       </nav>
       <div className="header-actions">
         <ThemeToggle />

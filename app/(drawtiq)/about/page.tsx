@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "About the Studio | Drawtiq",
+  title: "About the Studio",
   description:
     "Meet Drawtiq, an independent design studio focused on thoughtful digital products and distinctive visual identities.",
 };

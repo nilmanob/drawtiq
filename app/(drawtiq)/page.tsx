@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StudioVisual } from "@/components/studio-visual";
 
 export default function HomePage() {
   return (
@@ -7,7 +8,7 @@ export default function HomePage() {
         <div className="hero-copy">
           <p className="eyebrow">
             <span className="status-dot"></span>
-            Independent design studio · Available for select projects
+            Independent design studio
           </p>
           <h1>
             Make it <span className="headline-outline">meaningful.</span><br />
@@ -21,12 +22,8 @@ export default function HomePage() {
               Start a project <span>↗</span>
             </Link>
             <Link href="/work" className="text-link">
-              Explore selected work <span>↓</span>
+              Explore selected work <span>↗</span>
             </Link>
-          </div>
-          <div className="hero-foot">
-            <span>Strategy meets craft.</span>
-            <span>Scroll to explore ↓</span>
           </div>
         </div>
         <div className="hero-art" aria-label="Abstract Drawtiq design system illustration">
@@ -106,7 +103,6 @@ export default function HomePage() {
           <Link
             className="project project-large reveal"
             href="/case-study/northstar"
-            aria-label="Explore Northstar Finance case study"
           >
             <div className="project-visual visual-fintech">
               <div className="mock-window">
@@ -154,7 +150,6 @@ export default function HomePage() {
           <Link
             className="project project-small reveal"
             href="/case-study/bloomwell"
-            aria-label="Explore Bloomwell case study"
           >
             <div className="project-visual visual-bloom">
               <div className="bloom-card">
@@ -179,7 +174,6 @@ export default function HomePage() {
           <Link
             className="project project-small reveal"
             href="/case-study/form-object"
-            aria-label="Explore Form & Object case study"
           >
             <div className="project-visual visual-form">
               <div className="form-package">
@@ -203,7 +197,6 @@ export default function HomePage() {
           <Link
             className="project project-large reveal"
             href="/case-study/orbit"
-            aria-label="Explore Orbit Workspace case study"
           >
             <div className="project-visual visual-orbit">
               <div className="orbit-panel">
@@ -259,7 +252,6 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="work-bottom">
-          <span className="mono">MORE GOOD THINGS ARE IN THE MAKING.</span>
           <a href="#contact" className="text-link">
             Let’s make yours next <span>↗</span>
           </a>
@@ -321,6 +313,26 @@ export default function HomePage() {
               <div className="service-detail">Campaigns · Packaging · Editorial · Social · Print</div>
               <span className="service-arrow">↗</span>
             </article>
+            <article className="service-row reveal">
+              <span className="service-number mono">05</span>
+              <div className="service-icon icon-motion">◉</div>
+              <div className="service-title">
+                <h3>Motion Design</h3>
+                <p>Give ideas movement, rhythm, and life.</p>
+              </div>
+              <div className="service-detail">Storyboards · Animation · Motion systems · Lottie</div>
+              <span className="service-arrow">↗</span>
+            </article>
+            <article className="service-row reveal">
+              <span className="service-number mono">06</span>
+              <div className="service-icon icon-video">✂</div>
+              <div className="service-title">
+                <h3>Video Editing</h3>
+                <p>Cut, pace, and polish the story.</p>
+              </div>
+              <div className="service-detail">Edit · Color · Sound · Social cutdowns · Titles</div>
+              <span className="service-arrow">↗</span>
+            </article>
           </div>
           <div className="service-note">
             <span className="drawn-underline">Small details. Bigger picture.</span>
@@ -380,12 +392,7 @@ export default function HomePage() {
           <div className="studio-art">
             <div className="studio-paper">
               <span className="mono">DRAWING NO. 008</span>
-              <svg viewBox="0 0 400 400" aria-hidden="true">
-                <path d="M70 200 C70 70 330 70 330 200 S70 330 70 200Z" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M120 200 C120 120 280 120 280 200 S120 280 120 200Z" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M200 70V330M70 200H330" stroke="currentColor" strokeDasharray="3 7" opacity=".4" />
-                <circle cx="200" cy="200" r="12" fill="var(--accent)" />
-              </svg>
+              <StudioVisual />
               <span className="mono">FORM / FUNCTION / FEELING</span>
             </div>
             <div className="studio-stamp">A little<br />more thought<br />goes a long way.</div>
@@ -448,12 +455,12 @@ export default function HomePage() {
               <em>thinking about.</em>
             </h2>
           </div>
-          <Link href="#contact" className="text-link">
+          <Link href="/insights" className="text-link">
             More studio notes <span>↗</span>
           </Link>
         </div>
         <div className="insight-grid">
-          <a className="insight-card reveal" href="#contact">
+          <Link className="insight-card reveal" href="/insights/clarity-is-a-feature">
             <div className="insight-visual insight-one">
               <span className="mono">FIELD NOTES / 001</span>
               <div className="insight-letters">Less,<br /><em>but better.</em></div>
@@ -465,8 +472,8 @@ export default function HomePage() {
             </div>
             <h3>Clarity is a feature, not a finishing touch.</h3>
             <span className="insight-link">Read the note ↗</span>
-          </a>
-          <a className="insight-card reveal" href="#contact">
+          </Link>
+          <Link className="insight-card reveal" href="/insights/consistency-without-predictability">
             <div className="insight-visual insight-two">
               <span className="mono">FIELD NOTES / 002</span>
               <div className="type-grid">
@@ -483,8 +490,8 @@ export default function HomePage() {
             </div>
             <h3>Consistency doesn’t have to mean predictable.</h3>
             <span className="insight-link">Read the note ↗</span>
-          </a>
-          <a className="insight-card reveal" href="#contact">
+          </Link>
+          <Link className="insight-card reveal" href="/insights/the-better-question">
             <div className="insight-visual insight-three">
               <span className="mono">FIELD NOTES / 003</span>
               <div className="loop-shape">↗</div>
@@ -496,7 +503,7 @@ export default function HomePage() {
             </div>
             <h3>The best interface is built on a better question.</h3>
             <span className="insight-link">Read the note ↗</span>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -515,7 +522,6 @@ export default function HomePage() {
             <a className="contact-email" href="mailto:hello@drawtiq.studio">
               hello@drawtiq.studio <span>↗</span>
             </a>
-            <div className="contact-note mono">NEW PROJECTS · SELECT AVAILABILITY</div>
           </div>
           <form className="contact-form" id="project-form">
             <div className="form-heading">
@@ -534,6 +540,8 @@ export default function HomePage() {
                 <option>UI/UX & Product Design</option>
                 <option>Brand Identity</option>
                 <option>Graphic Design</option>
+                <option>Motion Design</option>
+                <option>Video Editing</option>
                 <option>Website Design</option>
                 <option>A bit of everything</option>
               </select>

@@ -1,7 +1,23 @@
 import Link from "next/link";
+import { Faq } from "@/components/faq";
+
+const faqs = [
+  {
+    q: "How long does a typical project take?",
+    a: "It depends on scope, decision-making, and the number of deliverables. After an initial conversation, we’ll recommend a realistic timeline and milestones.",
+  },
+  {
+    q: "Can you work with our existing brand or product?",
+    a: "Yes. We can extend an existing system, improve a specific experience, or help establish a new direction where needed.",
+  },
+  {
+    q: "What do you need to get started?",
+    a: "A short conversation about your goals, audience, timeline, and constraints is enough to begin. We can help shape the brief together.",
+  },
+];
 
 export const metadata = {
-  title: "Graphic Design & Branding | Drawtiq",
+  title: "Graphic Design & Branding",
   description: "Brand identity, graphic design, and art direction by Drawtiq.",
 };
 
@@ -114,38 +130,7 @@ export default function ServiceGraphicDesignPage() {
           </div>
         </div>
 
-        <div className="faq-list">
-          <div className="faq-item">
-            <button className="faq-question" aria-expanded="false">
-              <span>How long does a typical project take?</span>
-              <span>+</span>
-            </button>
-            <div className="faq-answer" hidden>
-              It depends on scope, decision-making, and the number of deliverables. After an initial conversation, we’ll
-              recommend a realistic timeline and milestones.
-            </div>
-          </div>
-          <div className="faq-item">
-            <button className="faq-question" aria-expanded="false">
-              <span>Can you work with our existing brand or product?</span>
-              <span>+</span>
-            </button>
-            <div className="faq-answer" hidden>
-              Yes. We can extend an existing system, improve a specific experience, or help establish a new direction
-              where needed.
-            </div>
-          </div>
-          <div className="faq-item">
-            <button className="faq-question" aria-expanded="false">
-              <span>What do you need to get started?</span>
-              <span>+</span>
-            </button>
-            <div className="faq-answer" hidden>
-              A short conversation about your goals, audience, timeline, and constraints is enough to begin. We can help
-              shape the brief together.
-            </div>
-          </div>
-        </div>
+        <Faq items={faqs} />
 
         <div className="page-cta">
           <div>
