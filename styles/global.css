@@ -1263,15 +1263,15 @@ blockquote em {
 
 .studio-paper .studio-media {
   width: 100%;
-  height: 75%;
-  object-fit: contain;
+  height: 8%;
+  object-fit: cover;
   background: #fdfdfd;
 }
 
 .studio-paper .studio-media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .studio-stamp {
