@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="UI/UX design preview">
+  <rect width="480" height="320" fill="#242721"/>
+  <g stroke="#3b4036" stroke-width="1" opacity=".6">
+    <path d="M0 80h480M0 160h480M0 240h480M120 0v320M240 0v320M360 0v320"/>
+  </g>
+  <rect x="66" y="50" width="286" height="200" rx="10" fill="#30342d" stroke="#4a4f44"/>
+  <path d="M66 60a10 10 0 0 1 10-10h266a10 10 0 0 1 10 10v20H66z" fill="#3a3f36"/>
+  <circle cx="86" cy="65" r="4" fill="#c8ff43"/>
+  <circle cx="100" cy="65" r="4" fill="#5a6053"/>
+  <circle cx="114" cy="65" r="4" fill="#5a6053"/>
+  <rect x="88" y="104" width="118" height="12" rx="6" fill="#5a6053"/>
+  <rect x="88" y="126" width="196" height="28" rx="6" fill="#f5f3ed"/>
+  <path d="M90 208c40-22 62 12 104-28s70 22 110-30" fill="none" stroke="#c8ff43" stroke-width="4"/>
+  <circle cx="304" cy="150" r="7" fill="#c8ff43"/>
+  <rect x="368" y="118" width="62" height="132" rx="12" fill="#c8ff43"/>
+  <rect x="381" y="140" width="36" height="9" rx="4.5" fill="#171916"/>
+  <rect x="381" y="158" width="24" height="9" rx="4.5" fill="#171916" opacity=".5"/>
+  <text x="24" y="298" font-family="monospace" font-size="14" letter-spacing="2" fill="#8b9081">UI / UX</text>
+</svg>

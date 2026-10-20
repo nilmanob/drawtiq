@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Graphic design preview">
+  <rect width="480" height="320" fill="#e7b9a3"/>
+  <rect x="58" y="34" width="236" height="252" fill="#fbfaf5"/>
+  <text x="82" y="150" font-family="Georgia, serif" font-size="92" fill="#171916" letter-spacing="-4">Aa</text>
+  <rect x="84" y="176" width="150" height="6" fill="#171916"/>
+  <rect x="84" y="192" width="110" height="6" fill="#171916" opacity=".4"/>
+  <rect x="84" y="208" width="134" height="6" fill="#171916" opacity=".4"/>
+  <circle cx="84" cy="252" r="12" fill="#c8ff43" stroke="#171916" stroke-width="2"/>
+  <rect x="110" y="244" width="70" height="16" rx="8" fill="#171916"/>
+  <rect x="330" y="60" width="108" height="140" rx="4" fill="#171916"/>
+  <path d="M330 60h108v70H330z" fill="#c8ff43"/>
+  <circle cx="384" cy="150" r="20" fill="none" stroke="#fbfaf5" stroke-width="3"/>
+  <rect x="330" y="220" width="108" height="8" rx="4" fill="#171916" opacity=".6"/>
+  <rect x="330" y="238" width="70" height="8" rx="4" fill="#171916" opacity=".35"/>
+  <text x="24" y="300" font-family="monospace" font-size="14" letter-spacing="2" fill="#7a4f3a">GRAPHIC</text>
+</svg>

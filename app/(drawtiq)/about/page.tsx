@@ -20,6 +20,27 @@ export default function AboutPage() {
         </p>
       </section>
 
+      <figure className="studio-band">
+        <img
+          className="studio-band-media"
+          src="/assets/about/drawtiq-studio-1600.webp"
+          srcSet="/assets/about/drawtiq-studio-800.webp 800w, /assets/about/drawtiq-studio-1200.webp 1200w, /assets/about/drawtiq-studio-1600.webp 1600w, /assets/about/drawtiq-studio-2000.webp 2000w, /assets/about/drawtiq-studio-2560.webp 2560w"
+          sizes="100vw"
+          width={2752}
+          height={1536}
+          alt="Inside the Drawtiq studio: a bright workspace with desks, plants, and the Drawtiq logo and slogan on the wall."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption className="studio-band-caption">
+          <span className="mono">
+            <span className="status-dot" aria-hidden="true"></span>
+            The studio, in real life
+          </span>
+          <span className="mono">Better design. Bigger tomorrow.</span>
+        </figcaption>
+      </figure>
+
       <section className="page-content section-wrap">
         <div className="about-split">
           <div className="about-art">

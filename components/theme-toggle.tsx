@@ -13,7 +13,9 @@ export function ThemeToggle() {
       title="Switch color theme"
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
-      <span className="theme-icon">{isDark ? "☼" : "◐"}</span>
+      <span className="theme-icon" aria-hidden="true">
+        {isDark ? "☼" : "◐"}
+      </span>
     </button>
   );
 }

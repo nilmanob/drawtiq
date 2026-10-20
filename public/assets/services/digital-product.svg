@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Digital product design preview">
+  <rect width="480" height="320" fill="#1c201a"/>
+  <rect x="46" y="42" width="150" height="108" rx="10" fill="#2a2f26" stroke="#3f443a"/>
+  <circle cx="76" cy="72" r="12" fill="none" stroke="#c8ff43" stroke-width="4"/>
+  <path d="M76 72 L76 60" stroke="#c8ff43" stroke-width="4" stroke-linecap="round"/>
+  <rect x="66" y="102" width="110" height="8" rx="4" fill="#4a5044"/>
+  <rect x="66" y="118" width="76" height="8" rx="4" fill="#4a5044"/>
+  <rect x="212" y="42" width="222" height="108" rx="10" fill="#c8ff43"/>
+  <rect x="234" y="70" width="120" height="14" rx="7" fill="#171916"/>
+  <rect x="234" y="98" width="178" height="10" rx="5" fill="#171916" opacity=".45"/>
+  <rect x="234" y="116" width="140" height="10" rx="5" fill="#171916" opacity=".3"/>
+  <rect x="46" y="166" width="388" height="112" rx="10" fill="#2a2f26" stroke="#3f443a"/>
+  <g fill="#c8ff43">
+    <rect x="72" y="212" width="24" height="42" rx="4"/>
+    <rect x="112" y="192" width="24" height="62" rx="4"/>
+    <rect x="152" y="226" width="24" height="28" rx="4"/>
+    <rect x="192" y="204" width="24" height="50" rx="4"/>
+    <rect x="232" y="182" width="24" height="72" rx="4"/>
+  </g>
+  <g fill="#4a5044">
+    <rect x="292" y="212" width="24" height="42" rx="4"/>
+    <rect x="332" y="226" width="24" height="28" rx="4"/>
+    <rect x="372" y="200" width="24" height="54" rx="4"/>
+  </g>
+  <text x="24" y="298" font-family="monospace" font-size="14" letter-spacing="2" fill="#8b9081">PRODUCT</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Motion design preview">
+  <rect width="480" height="320" fill="#20241f"/>
+  <g stroke="#333a2e" stroke-width="1" opacity=".7">
+    <path d="M0 64h480M0 128h480M0 192h480M0 256h480M96 0v320M192 0v320M288 0v320M384 0v320"/>
+  </g>
+  <path d="M40 250 C150 250 170 70 260 70 S400 200 448 110" fill="none" stroke="#c8ff43" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#f5f3ed">
+    <circle cx="40" cy="250" r="7"/>
+    <circle cx="260" cy="70" r="7"/>
+    <circle cx="448" cy="110" r="7"/>
+  </g>
+  <circle cx="260" cy="70" r="15" fill="none" stroke="#c8ff43" stroke-width="2" opacity=".55"/>
+  <rect x="40" y="276" width="400" height="6" rx="3" fill="#333a2e"/>
+  <rect x="40" y="276" width="210" height="6" rx="3" fill="#c8ff43"/>
+  <rect x="250" y="268" width="4" height="22" rx="2" fill="#f5f3ed"/>
+  <circle cx="252" cy="279" r="9" fill="#c8ff43" stroke="#20241f" stroke-width="3"/>
+  <text x="24" y="40" font-family="monospace" font-size="14" letter-spacing="2" fill="#8b9081">MOTION</text>
+</svg>

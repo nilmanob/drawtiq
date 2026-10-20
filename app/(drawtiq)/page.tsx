@@ -1,5 +1,80 @@
 import Link from "next/link";
 import { StudioVisual } from "@/components/studio-visual";
+import { TestimonialCarousel } from "@/components/testimonial-carousel";
+
+const principles = [
+  "Curiosity",
+  "Clarity",
+  "Craft",
+  "Collaboration",
+  "Empathy",
+  "Momentum",
+  "Rigour",
+  "Detail",
+];
+
+const services = [
+  {
+    index: "01",
+    title: "UI/UX Design",
+    blurb: "Make every interaction feel effortless.",
+    tags: ["Research", "User journeys", "Wireframes", "Prototyping"],
+    href: "/service-ui-ux",
+    preview: "/assets/services/ui-ux.svg",
+    icon: "↗",
+    iconClass: "icon-ux",
+  },
+  {
+    index: "02",
+    title: "Digital Product Design",
+    blurb: "Complex tools, clear experiences.",
+    tags: ["SaaS", "Web apps", "Mobile apps", "Design systems"],
+    href: "/service-ui-ux",
+    preview: "/assets/services/digital-product.svg",
+    icon: "◫",
+    iconClass: "icon-product",
+  },
+  {
+    index: "03",
+    title: "Brand Identity",
+    blurb: "Look like you mean it.",
+    tags: ["Strategy", "Naming direction", "Identity", "Guidelines"],
+    href: "/service-graphic-design",
+    preview: "/assets/services/brand-identity.svg",
+    icon: "✳",
+    iconClass: "icon-brand",
+  },
+  {
+    index: "04",
+    title: "Graphic Design",
+    blurb: "Ideas with a visual point of view.",
+    tags: ["Campaigns", "Packaging", "Editorial", "Social"],
+    href: "/service-graphic-design",
+    preview: "/assets/services/graphic-design.svg",
+    icon: "Aa",
+    iconClass: "icon-graphic",
+  },
+  {
+    index: "05",
+    title: "Motion Design",
+    blurb: "Give ideas movement, rhythm, and life.",
+    tags: ["Storyboards", "Animation", "Motion systems", "Lottie"],
+    href: "/service-motion-design",
+    preview: "/assets/services/motion-design.svg",
+    icon: "◉",
+    iconClass: "icon-motion",
+  },
+  {
+    index: "06",
+    title: "Video Editing",
+    blurb: "Cut, pace, and polish the story.",
+    tags: ["Edit", "Colour", "Sound", "Titles"],
+    href: "/service-video-editing",
+    preview: "/assets/services/video-editing.svg",
+    icon: "✂",
+    iconClass: "icon-video",
+  },
+];
 
 export default function HomePage() {
   return (
@@ -71,18 +146,16 @@ export default function HomePage() {
       </section>
 
       <section className="trust-strip section-wrap" aria-label="Studio principles">
-        <span className="eyebrow">Good work comes from</span>
-        <div>
-          Curiosity <span>✳</span>
-        </div>
-        <div>
-          Clarity <span>✳</span>
-        </div>
-        <div>
-          Craft <span>✳</span>
-        </div>
-        <div>
-          Collaboration <span>✳</span>
+        <span className="trust-label">Good work comes from</span>
+        <div className="trust-marquee">
+          <ul className="trust-track">
+            {[...principles, ...principles].map((principle, i) => (
+              <li key={`${principle}-${i}`} aria-hidden={i >= principles.length ? "true" : undefined}>
+                <span aria-hidden="true">✳</span>
+                {principle}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -259,85 +332,40 @@ export default function HomePage() {
       </section>
 
       <section className="services-section section-wrap" id="services">
-        <div className="section-wrap">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">02 / What we do</p>
-              <h2>
-                Good thinking.<br />
-                <em>Beautifully made.</em>
-              </h2>
-            </div>
-            <p className="heading-note">
-              From first sketch to final pixel, we bring strategy and craft together to make every interaction count.
-            </p>
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">02 / What we do</p>
+            <h2>
+              Good thinking.<br />
+              <em>Beautifully made.</em>
+            </h2>
           </div>
-          <div className="service-list">
-            <article className="service-row reveal">
-              <span className="service-number mono">01</span>
-              <div className="service-icon icon-ux">↗</div>
+          <p className="heading-note">
+            From first sketch to final pixel, we bring strategy and craft together to make every interaction count.
+          </p>
+        </div>
+        <div className="service-list">
+          {services.map((service) => (
+            <Link
+              key={service.index}
+              href={service.href}
+              className="service-row reveal"
+              data-preview={service.preview}
+            >
+              <span className="service-number mono">{service.index}</span>
+              <div className={`service-icon ${service.iconClass}`}>{service.icon}</div>
               <div className="service-title">
-                <h3>UI/UX Design</h3>
-                <p>Make every interaction feel effortless.</p>
+                <h3>{service.title}</h3>
+                <p>{service.blurb}</p>
               </div>
-              <div className="service-detail">Research · User journeys · Wireframes · Prototyping · Usability</div>
+              <div className="service-detail">{service.tags.join(" · ")}</div>
               <span className="service-arrow">↗</span>
-            </article>
-            <article className="service-row reveal">
-              <span className="service-number mono">02</span>
-              <div className="service-icon icon-product">◫</div>
-              <div className="service-title">
-                <h3>Digital Product Design</h3>
-                <p>Complex tools, clear experiences.</p>
-              </div>
-              <div className="service-detail">SaaS · Web apps · Mobile apps · Design systems</div>
-              <span className="service-arrow">↗</span>
-            </article>
-            <article className="service-row reveal">
-              <span className="service-number mono">03</span>
-              <div className="service-icon icon-brand">✳</div>
-              <div className="service-title">
-                <h3>Brand Identity</h3>
-                <p>Look like you mean it.</p>
-              </div>
-              <div className="service-detail">Strategy · Naming direction · Identity · Guidelines</div>
-              <span className="service-arrow">↗</span>
-            </article>
-            <article className="service-row reveal">
-              <span className="service-number mono">04</span>
-              <div className="service-icon icon-graphic">Aa</div>
-              <div className="service-title">
-                <h3>Graphic Design</h3>
-                <p>Ideas with a visual point of view.</p>
-              </div>
-              <div className="service-detail">Campaigns · Packaging · Editorial · Social · Print</div>
-              <span className="service-arrow">↗</span>
-            </article>
-            <article className="service-row reveal">
-              <span className="service-number mono">05</span>
-              <div className="service-icon icon-motion">◉</div>
-              <div className="service-title">
-                <h3>Motion Design</h3>
-                <p>Give ideas movement, rhythm, and life.</p>
-              </div>
-              <div className="service-detail">Storyboards · Animation · Motion systems · Lottie</div>
-              <span className="service-arrow">↗</span>
-            </article>
-            <article className="service-row reveal">
-              <span className="service-number mono">06</span>
-              <div className="service-icon icon-video">✂</div>
-              <div className="service-title">
-                <h3>Video Editing</h3>
-                <p>Cut, pace, and polish the story.</p>
-              </div>
-              <div className="service-detail">Edit · Color · Sound · Social cutdowns · Titles</div>
-              <span className="service-arrow">↗</span>
-            </article>
-          </div>
-          <div className="service-note">
-            <span className="drawn-underline">Small details. Bigger picture.</span>
-            <span className="mono">STRATEGY × DESIGN × DELIVERY</span>
-          </div>
+            </Link>
+          ))}
+        </div>
+        <div className="service-note">
+          <span className="drawn-underline">Small details. Bigger picture.</span>
+          <span className="mono">STRATEGY × DESIGN × DELIVERY</span>
         </div>
       </section>
 
@@ -429,22 +457,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="quote-section section-wrap section-pad">
-        <p className="eyebrow">05 / A good partnership</p>
-        <div className="quote-mark">“</div>
-        <blockquote>
-          Drawtiq made the complicated feel <em>obvious.</em> The kind of design that makes you wonder why it was ever any other way.
-        </blockquote>
-        <div className="quote-credit">
-          <span className="quote-avatar">A</span>
-          <div>
-            <b>A note from a happy collaborator</b>
-            <span>Client testimonial placeholder · Replace with approved feedback</span>
-          </div>
-          <span className="mono">WORDS THAT MATTER</span>
-        </div>
-        <p className="quote-disclaimer">This is placeholder copy for the design preview. Replace it with a verified client testimonial before launch.</p>
-      </section>
+      <TestimonialCarousel />
 
       <section className="insights-section section-wrap section-pad" id="insights">
         <div className="section-heading">

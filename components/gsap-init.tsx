@@ -3,60 +3,21 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+/**
+ * Re-runs the small DOM scripts that depend on the current page's markup
+ * (contact form and portfolio filters) after every client-side navigation.
+ * GSAP itself is imported where it is used instead of being loaded from a CDN.
+ */
 export default function GsapBootstrap() {
   const pathname = usePathname();
 
-  // Re-bootstrap on every client-side navigation so reveals, the contact form,
-  // and the portfolio filters are re-initialised for the new page's DOM.
   useEffect(() => {
     const load = () => {
-      const ids = [
-        "drawtiq-global",
-        "drawtiq-scrolltrigger",
-        "drawtiq-form-script",
-        "drawtiq-filter-script",
-      ];
+      document.getElementById("drawtiq-form-script")?.remove();
+      document.getElementById("drawtiq-filter-script")?.remove();
 
-      document.querySelectorAll("script[id]").forEach((existing) => {
-        if (ids.includes(existing.getAttribute("id") || "")) {
-          existing.remove();
-        }
-      });
-
-      const global = document.createElement("script");
-      global.id = "drawtiq-global";
-      global.async = true;
-      global.src = "https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js";
-
-      const trigger = document.createElement("script");
-      trigger.id = "drawtiq-scrolltrigger";
-      trigger.async = true;
-      trigger.src = "https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js";
-
-      const reveal = document.createElement("script");
-      reveal.id = "drawtiq-reveal";
-      reveal.textContent = `
-        (() => {
-          if (typeof gsap === "undefined") return;
-          gsap.registerPlugin(gsap.ScrollTrigger);
-          document.querySelectorAll(".reveal").forEach((el) => {
-            const delay = parseFloat(el.dataset.revealDelay || "0");
-            gsap.from(el, {
-              y: 34,
-              duration: 1,
-              ease: "power3.out",
-              delay,
-              stagger: parseFloat(el.dataset.revealStagger || "0"),
-            });
-          });
-        })();
-      `;
-
-      const form = document.getElementById("drawtiq-form-script");
-      if (form) form.remove();
       const formScript = document.createElement("script");
       formScript.id = "drawtiq-form-script";
-      formScript.async = true;
       formScript.textContent = `
         (() => {
           const form = document.getElementById("project-form");
@@ -84,11 +45,8 @@ export default function GsapBootstrap() {
         })();
       `;
 
-      const filter = document.getElementById("drawtiq-filter-script");
-      if (filter) filter.remove();
       const filterScript = document.createElement("script");
       filterScript.id = "drawtiq-filter-script";
-      filterScript.async = true;
       filterScript.textContent = `
         (() => {
           const filters = document.querySelectorAll("[data-filter]");
@@ -107,9 +65,6 @@ export default function GsapBootstrap() {
         })();
       `;
 
-      document.head.appendChild(global);
-      document.head.appendChild(trigger);
-      document.head.appendChild(reveal);
       document.head.appendChild(formScript);
       document.head.appendChild(filterScript);
     };

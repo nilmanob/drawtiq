@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Video editing preview">
+  <rect width="480" height="320" fill="#171916"/>
+  <rect x="40" y="44" width="400" height="150" rx="10" fill="#242721" stroke="#3a3f36"/>
+  <rect x="58" y="62" width="112" height="114" rx="6" fill="#2f342c"/>
+  <rect x="184" y="62" width="112" height="114" rx="6" fill="#2f342c"/>
+  <rect x="310" y="62" width="112" height="114" rx="6" fill="#c8ff43"/>
+  <circle cx="366" cy="119" r="30" fill="#171916"/>
+  <path d="M358 106l22 13-22 13z" fill="#c8ff43"/>
+  <g fill="#4a5044">
+    <circle cx="70" cy="52" r="3"/><circle cx="96" cy="52" r="3"/><circle cx="122" cy="52" r="3"/><circle cx="148" cy="52" r="3"/>
+    <circle cx="196" cy="52" r="3"/><circle cx="222" cy="52" r="3"/><circle cx="248" cy="52" r="3"/><circle cx="274" cy="52" r="3"/>
+  </g>
+  <g stroke="#c8ff43" stroke-width="2" stroke-linecap="round">
+    <path d="M52 246v-18M64 246v-34M76 246v-52M88 246v-30M100 246v-44M112 246v-20M124 246v-40M136 246v-28M148 246v-50M160 246v-24M172 246v-38M184 246v-16M196 246v-46M208 246v-30M220 246v-52M232 246v-22M244 246v-40M256 246v-26M268 246v-48M280 246v-20M292 246v-36M304 246v-30M316 246v-46M328 246v-18M340 246v-40M352 246v-28M364 246v-50M376 246v-22M388 246v-38M400 246v-30M412 246v-44M424 246v-20"/>
+  </g>
+  <rect x="40" y="272" width="400" height="4" rx="2" fill="#3a3f36"/>
+  <rect x="40" y="272" width="150" height="4" rx="2" fill="#c8ff43"/>
+  <text x="24" y="312" font-family="monospace" font-size="14" letter-spacing="2" fill="#8b9081">VIDEO</text>
+</svg>

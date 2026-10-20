@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Brand identity preview">
+  <rect width="480" height="320" fill="#d9e5cd"/>
+  <g stroke="#a9bd99" stroke-width="1" opacity=".8">
+    <path d="M0 160h480M240 0v320"/>
+    <path d="M0 80h480M0 240h480M80 0v320M160 0v320M320 0v320M400 0v320" opacity=".5"/>
+  </g>
+  <circle cx="240" cy="150" r="92" fill="#171916"/>
+  <circle cx="240" cy="150" r="66" fill="#d9e5cd"/>
+  <path d="M240 84a66 66 0 0 1 57 33l-57 33z" fill="#c8ff43"/>
+  <text x="240" y="180" text-anchor="middle" font-family="Georgia, serif" font-size="72" fill="#171916">D.</text>
+  <rect x="330" y="60" width="104" height="52" rx="8" fill="#fbfaf5" stroke="#b7c7a8"/>
+  <rect x="346" y="78" width="52" height="8" rx="4" fill="#171916"/>
+  <rect x="346" y="92" width="32" height="8" rx="4" fill="#171916" opacity=".4"/>
+  <circle cx="120" cy="242" r="26" fill="none" stroke="#171916" stroke-width="2"/>
+  <circle cx="150" cy="242" r="26" fill="none" stroke="#171916" stroke-width="2" opacity=".6"/>
+  <circle cx="180" cy="242" r="26" fill="#c8ff43" stroke="#171916" stroke-width="2"/>
+  <text x="24" y="300" font-family="monospace" font-size="14" letter-spacing="2" fill="#5d6b52">BRAND</text>
+</svg>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -8,6 +9,8 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 export function useDrawtiqAnimations() {
+  const pathname = usePathname();
+
   useGSAP(() => {
     const orbitEls = document.querySelectorAll(".art-orbit") as NodeListOf<HTMLElement>;
     const sticker = document.querySelector(".art-sticker") as HTMLElement | null;
@@ -73,10 +76,12 @@ export function useDrawtiqAnimations() {
         delay: 1.5,
       });
     }
-  });
+  }, { dependencies: [pathname] });
 }
 
 export function useRevealOnScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -101,27 +106,5 @@ export function useRevealOnScroll() {
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
-}
-
-export function initSmoothScroll() {
-  if (typeof window === "undefined") return;
-
-  document.querySelectorAll('a[href^="#"]:not([href="#"]), a[href^="mailto:"]').forEach((anchor) => {
-    anchor.addEventListener("click", (e) => {
-      const href = anchor.getAttribute("href");
-      if (!href || href === "#") return;
-
-      if (href.startsWith("#")) {
-        const targetId = href.slice(1);
-        const target = document.getElementById(targetId);
-        if (target) {
-          e.preventDefault();
-          const headerHeight = 82;
-          const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-          window.scrollTo({ top: offsetTop, behavior: "smooth" });
-        }
-      }
-    });
-  });
+  }, [pathname]);
 }
