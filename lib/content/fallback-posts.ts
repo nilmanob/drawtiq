@@ -1,8 +1,6 @@
-export type PostBlock =
-  | { type: "p"; text: string }
-  | { type: "h2"; text: string }
-  | { type: "quote"; text: string }
-  | { type: "list"; items: string[] };
+import type { PostBlock } from "./types";
+
+export type { PostBlock };
 
 export type Post = {
   slug: string;
@@ -18,7 +16,7 @@ export type Post = {
   body: PostBlock[];
 };
 
-export const posts: Post[] = [
+export const fallbackPosts: Post[] = [
   {
     slug: "clarity-is-a-feature",
     title: "Clarity is a feature, not a finishing touch.",
@@ -243,6 +241,3 @@ export const posts: Post[] = [
     ],
   },
 ];
-
-export const getPost = (slug: string): Post | undefined =>
-  posts.find((post) => post.slug === slug);

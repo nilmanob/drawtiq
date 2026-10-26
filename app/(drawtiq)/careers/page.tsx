@@ -80,8 +80,8 @@ export default function CareersPage() {
           of your <em>career.</em>
         </h1>
         <p className="lead">
-          We are a small studio with a big appetite for thoughtful work. If you care about clarity, craft, and making
-          things people genuinely enjoy, we would love to meet you.
+          We&apos;re a small studio. We care about the work, protect time to think, and don&apos;t confuse busy with
+          good. If that sounds like you, send us something you&apos;re proud of.
         </p>
         <div className="hero-actions" style={{ marginTop: "30px" }}>
           <a href="mailto:careers@drawtiq.studio" className="button button-dark">
@@ -103,7 +103,7 @@ export default function CareersPage() {
             </h2>
           </div>
           <p className="heading-note">
-            We are building a studio where good people can do ambitious work without burning out.
+            Good work takes time. We plan for it, and we don&apos;t confuse busy with good.
           </p>
         </div>
 

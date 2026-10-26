@@ -27,6 +27,7 @@ export default function DrawtiqLayout({ children }: { children: ReactNode }) {
         <BackToTop />
         <CursorLabel />
         <ServicePreview />
+        <div className="paper-grain" aria-hidden="true" />
         <SmoothScroll />
         <GsapBootstrap />
         <AnimationsProvider />

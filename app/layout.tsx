@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | Drawtiq",
   },
   description:
-    "Drawtiq is an independent design agency crafting intuitive digital products, thoughtful user experiences, and distinctive brand identities.",
+    "Drawtiq is an independent design studio for digital products and brand identities that need to work in the real world.",
   keywords: ["design agency", "UI/UX design", "brand identity", "graphic design", "product design", "Drawtiq"],
   authors: [{ name: "Drawtiq Studio" }],
   creator: "Drawtiq",
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: "Drawtiq — Design that moves brands forward",
     description:
-      "Thoughtful digital products. Distinctive brand experiences.",
+      "Products and brands made to be used.",
     siteName: "Drawtiq",
   },
   twitter: {
     card: "summary_large_image",
     title: "Drawtiq — Design that moves brands forward",
     description:
-      "Thoughtful digital products. Distinctive brand experiences.",
+      "Products and brands made to be used.",
   },
   category: "Design Agency",
   // themeColor: "#f5f3ed",

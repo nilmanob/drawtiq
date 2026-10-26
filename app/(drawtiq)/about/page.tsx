@@ -3,7 +3,7 @@ import Link from "next/link";
 export const metadata = {
   title: "About the Studio",
   description:
-    "Meet Drawtiq, an independent design studio focused on thoughtful digital products and distinctive visual identities.",
+    "Drawtiq is an independent design studio for digital products and brand identities that need to work in the real world.",
 };
 
 export default function AboutPage() {
@@ -16,7 +16,7 @@ export default function AboutPage() {
         </p>
         <h1>Not just how it looks.<br /><em>How it works.</em></h1>
         <p className="lead">
-          We believe great design should make you feel something—and make something better.
+          We make digital products and identities for teams who want the work to do a job—not just look the part.
         </p>
       </section>
 
@@ -25,19 +25,19 @@ export default function AboutPage() {
           className="studio-band-media"
           src="/assets/about/drawtiq-studio-1600.webp"
           srcSet="/assets/about/drawtiq-studio-800.webp 800w, /assets/about/drawtiq-studio-1200.webp 1200w, /assets/about/drawtiq-studio-1600.webp 1600w, /assets/about/drawtiq-studio-2000.webp 2000w, /assets/about/drawtiq-studio-2560.webp 2560w"
-          sizes="100vw"
+          sizes="(min-width: 701px) 240vw, 215vw"
           width={2752}
           height={1536}
-          alt="Inside the Drawtiq studio: a bright workspace with desks, plants, and the Drawtiq logo and slogan on the wall."
+          alt="A printed detail of the studio: a plant, desk, and quiet corner in black and white."
           loading="lazy"
           decoding="async"
         />
         <figcaption className="studio-band-caption">
           <span className="mono">
             <span className="status-dot" aria-hidden="true"></span>
-            The studio, in real life
+            Studio study / no. 05
           </span>
-          <span className="mono">Better design. Bigger tomorrow.</span>
+          <span className="mono">A quiet corner, in print.</span>
         </figcaption>
       </figure>
 
@@ -59,21 +59,20 @@ export default function AboutPage() {
           </div>
           <div className="service-detail-copy">
             <p className="eyebrow">Our point of view</p>
-            <h2>Curiosity, clarity, and <em>care.</em></h2>
+            <h2>Curiosity, plain talk, and <em>care.</em></h2>
             <p>
-              Drawtiq brings strategic thinking, curious minds, and considered craft to the same table. We partner
-              closely with ambitious teams to find the signal in the noise and build experiences people genuinely want
-              to use.
+              We&apos;re a small studio. We work directly with founders and product teams, ask a lot of questions, and
+              stay close to the work from first sketch to launch. No handoffs to a mystery team.
             </p>
-            <p>No design theatre. No decoration for decoration’s sake. Just good questions, clear decisions, and work made with care.</p>
-            <p>We believe the best outcomes happen when design is part of the thinking from the beginning—not a layer added at the end.</p>
+            <p>No design theatre. No decks that die in a folder. Just clear decisions and work that ships.</p>
+            <p>We do our best work when design is part of the thinking from the beginning—not a layer added at the end.</p>
           </div>
         </div>
 
         <div className="section-heading" style={{ marginTop: "100px" }}>
           <div>
             <p className="eyebrow">What guides us</p>
-            <h2>Principles over <em>posturing.</em></h2>
+            <h2>A few things we <em>believe.</em></h2>
           </div>
         </div>
 
@@ -113,7 +112,7 @@ export default function AboutPage() {
         <div className="section-heading" style={{ marginTop: "100px" }}>
           <div>
             <p className="eyebrow">The people behind the pixels</p>
-            <h2>A small team. <em>Big care.</em></h2>
+            <h2>Small team. <em>Long attention spans.</em></h2>
           </div>
           <p className="heading-note">A flexible studio model brings the right creative skills together around each project.</p>
         </div>
@@ -178,11 +177,11 @@ export default function AboutPage() {
 
         <div className="page-cta">
           <div>
-            <h2>Good work starts with a conversation.</h2>
-            <p>Tell us what you're hoping to make better.</p>
+            <h2>Good work starts with a good question.</h2>
+            <p>Tell us what you&apos;re hoping to make better.</p>
           </div>
           <Link href="/contact" className="button button-dark">
-            Meet us at the brief <span>↗</span>
+            Start a conversation <span>↗</span>
           </Link>
         </div>
       </section>

@@ -15,7 +15,7 @@ export function Footer() {
             height={30}
           />
         </Link>
-        <p>Thoughtful by design.<br></br>Distinctive by nature.</p>
+        <p>Small studio.<br />Clear thinking.<br />Work made to be used.</p>
         <div className="footer-links">
           <Link href="/work">Work</Link>
           <Link href="/services">Services</Link>
@@ -25,13 +25,12 @@ export function Footer() {
           <Link href="/careers">Careers</Link>
         </div>
         <div className="footer-social">
-          <a href="https://www.behance.net/" target="_blank" rel="noreferrer">Behance ↗</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram ↗</a>
+          <a href="mailto:hello@drawtiq.studio">hello@drawtiq.studio ↗</a>
+          <Link href="/contact">Start a project ↗</Link>
         </div>
       </div>
       <div className="section-wrap footer-bottom">
-        <span>© <span id="year">{year}</span> Drawtiq Studio. Made with intention.</span>
+        <span>© <span id="year">{year}</span> Drawtiq Studio. Made with care.</span>
         <span className="mono">DESIGNED TO MOVE YOU.</span>
       </div>
     </footer>

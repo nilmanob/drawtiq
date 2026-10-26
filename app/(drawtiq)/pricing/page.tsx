@@ -72,11 +72,11 @@ export default function PricingPage() {
         </p>
         <h1>
           Simple pricing.<br />
-          <em>Serious craft.</em>
+          <em>No surprises.</em>
         </h1>
         <p className="lead">
-          One clear monthly rate, no hourly guesswork, and a team that already knows your brand. Choose the plan that
-          matches the pace you need.
+          One monthly rate. No timesheets. A team that already knows the work. Choose the pace that fits what you&apos;re
+          building.
         </p>
       </section>
 
@@ -99,12 +99,12 @@ export default function PricingPage() {
           <div>
             <p className="eyebrow">Ways to work together</p>
             <h2>
-              Pick the rhythm<br />
-              <em>that fits.</em>
+              Choose your<br />
+              <em>way in.</em>
             </h2>
           </div>
           <p className="heading-note">
-            Plans and projects are all built on the same process and the same care — only the pace changes.
+            Plans and projects are built on the same process and the same care. Only the pace changes.
           </p>
         </div>
 
@@ -154,7 +154,7 @@ export default function PricingPage() {
         <div className="page-cta">
           <div>
             <h2>Not sure which plan fits?</h2>
-            <p>Tell us about the work. We will recommend the simplest way to start.</p>
+            <p>Tell us about the work. We&apos;ll recommend the simplest way to start.</p>
           </div>
           <Link href="/contact" className="button button-dark">
             Let’s talk <span>↗</span>

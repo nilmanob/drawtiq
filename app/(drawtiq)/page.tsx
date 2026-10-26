@@ -4,20 +4,20 @@ import { TestimonialCarousel } from "@/components/testimonial-carousel";
 
 const principles = [
   "Curiosity",
-  "Clarity",
-  "Craft",
-  "Collaboration",
-  "Empathy",
-  "Momentum",
-  "Rigour",
-  "Detail",
+  "Plain talk",
+  "Good questions",
+  "Strong opinions",
+  "Loose grip",
+  "Real deadlines",
+  "Care",
+  "Follow-through",
 ];
 
 const services = [
   {
     index: "01",
     title: "UI/UX Design",
-    blurb: "Make every interaction feel effortless.",
+    blurb: "Make the complex feel obvious.",
     tags: ["Research", "User journeys", "Wireframes", "Prototyping"],
     href: "/service-ui-ux",
     preview: "/assets/services/ui-ux.svg",
@@ -27,7 +27,7 @@ const services = [
   {
     index: "02",
     title: "Digital Product Design",
-    blurb: "Complex tools, clear experiences.",
+    blurb: "Make the tool feel like second nature.",
     tags: ["SaaS", "Web apps", "Mobile apps", "Design systems"],
     href: "/service-ui-ux",
     preview: "/assets/services/digital-product.svg",
@@ -47,7 +47,7 @@ const services = [
   {
     index: "04",
     title: "Graphic Design",
-    blurb: "Ideas with a visual point of view.",
+    blurb: "Make the idea visible.",
     tags: ["Campaigns", "Packaging", "Editorial", "Social"],
     href: "/service-graphic-design",
     preview: "/assets/services/graphic-design.svg",
@@ -57,7 +57,7 @@ const services = [
   {
     index: "05",
     title: "Motion Design",
-    blurb: "Give ideas movement, rhythm, and life.",
+    blurb: "Make the idea move.",
     tags: ["Storyboards", "Animation", "Motion systems", "Lottie"],
     href: "/service-motion-design",
     preview: "/assets/services/motion-design.svg",
@@ -67,7 +67,7 @@ const services = [
   {
     index: "06",
     title: "Video Editing",
-    blurb: "Cut, pace, and polish the story.",
+    blurb: "Find the story in the footage.",
     tags: ["Edit", "Colour", "Sound", "Titles"],
     href: "/service-video-editing",
     preview: "/assets/services/video-editing.svg",
@@ -90,7 +90,7 @@ export default function HomePage() {
             Make it <em>move.</em>
           </h1>
           <p className="hero-intro">
-            We turn complex ideas into intuitive digital products and distinctive brand experiences.
+            We help small teams turn complicated ideas into products and brands that feel simple to use.
           </p>
           <div className="hero-actions">
             <Link href="/contact" className="button button-dark">
@@ -100,6 +100,13 @@ export default function HomePage() {
               Explore selected work <span>↗</span>
             </Link>
           </div>
+          <p className="hero-footnote">
+            <svg className="hand-arrow" viewBox="0 0 44 18" aria-hidden="true">
+              <path d="M1 13c10 0 18-8 32-8" />
+              <path d="m28 1 6 4-6 4" />
+            </svg>
+            No big brief needed. A sentence is enough.
+          </p>
         </div>
         <div className="hero-art" aria-label="Abstract Drawtiq design system illustration">
           <div className="art-index mono">DT—001 / BRAND IN MOTION</div>
@@ -165,7 +172,7 @@ export default function HomePage() {
             <p className="eyebrow">01 / Selected work</p>
             <h2>
               Thoughtful work.<br />
-              <em>Real-world purpose.</em>
+              <em>Made to be used.</em>
             </h2>
           </div>
           <Link href="#contact" className="text-link">
@@ -337,11 +344,11 @@ export default function HomePage() {
             <p className="eyebrow">02 / What we do</p>
             <h2>
               Good thinking.<br />
-              <em>Beautifully made.</em>
+              <em>Made useful.</em>
             </h2>
           </div>
           <p className="heading-note">
-            From first sketch to final pixel, we bring strategy and craft together to make every interaction count.
+            Strategy, design, and build. One team from first sketch to final pixel.
           </p>
         </div>
         <div className="service-list">
@@ -375,11 +382,11 @@ export default function HomePage() {
             <p className="eyebrow">03 / How we work</p>
             <h2>
               Clear process.<br />
-              <em>Room for magic.</em>
+              <em>No black boxes.</em>
             </h2>
           </div>
           <p className="heading-note">
-            A thoughtful, collaborative process gets the right people around the right problem—then makes progress visible.
+            A simple process, run collaboratively. You always know what we&apos;re doing and why.
           </p>
         </div>
         <div className="process-track">
@@ -388,28 +395,28 @@ export default function HomePage() {
             <span className="step-index">01</span>
             <div className="step-symbol">⌕</div>
             <h3>Discover</h3>
-            <p>We ask better questions, listen closely, and get to the heart of what matters.</p>
+            <p>We ask a lot of questions, listen properly, and resist the urge to jump to a solution.</p>
             <span className="mono">LISTEN FIRST</span>
           </article>
           <article className="process-step reveal">
             <span className="step-index">02</span>
             <div className="step-symbol">⌗</div>
             <h3>Define</h3>
-            <p>We align on the opportunity, map the direction, and make a plan with purpose.</p>
+            <p>We agree on the problem, the constraints, and what success actually looks like.</p>
             <span className="mono">FIND THE FOCUS</span>
           </article>
           <article className="process-step reveal">
             <span className="step-index">03</span>
             <div className="step-symbol">✳</div>
             <h3>Design</h3>
-            <p>We explore, test, and refine until the idea feels both right and remarkably clear.</p>
-            <span className="mono">MAKE IT MATTER</span>
+            <p>We make, test, throw away, and make again until it feels inevitable.</p>
+            <span className="mono">MAKE IT REAL</span>
           </article>
           <article className="process-step reveal">
             <span className="step-index">04</span>
             <div className="step-symbol">↗</div>
             <h3>Deliver</h3>
-            <p>We hand over thoughtful, ready-to-use work—and help it find its place in the world.</p>
+            <p>We hand over work your team can use, with the files and context to keep it moving.</p>
             <span className="mono">BUILT TO MOVE</span>
           </article>
         </div>
@@ -432,12 +439,12 @@ export default function HomePage() {
               <em>How it works.</em>
             </h2>
             <p className="studio-lead">
-              We believe great design should make you feel something—and make something better.
+              We make things that work first, then make them feel good.
             </p>
             <p>
-              Drawtiq brings strategic thinking, curious minds, and considered craft to the same table. We partner closely with ambitious teams to find the signal in the noise and build experiences people genuinely want to use.
+              We&apos;re a small studio. We work directly with founders and product teams, ask a lot of questions, and stay close to the work from first sketch to launch. No handoffs to a mystery team.
             </p>
-            <p>No design theatre. No decoration for decoration’s sake. Just good questions, clear decisions, and work made with care.</p>
+            <p>No design theatre. No decks that die in a folder. Just clear decisions and work that ships.</p>
             <a href="#contact" className="text-link">A little about our approach <span>↗</span></a>
             <div className="studio-values">
               <div>
@@ -446,11 +453,11 @@ export default function HomePage() {
               </div>
               <div>
                 <b>02</b>
-                <span>Clarity over complexity</span>
+                <span>Plain talk over jargon</span>
               </div>
               <div>
                 <b>03</b>
-                <span>Craft in every detail</span>
+                <span>Care in the details</span>
               </div>
             </div>
           </div>
@@ -464,12 +471,12 @@ export default function HomePage() {
           <div>
             <p className="eyebrow">06 / Notes from the studio</p>
             <h2>
-              Ideas worth<br />
-              <em>thinking about.</em>
+              Notes from<br />
+              <em>the work.</em>
             </h2>
           </div>
           <Link href="/insights" className="text-link">
-            More studio notes <span>↗</span>
+            Read all notes <span>↗</span>
           </Link>
         </div>
         <div className="insight-grid">
@@ -529,17 +536,20 @@ export default function HomePage() {
             </p>
             <h2>
               Have a good idea?<br />
-              <em>Let’s make it matter.</em>
+              <em>Let’s make it work.</em>
             </h2>
-            <p>Tell us what you’re working on. We’ll bring the questions, the thinking, and the craft to help move it forward.</p>
+            <p>Tell us what you’re working on. We’ll reply within two business days with a few honest questions and a clear next step.</p>
             <a className="contact-email" href="mailto:hello@drawtiq.studio">
               hello@drawtiq.studio <span>↗</span>
             </a>
           </div>
-          <form className="contact-form" id="project-form">
+          <form className="contact-form" id="project-form" method="post" action="/api/inquiries">
+            <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}>
+              <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+            </div>
             <div className="form-heading">
               <span className="mono">PROJECT INQUIRY / 001</span>
-              <span>We usually reply within 2 business days.</span>
+              <span>A real person reads every note. Usually a reply within two working days.</span>
             </div>
             <label>Your name
               <input name="name" autoComplete="name" placeholder="How should we call you?" required />
@@ -563,10 +573,10 @@ export default function HomePage() {
               <textarea name="message" rows={3} placeholder="The idea, the challenge, the big ambition…" required />
             </label>
             <button className="button button-accent form-submit" type="submit">
-              Prepare email <span>↗</span>
+              Send inquiry <span>↗</span>
             </button>
-            <p className="form-hint" id="form-hint">
-              This form opens your email app with the details ready to send.
+            <p className="form-hint" id="form-hint" role="status" aria-live="polite">
+              We use these details only to reply to your inquiry.
             </p>
           </form>
         </div>

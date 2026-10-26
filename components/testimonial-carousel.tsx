@@ -5,59 +5,46 @@ import { useCallback, useEffect, useRef, useState } from "react";
 type Testimonial = {
   quote: string;
   emphasis: string;
-  name: string;
-  initials: string;
-  role: string;
-  company: string;
+  number: string;
+  label: string;
 };
 
-// Placeholder client feedback for the design preview.
-// Replace with approved testimonials before launch.
+// A small studio manifesto, not invented client feedback.
 const testimonials: Testimonial[] = [
   {
     quote:
-      "Drawtiq made the complicated feel obvious. The kind of design that makes you wonder why it was ever any other way.",
+      "Make the complicated feel obvious. Then make it feel good.",
     emphasis: "obvious.",
-    name: "Maya Chen",
-    initials: "MC",
-    role: "Head of Product",
-    company: "Northwind",
+    number: "01",
+    label: "Clarity",
   },
   {
     quote:
-      "They didn't just redesign our product — they changed how our whole team thinks about it.",
-    emphasis: "changed how our whole team thinks about it.",
-    name: "Daniel Okafor",
-    initials: "DO",
-    role: "Founder",
-    company: "Ledgerline",
+      "Ask the question behind the brief. The answer usually gets simpler.",
+    emphasis: "behind the brief.",
+    number: "02",
+    label: "Questions",
   },
   {
     quote:
-      "Every detail felt considered. We launched two weeks early, and the numbers followed.",
-    emphasis: "the numbers followed.",
-    name: "Priya Raman",
-    initials: "PR",
-    role: "VP Marketing",
-    company: "Arcadia",
+      "Ship the thing. A good deck is not the work.",
+    emphasis: "Ship the thing.",
+    number: "03",
+    label: "Shipping",
   },
   {
     quote:
-      "The rare studio that listens first and designs second. Our brand finally sounds like us.",
-    emphasis: "sounds like us.",
-    name: "Tomas Berg",
-    initials: "TB",
-    role: "CEO",
-    company: "Fieldnote",
+      "Leave the team with something they can use without us.",
+    emphasis: "without us.",
+    number: "04",
+    label: "Handover",
   },
   {
     quote:
-      "Fast, thoughtful and genuinely collaborative. It felt like an extension of our own team, not an agency.",
-    emphasis: "an extension of our own team",
-    name: "Sofia Marino",
-    initials: "SM",
-    role: "Design Director",
-    company: "Kite",
+      "Care about the details, but don't confuse them with the point.",
+    emphasis: "the point.",
+    number: "05",
+    label: "Details",
   },
 ];
 
@@ -131,7 +118,7 @@ export function TestimonialCarousel() {
     >
       <div className="quote-head">
         <p className="eyebrow" id="testimonials-title">
-          05 / A good partnership
+          05 / What we aim for
         </p>
         <p className="quote-counter mono">
           <b>{String(active + 1).padStart(2, "0")}</b>
@@ -156,13 +143,11 @@ export function TestimonialCarousel() {
             </blockquote>
             <figcaption className="quote-person">
               <span className="quote-avatar" aria-hidden="true">
-                {testimonial.initials}
+                {testimonial.number}
               </span>
               <span className="quote-person-text">
-                <b>{testimonial.name}</b>
-                <span>
-                  {testimonial.role} · {testimonial.company}
-                </span>
+                <b>{testimonial.label}</b>
+                <span>Studio note · Drawtiq</span>
               </span>
             </figcaption>
           </figure>
@@ -174,10 +159,10 @@ export function TestimonialCarousel() {
       </div>
 
       <div className="quote-controls">
-        <div className="quote-people" ref={railRef} role="group" aria-label="Choose a testimonial">
+        <div className="quote-people" ref={railRef} role="group" aria-label="Choose a studio note">
           {testimonials.map((person, index) => (
             <button
-              key={person.name}
+              key={person.number}
               ref={(el) => {
                 tabRefs.current[index] = el;
               }}
@@ -187,13 +172,13 @@ export function TestimonialCarousel() {
               onClick={() => goManual(index)}
             >
               <span className="sr-only">
-                Read the testimonial from {person.name}, {person.role} at {person.company}.{" "}
+                Read studio note {person.number}: {person.label}.{" "}
               </span>
               <span className="quote-tab-avatar" aria-hidden="true">
-                {person.initials}
+                {person.number}
               </span>
               <span className="quote-tab-name" aria-hidden="true">
-                {person.name.split(" ")[0]}
+                {person.label}
               </span>
             </button>
           ))}
@@ -206,7 +191,7 @@ export function TestimonialCarousel() {
           <button
             type="button"
             className="quote-arrow"
-            aria-label="Previous testimonial"
+            aria-label="Previous studio note"
             onClick={() => goManual(active - 1)}
           >
             <span aria-hidden="true">←</span>
@@ -214,7 +199,7 @@ export function TestimonialCarousel() {
           <button
             type="button"
             className="quote-arrow"
-            aria-label="Next testimonial"
+            aria-label="Next studio note"
             onClick={() => goManual(active + 1)}
           >
             <span aria-hidden="true">→</span>
@@ -223,7 +208,7 @@ export function TestimonialCarousel() {
             <button
               type="button"
               className="quote-pause"
-              aria-label={paused ? "Play testimonial slideshow" : "Pause testimonial slideshow"}
+              aria-label={paused ? "Play studio notes" : "Pause studio notes"}
               aria-pressed={paused}
               onClick={() => setPaused((current) => !current)}
             >

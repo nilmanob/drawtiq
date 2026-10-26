@@ -10,36 +10,77 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(drawtiq)/layout.js"
     ],
+    "/(drawtiq)/error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/error.js"
+    ],
+    "/(drawtiq)/not-found": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/not-found.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(drawtiq)/insights/page": [
+    "/admin/(protected)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(drawtiq)/insights/page.js"
+      "static/chunks/app/admin/(protected)/page.js"
     ],
-    "/(drawtiq)/work/page": [
+    "/admin/(protected)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(drawtiq)/work/page.js"
+      "static/chunks/app/admin/(protected)/layout.js"
     ],
-    "/(drawtiq)/about/page": [
+    "/admin/(protected)/error": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(drawtiq)/about/page.js"
+      "static/chunks/app/admin/(protected)/error.js"
     ],
-    "/(drawtiq)/careers/page": [
+    "/admin/(protected)/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(drawtiq)/careers/page.js"
+      "static/chunks/app/admin/(protected)/loading.js"
     ],
-    "/_not-found/page": [
+    "/admin/(protected)/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/admin/(protected)/not-found.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admin/layout.css",
+      "static/chunks/app/admin/layout.js"
+    ],
+    "/admin/(protected)/projects/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/projects/page.js"
+    ],
+    "/admin/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/login/page.js"
+    ],
+    "/admin/(protected)/inquiries/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/inquiries/page.js"
+    ],
+    "/admin/(protected)/posts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/posts/page.js"
+    ],
+    "/admin/(protected)/services/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/services/page.js"
     ]
   }
 }

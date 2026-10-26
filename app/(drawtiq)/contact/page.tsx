@@ -14,9 +14,9 @@ export default function ContactPage() {
           <span className="status-dot"></span>
           06 / Start a conversation
         </p>
-        <h1>Have a good idea?<br /><em>Let’s make it matter.</em></h1>
+        <h1>Have a good idea?<br /><em>Let’s make it work.</em></h1>
         <p className="lead">
-          Tell us what you’re working on. We’ll bring the questions, the thinking, and the craft to help move it forward.
+          Tell us what you’re working on. We’ll reply within two business days with a few honest questions and a clear next step.
         </p>
       </section>
 
@@ -33,19 +33,22 @@ export default function ContactPage() {
             <a href="mailto:hello@drawtiq.studio">hello@drawtiq.studio ↗</a>
           </div>
           <div className="contact-detail">
-            <span className="mono">BOOK A CONVERSATION</span>
-            <p>Choose a time that works for you.</p>
-            <a href="https://cal.com/" target="_blank" rel="noreferrer">Open booking page ↗</a>
+            <span className="mono">WHAT HAPPENS NEXT</span>
+            <ol className="contact-steps">
+              <li><span>We read your note properly.</span></li>
+              <li><span>You get a reply within two working days.</span></li>
+              <li><span>If it fits, we set up a short call.</span></li>
+            </ol>
           </div>
-          <p className="booking-note">
-            Booking URL and email are placeholders. Replace them with your confirmed contact details before launch.
-          </p>
         </div>
 
-        <form className="contact-form-page" id="project-form">
+        <form className="contact-form-page" id="project-form" method="post" action="/api/inquiries">
+          <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}>
+            <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+          </div>
           <div className="form-heading">
             <span className="mono">PROJECT INQUIRY / 001</span>
-            <span>Share as much or as little as you know.</span>
+            <span>Share as much or as little as you know. A sentence is enough.</span>
           </div>
 
           <div className="form-two">
@@ -87,15 +90,15 @@ export default function ContactPage() {
             <textarea name="message" rows={4} placeholder="The idea, the challenge, the big ambition…" required />
           </label>
 
-          <label>Upload a brief (optional)
+          <label>Brief (optional; not uploaded)
             <input type="file" name="brief" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" />
           </label>
 
           <button className="button button-accent form-submit" type="submit">
-            Prepare email <span>↗</span>
+            Send inquiry <span>↗</span>
           </button>
-          <p className="form-hint" id="form-hint">
-            This form prepares an email draft. It does not upload or store your file.
+          <p className="form-hint" id="form-hint" role="status" aria-live="polite">
+            We use these details only to reply to your inquiry. Files are not uploaded; we&apos;ll request a brief by email if needed.
           </p>
         </form>
       </section>

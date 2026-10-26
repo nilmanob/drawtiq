@@ -1,7 +1,9 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(drawtiq)/about/page": "app/(drawtiq)/about/page.js",
   "/(drawtiq)/page": "app/(drawtiq)/page.js",
-  "/(drawtiq)/insights/page": "app/(drawtiq)/insights/page.js",
-  "/(drawtiq)/careers/page": "app/(drawtiq)/careers/page.js"
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/(protected)/page": "app/admin/(protected)/page.js",
+  "/admin/(protected)/posts/page": "app/admin/(protected)/posts/page.js",
+  "/admin/(protected)/projects/page": "app/admin/(protected)/projects/page.js",
+  "/admin/(protected)/services/page": "app/admin/(protected)/services/page.js",
+  "/admin/(protected)/inquiries/page": "app/admin/(protected)/inquiries/page.js"
 }

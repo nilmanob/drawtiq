@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { getPublishedServices } from "@/lib/content/data";
+import { getServiceIcon, serviceHref } from "@/lib/content/presentation";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "Services",
@@ -6,7 +10,9 @@ export const metadata = {
     "UI/UX, digital product design, brand identity, graphic design, motion design, and video editing services by Drawtiq.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const { data: services } = await getPublishedServices();
+
   return (
     <main id="main">
       <section className="page-hero section-wrap">
@@ -14,79 +20,55 @@ export default function ServicesPage() {
           <span className="status-dot"></span>
           02 / What we do
         </p>
-        <h1>Good thinking.<br /><em>Beautifully made.</em></h1>
+        <h1>
+          Good thinking.
+          <br />
+          <em>Made useful.</em>
+        </h1>
         <p className="lead">
-          From the first question to the final detail, we bring strategy and craft together to make every interaction count.
+          We can take on the whole thing or just the part you&apos;re stuck on. Either way, you work with the people doing the work.
         </p>
       </section>
 
       <section className="page-content section-wrap">
         <h2 className="sr-only">Our services</h2>
-        <div className="service-list">
-          <Link className="service-row" href="/service-ui-ux">
-            <span className="service-number mono">01</span>
-            <div className="service-icon icon-ux">↗</div>
-            <div className="service-title">
-              <h3>UI/UX Design</h3>
-              <p>Make every interaction feel effortless.</p>
-            </div>
-            <div className="service-detail">Research · User journeys · Wireframes · Prototyping · Usability</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-          <Link className="service-row" href="/service-ui-ux">
-            <span className="service-number mono">02</span>
-            <div className="service-icon icon-product">◫</div>
-            <div className="service-title">
-              <h3>Digital Product Design</h3>
-              <p>Complex tools, clear experiences.</p>
-            </div>
-            <div className="service-detail">SaaS · Web apps · Mobile apps · Design systems</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-          <Link className="service-row" href="/service-graphic-design">
-            <span className="service-number mono">03</span>
-            <div className="service-icon icon-brand">✳</div>
-            <div className="service-title">
-              <h3>Brand Identity</h3>
-              <p>Look like you mean it.</p>
-            </div>
-            <div className="service-detail">Strategy · Identity systems · Guidelines · Art direction</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-          <Link className="service-row" href="/service-graphic-design">
-            <span className="service-number mono">04</span>
-            <div className="service-icon icon-graphic">Aa</div>
-            <div className="service-title">
-              <h3>Graphic Design</h3>
-              <p>Ideas with a visual point of view.</p>
-            </div>
-            <div className="service-detail">Campaigns · Packaging · Editorial · Social · Print</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-          <Link className="service-row" href="/service-motion-design">
-            <span className="service-number mono">05</span>
-            <div className="service-icon icon-motion">◉</div>
-            <div className="service-title">
-              <h3>Motion Design</h3>
-              <p>Give ideas movement, rhythm, and life.</p>
-            </div>
-            <div className="service-detail">Storyboards · Animation · Motion systems · Lottie</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-          <Link className="service-row" href="/service-video-editing">
-            <span className="service-number mono">06</span>
-            <div className="service-icon icon-video">✂</div>
-            <div className="service-title">
-              <h3>Video Editing</h3>
-              <p>Cut, pace, and polish the story.</p>
-            </div>
-            <div className="service-detail">Edit · Color · Sound · Social cutdowns · Titles</div>
-            <span className="service-arrow">↗</span>
-          </Link>
-        </div>
+        {services.length > 0 ? (
+          <div className="service-list">
+            {services.map((service, index) => {
+              const icon = getServiceIcon(service.icon);
+
+              return (
+                <Link
+                  key={service.slug}
+                  className="service-row"
+                  href={serviceHref(service)}
+                >
+                  <span className="service-number mono">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className={`service-icon ${icon.className}`}>
+                    {icon.glyph}
+                  </div>
+                  <div className="service-title">
+                    <h3>{service.title}</h3>
+                    <p>{service.blurb ?? ""}</p>
+                  </div>
+                  <div className="service-detail">
+                    {service.tags.length
+                      ? service.tags.join(" · ")
+                      : "Strategy · Design · Delivery"}
+                  </div>
+                  <span className="service-arrow">↗</span>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="lead">Service details are being updated. Please check back soon.</p>
+        )}
 
         <div className="service-note">
-          <span className="drawn-underline">Small details. Bigger picture.</span>
+          <span className="drawn-underline">Strategy, design, and the bits in between.</span>
           <span className="mono">STRATEGY × DESIGN × DELIVERY</span>
         </div>
 
@@ -94,7 +76,7 @@ export default function ServicesPage() {
           <article className="service-panel">
             <span className="mono">ENGAGEMENT / 01</span>
             <h3>Focused project</h3>
-            <p>A clear brief, a shared timeline, and a defined outcome. Ideal for a new product, a brand refresh, or a specific design challenge.</p>
+            <p>A clear brief, a shared timeline, and a defined outcome. Good for a launch, a rebrand, or one knotty product problem.</p>
             <Link href="/contact" className="text-link">
               Discuss a project <span>↗</span>
             </Link>
@@ -102,7 +84,7 @@ export default function ServicesPage() {
           <article className="service-panel">
             <span className="mono">ENGAGEMENT / 02</span>
             <h3>Ongoing design partner</h3>
-            <p>A flexible collaboration for teams that need a considered design partner as ideas, products, and campaigns evolve.</p>
+            <p>A steady pair of hands for teams shipping continuously. We keep the context, so you don&apos;t have to brief us from scratch every month.</p>
             <Link href="/contact" className="text-link">
               Explore a partnership <span>↗</span>
             </Link>
@@ -112,10 +94,10 @@ export default function ServicesPage() {
         <div className="page-cta">
           <div>
             <h2>Not sure what you need?</h2>
-            <p>Tell us about the challenge. We'll help you find the right starting point.</p>
+            <p>That&apos;s normal. Tell us what&apos;s stuck and we&apos;ll suggest the smallest useful place to start.</p>
           </div>
           <Link href="/contact" className="button button-dark">
-            Let's talk <span>↗</span>
+            Let&apos;s talk <span>↗</span>
           </Link>
         </div>
       </section>

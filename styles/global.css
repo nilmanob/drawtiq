@@ -4164,3 +4164,218 @@ blockquote em {
   }
 }
 
+/* ------------------------------------------------------------------
+   Taste pass — printed-matter details
+   Small, deliberate marks that make the site feel made rather than generated.
+------------------------------------------------------------------ */
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: .042;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+html[data-theme="dark"] .paper-grain {
+  mix-blend-mode: screen;
+  opacity: .028;
+}
+
+/* A little misregistration, like a two-colour print run. */
+.headline-outline {
+  filter: drop-shadow(2px 2px 0 color-mix(in srgb, var(--accent) 72%, transparent));
+}
+
+.hero h1,
+.section-heading h2,
+.page-hero h1,
+.studio-copy h2,
+.contact-copy h2,
+.page-cta h2 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.hero-footnote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font: italic 13px/1.4 Georgia, serif;
+  letter-spacing: -.01em;
+}
+
+.hand-arrow {
+  width: 42px;
+  height: 18px;
+  flex: none;
+  overflow: visible;
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.hand-arrow path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Project cards settle rather than snap. */
+.project {
+  transition: transform .45s var(--ease);
+}
+
+@media (hover: hover) {
+  .project:hover {
+    transform: translateY(-5px);
+  }
+
+  .project-visual::before {
+    content: "View project";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 6;
+    padding: 7px 10px;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+    border-radius: 2px;
+    font: 10px var(--mono);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-4px) rotate(1deg);
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+  }
+
+  .project:hover .project-visual::before {
+    opacity: 1;
+    transform: translateY(0) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project,
+  .project:hover {
+    transform: none;
+  }
+
+  .project-visual::before {
+    display: none;
+  }
+}
+
+/* The studio photograph is treated as a printed detail, not a stock image. */
+.studio-band {
+  position: relative;
+  overflow: hidden;
+}
+
+.studio-band-media {
+  display: block;
+  width: 240%;
+  max-width: none;
+  height: clamp(300px, 34vw, 500px);
+  object-fit: cover;
+  object-position: 0 62%;
+  filter: grayscale(1) contrast(1.12) sepia(.16);
+}
+
+.studio-band::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: clamp(300px, 34vw, 500px);
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(23, 25, 22, .09), transparent 48%),
+    radial-gradient(circle at 76% 18%, rgba(200, 255, 67, .11), transparent 42%);
+  mix-blend-mode: multiply;
+}
+
+.studio-band-caption {
+  position: relative;
+  z-index: 2;
+}
+
+.studio-band-caption .mono:last-child {
+  font-family: Georgia, serif;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: -.01em;
+  font-size: 13px;
+}
+
+/* A clearer, more human contact page. */
+.contact-steps {
+  list-style: none;
+  counter-reset: contact-step;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 11px;
+  max-width: 390px;
+}
+
+.contact-steps li {
+  counter-increment: contact-step;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.contact-steps li::before {
+  content: counter(contact-step, decimal-leading-zero);
+  padding-top: 2px;
+  font: 10px var(--mono);
+  color: var(--ink);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .headline-outline {
+    filter: drop-shadow(1.5px 1.5px 0 color-mix(in srgb, var(--accent) 72%, transparent));
+  }
+
+  .studio-band-media {
+    width: 215%;
+    height: 280px;
+    object-position: 0 60%;
+  }
+
+  .studio-band::after {
+    height: 280px;
+  }
+
+  .hero-footnote {
+    margin-top: 18px;
+    font-size: 12px;
+  }
+}
+
