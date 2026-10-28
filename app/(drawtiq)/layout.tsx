@@ -9,6 +9,7 @@ import { ServicePreview } from "@/components/service-preview";
 import SmoothScroll from "@/components/smooth-scroll";
 import GsapBootstrap from "@/components/gsap-init";
 import AnimationsProvider from "@/components/animations-provider";
+import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { getFooterLinks, getFooterSocial, getGlobalSettings, getNavItems } from "@/lib/content/cms";
 import { pageContent } from "@/lib/content/page-content";
 
@@ -57,6 +58,7 @@ export default async function DrawtiqLayout({ children }: { children: ReactNode 
         <SmoothScroll />
         <GsapBootstrap />
         <AnimationsProvider />
+        <AnalyticsTracker />
       </>
     </ThemeProvider>
   );

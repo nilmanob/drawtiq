@@ -25,22 +25,22 @@ const fallbackValues = [
 const fallbackTeam = [["Creative direction", "Strategy & visual systems"], ["Product design", "Research & interaction"], ["Brand design", "Identity & art direction"], ["Graphic design", "Campaigns & visual storytelling"]];
 
 const TEAM_ART = [
-  <svg viewBox="0 0 160 160" aria-hidden="true">
+  <svg key="system" viewBox="0 0 160 160" aria-hidden="true">
     <circle cx="80" cy="80" r="48" fill="none" stroke="currentColor" strokeWidth="1.5" />
     <path d="M30 80H130M80 30V130M45 45L115 115M115 45L45 115" stroke="currentColor" opacity=".6" />
     <circle cx="80" cy="80" r="16" fill="#c8ff43" />
   </svg>,
-  <svg viewBox="0 0 160 160" aria-hidden="true">
+  <svg key="structure" viewBox="0 0 160 160" aria-hidden="true">
     <rect x="36" y="36" width="88" height="88" fill="none" stroke="currentColor" />
     <rect x="52" y="52" width="56" height="56" fill="#c8ff43" />
     <path d="M20 80H140M80 20V140" stroke="currentColor" opacity=".5" />
   </svg>,
-  <svg viewBox="0 0 160 160" aria-hidden="true">
+  <svg key="direction" viewBox="0 0 160 160" aria-hidden="true">
     <path d="M80 24L136 128H24Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
     <circle cx="80" cy="86" r="25" fill="#c8ff43" />
     <path d="M80 24V128" stroke="currentColor" opacity=".4" />
   </svg>,
-  <svg viewBox="0 0 160 160" aria-hidden="true">
+  <svg key="frame" viewBox="0 0 160 160" aria-hidden="true">
     <path d="M40 40H120V120H40Z M56 56H104V104H56Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
     <circle cx="80" cy="80" r="12" fill="#c8ff43" />
   </svg>,

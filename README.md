@@ -47,6 +47,30 @@ available after the project and credentials are configured.
    ```
 6. Restart the dev server and sign in at `/admin/login`.
 
+### Invites and password recovery
+
+Invitation and recovery emails end on `/admin/set-password`, where the user
+chooses a password before entering the admin. The sign-in page also has a
+"Forgot your password?" form that requests a new recovery email.
+
+In Supabase, open **Authentication → URL Configuration** and allow both the
+password screen and the callback:
+
+- Site URL: `https://drawtiq.netlify.app`
+- Redirect URLs:
+  - `https://drawtiq.netlify.app/admin/set-password`
+  - `https://drawtiq.netlify.app/auth/callback`
+  - `http://localhost:3000/admin/set-password`
+  - `http://localhost:3000/auth/callback`
+
+Links already configured to land on the site root are forwarded to the password
+screen with their token intact. PKCE and token-hash links are completed by
+`/auth/callback`; implicit-flow links are completed in the browser.
+
+After accepting an invitation, make sure the user is also added to
+`public.admin_users` using the SQL from step 5. Without that allowlist row the
+password can be set, but the admin will show "Access denied."
+
 Do not add `SUPABASE_SERVICE_ROLE_KEY` to the Next.js environment. The app uses
 the anon key plus the signed-in user session; the service role key bypasses RLS
 and should only be used for trusted one-off setup.
@@ -102,14 +126,45 @@ and should only be used for trusted one-off setup.
   only and the API rejects multipart form data. A file path can be managed as
   content metadata in the admin, but there is no file storage or upload route.
 
+### Visitor analytics
+
+The primary admin dashboard is first-party visitor analytics. It is enabled by
+the `20261028000300_visitor_analytics.sql` migration and shows a clear empty
+state until real events exist.
+
+- Public pages send anonymous page-view events to `POST /api/analytics`. The
+  route derives device, browser, OS, and approximate geography from request
+  headers, normalizes referrers to origin + path, and never stores IP addresses.
+- The browser creates a random visitor ID in `localStorage` and a 30-minute
+  session ID in `sessionStorage`. No names, emails, fingerprints, or cross-site
+  identifiers are collected. Visitors can allow or decline analytics; Do Not
+  Track and Global Privacy Control disable collection automatically.
+- The public client is insert-only through the validated
+  `public.record_analytics_event` database function. Direct table writes are
+  revoked. RLS allows only allowlisted admins to read sessions or page views.
+- `/admin` shows totals, comparisons with the previous period, daily/weekly/
+  monthly trends, top pages, sources, referrers, device/browser/OS breakdowns,
+  and recent visitors. `/admin/analytics/visitors` lists anonymous visitors and
+  `/admin/analytics/visitors/[id]` shows session and navigation history.
+- Analytics failures are best-effort and never block or break a public request.
+  The analytics route accepts and drops events when Supabase is not configured.
+- Retention is admin-controlled. Call `select public.prune_analytics(180);` from
+  the Supabase SQL editor (or schedule it) to delete sessions and page views
+  older than the chosen window. The helper accepts 30–3650 days.
+- The analytics migration must be applied before the dashboard can read data.
+  It is intentionally not applied by the application at runtime.
+
 ### Admin screens
 
-- `/admin` — overview with content counts and the latest inquiries.
+- `/admin` — visitor analytics dashboard with a secondary content overview.
+- `/admin/analytics/visitors` — anonymous visitor list with date filters and
+  search; each row links to session and navigation history.
 - `/admin/projects` — list, create, edit, publish, and delete portfolio projects.
 - `/admin/services` — list, create, edit, publish, and delete services.
 - `/admin/posts` — list, create, edit, publish, and delete blog posts.
 - `/admin/inquiries` — filter and read inquiries, with a status update on each
   inquiry detail page.
+- `/admin/cms` — edit homepage sections, navigation, footer, and settings.
 
 Forms use server actions and re-check the admin allowlist and RLS on every
 mutation. Complex content fields are JSON textareas: project `gallery`, service

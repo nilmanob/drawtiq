@@ -1,8 +1,4 @@
 {
-  "/(drawtiq)/page": "app/(drawtiq)/page.js",
-  "/admin/(protected)/projects/page": "app/admin/(protected)/projects/page.js",
-  "/admin/(protected)/cms/page": "app/admin/(protected)/cms/page.js",
-  "/admin/(protected)/posts/page": "app/admin/(protected)/posts/page.js",
-  "/admin/(protected)/cms/[table]/page": "app/admin/(protected)/cms/[table]/page.js",
-  "/admin/(protected)/page": "app/admin/(protected)/page.js"
+  "/api/analytics/route": "app/api/analytics/route.js",
+  "/(drawtiq)/page": "app/(drawtiq)/page.js"
 }

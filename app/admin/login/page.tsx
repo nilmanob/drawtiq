@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { hasSupabaseEnv } from "@/lib/env";
+import { ForgotPasswordForm } from "./forgot-password-form";
 import { LoginForm } from "./login-form";
 
 export const dynamic = "force-dynamic";
@@ -67,7 +68,13 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             </p>
           </div>
         ) : (
-          <LoginForm nextPath={nextPath} />
+          <>
+            <LoginForm nextPath={nextPath} />
+            <details className="admin-recovery">
+              <summary>Forgot your password?</summary>
+              <ForgotPasswordForm />
+            </details>
+          </>
         )}
 
         <p className="admin-note">

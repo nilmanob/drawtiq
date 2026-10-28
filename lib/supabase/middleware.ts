@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabasePublicEnv, hasSupabaseEnv } from "@/lib/env";
 
 const LOGIN_PATH = "/admin/login";
+const SET_PASSWORD_PATH = "/admin/set-password";
 
 function isAdminPath(pathname: string) {
   return pathname === "/admin" || pathname.startsWith("/admin/");
@@ -67,7 +68,14 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Unauthenticated admin request: send to login and preserve the destination.
-  if (!user && isAdminPath(pathname) && pathname !== LOGIN_PATH) {
+  // The password screen is public because its session arrives in the URL and
+  // is only written to cookies by the browser or callback after this runs.
+  if (
+    !user &&
+    isAdminPath(pathname) &&
+    pathname !== LOGIN_PATH &&
+    pathname !== SET_PASSWORD_PATH
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = LOGIN_PATH;
     url.search = "";

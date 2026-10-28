@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import { AuthLinkRedirect } from "@/components/auth-link-redirect";
 import { getGlobalSettings } from "@/lib/content/cms";
 import "./../styles/global.css";
 
@@ -64,7 +65,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AuthLinkRedirect />
+        {children}
+      </body>
     </html>
   );
 }

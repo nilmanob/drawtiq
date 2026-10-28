@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { StudioVisual } from "@/components/studio-visual";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
@@ -30,7 +31,8 @@ import type { PublicService } from "@/lib/content/types";
 
 const HERO_FALLBACK = {
   eyebrow: "Independent design studio",
-  heading: "Make it meaningful.<br />Make it move.",
+  heading:
+    'Make it <span class="headline-outline">meaningful.</span><br />Make it <em>move.</em>',
   intro:
     "We help small teams turn complicated ideas into products and brands that feel simple to use.",
   ctaPrimary: { label: "Start a project", href: "/contact" },
@@ -59,7 +61,7 @@ const TRUST_STRIP_FALLBACK = {
 
 const WORK_FALLBACK = {
   eyebrow: "01 / Selected work",
-  heading: "Thoughtful work.<br />Made to be used.",
+  heading: "Thoughtful work.<br /><em>Made to be used.</em>",
   cta: { label: "Have a project in mind?", href: "#contact" },
   bottomCta: { label: "Let's make yours next", href: "#contact" },
   featuredProjects: ["northstar", "bloomwell", "form-object", "orbit"],
@@ -67,7 +69,7 @@ const WORK_FALLBACK = {
 
 const SERVICES_FALLBACK = {
   eyebrow: "02 / What we do",
-  heading: "Good thinking.<br />Made useful.",
+  heading: "Good thinking.<br /><em>Made useful.</em>",
   note: "Strategy, design, and build. One team from first sketch to final pixel.",
   footerNote: {
     drawn: "Small details. Bigger picture.",
@@ -78,7 +80,7 @@ const SERVICES_FALLBACK = {
 
 const PROCESS_FALLBACK = {
   eyebrow: "03 / How we work",
-  heading: "Clear process.<br />No black boxes.",
+  heading: "Clear process.<br /><em>No black boxes.</em>",
   note:
     "A simple process, run collaboratively. You always know what we're doing and why.",
   steps: [
@@ -91,7 +93,7 @@ const PROCESS_FALLBACK = {
 
 const STUDIO_FALLBACK = {
   eyebrow: "04 / The studio",
-  heading: "Not just how it looks.<br />How it works.",
+  heading: "Not just how it looks.<br /><em>How it works.</em>",
   lead: "We make things that work first, then make them feel good.",
   paragraphs: [
     "We're a small studio. We work directly with founders and product teams, ask a lot of questions, and stay close to the work from first sketch to launch. No handoffs to a mystery team.",
@@ -111,7 +113,7 @@ const STUDIO_FALLBACK = {
 
 const INSIGHTS_FALLBACK = {
   eyebrow: "06 / Notes from the studio",
-  heading: "Notes from<br />the work.",
+  heading: "Notes from<br /><em>the work.</em>",
   cta: { label: "Read all notes", href: "/insights" },
   cardLinkLabel: "Read the note",
   ctaHeading: "Want this thinking on your product?",
@@ -123,7 +125,7 @@ const INSIGHTS_FALLBACK = {
 
 const CONTACT_FALLBACK = {
   eyebrow: "07 / Your turn",
-  heading: "Have a good idea?<br />Let's make it work.",
+  heading: "Have a good idea?<br /><em>Let's make it work.</em>",
   paragraph: "Tell us what you're working on. We'll reply within two business days with a few honest questions and a clear next step.",
   email: "",
   formHeading: "",
@@ -161,6 +163,70 @@ const SECTION_TEXT_FIELDS: Record<
   "contact-section": { title: "heading", subtitle: "eyebrow" },
 };
 
+/**
+ * The CMS records created before the display markup was preserved hold plain
+ * headings. These exact values are the original homepage copy, so restore the
+ * emphasis the design relies on without touching the stored content.
+ */
+const KNOWN_PLAIN_HEADINGS: Record<string, Record<string, string>> = {
+  hero: {
+    "Make it meaningful.<br />Make it move.":
+      'Make it <span class="headline-outline">meaningful.</span><br />Make it <em>move.</em>',
+  },
+  "work-section": {
+    "Thoughtful work.<br />Made to be used.":
+      "Thoughtful work.<br /><em>Made to be used.</em>",
+  },
+  "services-section": {
+    "Good thinking.<br />Made useful.":
+      "Good thinking.<br /><em>Made useful.</em>",
+  },
+  "process-section": {
+    "Clear process.<br />No black boxes.":
+      "Clear process.<br /><em>No black boxes.</em>",
+  },
+  "studio-section": {
+    "Not just how it looks.<br />How it works.":
+      "Not just how it looks.<br /><em>How it works.</em>",
+  },
+  "insights-section": {
+    "Notes from<br />the work.": "Notes from<br /><em>the work.</em>",
+  },
+  "contact-section": {
+    "Have a good idea?<br />Let's make it work.":
+      "Have a good idea?<br /><em>Let's make it work.</em>",
+  },
+};
+
+function restoreHeadingMarkup(sectionKey: string, value: string): string {
+  const normalized = value
+    .replace(/\s*<br\s*\/?>\s*/gi, "<br />")
+    .trim();
+
+  if (!normalized) {
+    return normalized;
+  }
+
+  // Preserve markup supplied by an editor.
+  if (/<(?:em|span)\b/i.test(normalized)) {
+    return normalized;
+  }
+
+  const known = KNOWN_PLAIN_HEADINGS[sectionKey]?.[normalized];
+  if (known) {
+    return known;
+  }
+
+  // Every original section heading emphasises its second line. Keep that
+  // behaviour when an editor changes the copy but not the structure.
+  if (sectionKey !== "hero" && normalized.includes("<br />")) {
+    const [first, ...rest] = normalized.split("<br />");
+    return `${first}<br /><em>${rest.join("<br />")}</em>`;
+  }
+
+  return normalized;
+}
+
 function contentForSection(section: HomepageSection) {
   const content = { ...(section.content ?? {}) };
   const mapping = SECTION_TEXT_FIELDS[section.section_key];
@@ -168,7 +234,10 @@ function contentForSection(section: HomepageSection) {
   if (!mapping) return content;
 
   if (mapping.title && section.title?.trim()) {
-    content[mapping.title] = section.title;
+    content[mapping.title] = restoreHeadingMarkup(
+      section.section_key,
+      section.title
+    );
   }
   if (mapping.subtitle && section.subtitle?.trim()) {
     content[mapping.subtitle] = section.subtitle;
@@ -187,7 +256,14 @@ function getSection(sections: HomepageSection[], key: string, fallback: any) {
       Object.entries(base).map(([name, value]) => [name, merge(value, source[name])])
     );
   };
-  return found ? merge(fallback, contentForSection(found)) : fallback;
+  const merged = found ? merge(fallback, contentForSection(found)) : fallback;
+  const mapping = SECTION_TEXT_FIELDS[key];
+
+  if (mapping?.title && typeof merged[mapping.title] === "string") {
+    merged[mapping.title] = restoreHeadingMarkup(key, merged[mapping.title]);
+  }
+
+  return merged;
 }
 
 const HOMEPAGE_ORDER = [
@@ -228,19 +304,67 @@ export async function HomepageContent() {
   );
 }
 
-/** The CMS snapshot uses only line breaks and emphasis in display copy. */
+/**
+ * The CMS display copy intentionally supports a very small markup vocabulary:
+ * line breaks, emphasis, and the outlined hero word. Parse only those tags so
+ * arbitrary HTML from a CMS record is rendered as text.
+ */
+const RICH_TEXT_TOKEN =
+  /(<br\s*\/?>|<\/?em\s*>|<\/?span(?:\s+class=["']headline-outline["'])?\s*>)/gi;
+
 function RichText({ value }: { value: string | null | undefined }) {
   const markup = value || "";
-  return (
-    <>
-      {markup.split(/(<br\s*\/?>|<em>|<\/em>)/gi).map((part, index, parts) => {
-        if (/^<br\s*\/?>$/i.test(part)) return <br key={index} />;
-        if (/^<em>$/i.test(part) || /^<\/em>$/i.test(part)) return null;
-        const previous = parts[index - 1];
-        return /^<em>$/i.test(previous || "") ? <em key={index}>{part}</em> : part;
-      })}
-    </>
-  );
+  const nodes: ReactNode[] = [];
+  const stack: Array<"em" | "outline"> = [];
+
+  const parts = markup.split(RICH_TEXT_TOKEN);
+
+  parts.forEach((part, index) => {
+    if (!part) return;
+
+    if (/^<br\s*\/?>$/i.test(part)) {
+      nodes.push(<br key={`br-${index}`} />);
+      return;
+    }
+
+    if (/^<em\s*>$/i.test(part)) {
+      stack.push("em");
+      return;
+    }
+
+    if (/^<\/em\s*>$/i.test(part)) {
+      if (stack[stack.length - 1] === "em") stack.pop();
+      return;
+    }
+
+    if (/^<span\b/i.test(part)) {
+      stack.push("outline");
+      return;
+    }
+
+    if (/^<\/span\s*>$/i.test(part)) {
+      const outlineIndex = stack.lastIndexOf("outline");
+      if (outlineIndex !== -1) stack.splice(outlineIndex, 1);
+      return;
+    }
+
+    let node: ReactNode = part;
+
+    for (let depth = stack.length - 1; depth >= 0; depth -= 1) {
+      node =
+        stack[depth] === "em" ? (
+          <em key={`em-${index}-${depth}`}>{node}</em>
+        ) : (
+          <span key={`outline-${index}-${depth}`} className="headline-outline">
+            {node}
+          </span>
+        );
+    }
+
+    nodes.push(node);
+  });
+
+  return <>{nodes}</>;
 }
 
 export async function HomepageHero() {
@@ -341,9 +465,18 @@ export async function HomepageWorkSection() {
   const { data: sections } = await getHomepageSections();
   const { data: projects } = await getPublishedProjects();
   const content = getSection(sections || [], "work-section", WORK_FALLBACK);
-  const featuredSlugs = Array.isArray(content.featuredProjects)
+  const storedFeaturedSlugs = Array.isArray(content.featuredProjects)
     ? content.featuredProjects.filter((slug: unknown): slug is string => typeof slug === "string")
     : [];
+  // An earlier CMS import stored only the two flagged fallback projects. Keep
+  // that legacy value from silently removing two of the four original cards.
+  const legacyIncompleteSelection =
+    storedFeaturedSlugs.length === 2 &&
+    storedFeaturedSlugs.includes("northstar") &&
+    storedFeaturedSlugs.includes("orbit");
+  const featuredSlugs = legacyIncompleteSelection
+    ? WORK_FALLBACK.featuredProjects
+    : storedFeaturedSlugs;
   const featured = featuredSlugs.length
     ? (projects ?? []).filter((project) => featuredSlugs.includes(project.slug))
     : (projects ?? []).filter((project) => project.featured);
@@ -353,7 +486,7 @@ export async function HomepageWorkSection() {
       <div className="section-heading">
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
         </div>
         <Link href={content.cta.href} className="text-link">
           {content.cta.label} <span>↗</span>
@@ -530,7 +663,7 @@ export async function HomepageServicesSection() {
       <div className="section-heading">
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
         </div>
         <p className="heading-note">{content.note}</p>
       </div>
@@ -577,7 +710,7 @@ export async function HomepageProcessSection() {
       <div className="section-heading">
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
         </div>
         <p className="heading-note">{content.note}</p>
       </div>
@@ -616,7 +749,7 @@ export async function HomepageStudioSection() {
         </div>
         <div className="studio-copy">
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
           <p className="studio-lead">{content.lead}</p>
           {content.paragraphs.map((p: any, i: number) => (
             <p key={i}>{p}</p>
@@ -691,7 +824,7 @@ export async function HomepageInsightsSection() {
       <div className="section-heading">
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
         </div>
         <Link href={content.cta.href} className="text-link">
           {content.cta.label} <span>↗</span>
@@ -754,7 +887,7 @@ export async function HomepageContactSection() {
             <span className="status-dot"></span>
             {content.eyebrow}
           </p>
-          <h1><RichText value={content.heading} /></h1>
+          <h2><RichText value={content.heading} /></h2>
           <p>{content.paragraph}</p>
           <a className="contact-email" href={`mailto:${content.email || settings?.email_address || "hello@drawtiq.studio"}`}>
             {content.email || settings?.email_address || "hello@drawtiq.studio"} <span>↗</span>
