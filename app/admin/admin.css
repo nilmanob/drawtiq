@@ -61,8 +61,22 @@
 
 .admin-nav {
   display: grid;
-  gap: 0;
+  gap: 24px;
   margin-top: 44px;
+}
+
+.admin-nav-group {
+  display: grid;
+  gap: 0;
+}
+
+.admin-nav-heading {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .admin-nav-link {
@@ -152,6 +166,21 @@
   margin: 4px 0 0;
   color: var(--muted);
   font-size: 14px;
+}
+
+.admin-role-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  vertical-align: middle;
 }
 
 .admin-header-actions {
@@ -412,6 +441,58 @@ textarea.admin-input {
   font-size: 13px;
 }
 
+.admin-auth-view {
+  display: block;
+}
+
+.admin-recovery-link,
+.admin-reset-back {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.admin-recovery-link {
+  margin-top: 4px;
+}
+
+.admin-recovery-link:hover,
+.admin-reset-back:hover {
+  color: var(--ink);
+}
+
+.admin-reset-form {
+  margin-top: 24px;
+}
+
+.admin-reset-success {
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.admin-reset-success p {
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.admin-reset-success strong {
+  color: var(--ink);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
 .admin-setup {
   margin-top: 24px;
   padding: 16px;
@@ -425,30 +506,6 @@ textarea.admin-input {
   font-family: var(--mono);
   font-size: 12px;
   overflow-wrap: anywhere;
-}
-
-.admin-recovery {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-
-.admin-recovery summary {
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.admin-recovery summary:hover {
-  color: var(--ink);
-}
-
-.admin-recovery[open] summary {
-  margin-bottom: 8px;
-}
-
-.admin-recovery .admin-form {
-  margin-top: 10px;
 }
 
 .admin-denied {
@@ -565,6 +622,76 @@ textarea.admin-input {
   border-collapse: collapse;
   min-width: 680px;
   text-align: left;
+}
+
+.admin-team-table {
+  margin-top: 20px;
+}
+
+.admin-team-add .admin-form-actions {
+  padding-top: 16px;
+}
+
+.admin-team-role {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-team-role .admin-input {
+  width: 150px;
+  margin-top: 0;
+}
+
+.admin-team-role .admin-button {
+  padding: 10px 14px;
+}
+
+.admin-team-role .admin-inline-success,
+.admin-team-role .admin-field-error {
+  flex-basis: 100%;
+}
+
+.admin-team-remove {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.admin-team-roles {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.admin-team-role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-team-role-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.admin-team-role-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--display);
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.admin-team-role-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .admin-table th {
@@ -1080,8 +1207,20 @@ textarea.admin-input {
   .admin-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 20px;
+    gap: 0 24px;
     margin-top: 20px;
+  }
+
+  .admin-nav-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 20px;
+  }
+
+  .admin-nav-heading {
+    width: 100%;
+    margin: 6px 0 0;
   }
 
   .admin-nav-link {
@@ -1103,6 +1242,10 @@ textarea.admin-input {
   .admin-inquiry-layout {
     grid-template-columns: 1fr;
   }
+
+  .admin-team-role-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -1110,6 +1253,15 @@ textarea.admin-input {
     width: calc(100% - 32px);
     padding-top: 16px;
     padding-bottom: 40px;
+  }
+
+  .admin-team-role {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-team-role .admin-input {
+    width: 100%;
   }
 
   .admin-topbar,

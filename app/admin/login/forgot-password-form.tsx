@@ -2,31 +2,68 @@
 
 import { useState, type FormEvent } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { createPasswordResetClient } from "@/lib/supabase/reset";
+import { getSiteUrl } from "@/lib/site-url";
 
-export function ForgotPasswordForm() {
-  const [email, setEmail] = useState("");
+function describeResetError(message: string) {
+  const lower = message.toLowerCase();
+
+  if (
+    lower.includes("rate limit") ||
+    lower.includes("too many") ||
+    lower.includes("security purposes")
+  ) {
+    return "Too many reset emails. Wait a minute and try again.";
+  }
+
+  if (lower.includes("invalid email") || lower.includes("email address")) {
+    return "Enter a valid email address.";
+  }
+
+  return "We could not send the reset email. Please try again.";
+}
+
+export function ForgotPasswordForm({
+  initialEmail = "",
+  onBack,
+}: {
+  initialEmail?: string;
+  onBack: (email?: string) => void;
+}) {
+  const [email, setEmail] = useState(initialEmail);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const nextEmail = email.trim();
+
     setError(null);
     setLoading(true);
 
     try {
-      const supabase = createSupabaseBrowserClient();
-      const redirectTo = `${window.location.origin}/admin/set-password`;
+      const redirectTo = `${getSiteUrl(window.location.origin)}/admin/set-password`;
+      const crossOrigin =
+        new URL(redirectTo).origin !== window.location.origin;
+      const supabase = crossOrigin
+        ? createPasswordResetClient()
+        : createSupabaseBrowserClient();
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        email,
+        nextEmail,
         { redirectTo }
       );
 
       if (resetError) {
-        setError(resetError.message);
+        setError(
+          resetError.message
+            ? describeResetError(resetError.message)
+            : "We could not send the reset email. Please try again."
+        );
         return;
       }
 
+      setEmail(nextEmail);
       setSent(true);
     } catch {
       setError("Could not reach the authentication service. Please try again.");
@@ -37,15 +74,24 @@ export function ForgotPasswordForm() {
 
   if (sent) {
     return (
-      <p className="admin-inline-success" role="status" aria-live="polite">
-        If that email matches an admin account, a password reset link is on its
-        way.
-      </p>
+      <div className="admin-reset-success" role="status" aria-live="polite">
+        <p>
+          Password reset link sent. If an account exists for{" "}
+          <strong>{email}</strong>, check your inbox and spam folder.
+        </p>
+        <button
+          className="admin-button admin-button-secondary"
+          type="button"
+          onClick={() => onBack(email)}
+        >
+          Back to sign in
+        </button>
+      </div>
     );
   }
 
   return (
-    <form className="admin-form" onSubmit={handleSubmit}>
+    <form className="admin-form admin-reset-form" onSubmit={handleSubmit}>
       <div className="admin-field">
         <label htmlFor="reset-email">Admin email</label>
         <input
@@ -54,9 +100,13 @@ export function ForgotPasswordForm() {
           type="email"
           name="email"
           autoComplete="email"
+          inputMode="email"
           required
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setError(null);
+          }}
         />
       </div>
 
@@ -68,6 +118,14 @@ export function ForgotPasswordForm() {
 
       <button className="admin-button" type="submit" disabled={loading}>
         {loading ? "Sending link…" : "Send reset link"}
+      </button>
+
+      <button
+        className="admin-reset-back"
+        type="button"
+        onClick={() => onBack(email.trim())}
+      >
+        Back to sign in
       </button>
     </form>
   );

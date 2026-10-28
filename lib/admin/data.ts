@@ -3,6 +3,7 @@ import "server-only";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { hasSupabaseEnv } from "@/lib/env";
 import { inquiryStatusSchema, uuidSchema } from "@/lib/validation/content";
+import { isAdminRole } from "@/lib/auth/roles";
 import { describeDbError } from "./errors";
 import type {
   AdminDashboardData,
@@ -11,6 +12,7 @@ import type {
   AdminPost,
   AdminProject,
   AdminService,
+  AdminTeamMember,
 } from "./types";
 
 function dbFailure<T>(error: Parameters<typeof describeDbError>[0]) {
@@ -227,6 +229,35 @@ export async function getInquiry(
   }
 
   return { ok: true, data: data as AdminInquiry, error: null };
+}
+
+export async function listAdminTeam(): Promise<
+  AdminDataResult<AdminTeamMember[]>
+> {
+  if (!hasSupabaseEnv()) {
+    return notConfigured();
+  }
+
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("admin_users")
+    .select("user_id, email, role, created_at")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    return dbFailure(error);
+  }
+
+  return {
+    ok: true,
+    data: (data ?? []).map((member) => ({
+      user_id: member.user_id,
+      email: member.email,
+      role: isAdminRole(member.role) ? member.role : "viewer",
+      created_at: member.created_at,
+    })),
+    error: null,
+  };
 }
 
 export async function getDashboardData(): Promise<

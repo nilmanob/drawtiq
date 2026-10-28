@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { PUBLIC_CONTENT_TAG } from "@/lib/content/cache";
 import { describeDbError } from "@/lib/admin/errors";
 import type { AdminActionResult } from "@/lib/admin/action-result";
@@ -28,7 +28,7 @@ function revalidatePost(id?: string) {
 export async function savePost(
   formData: FormData
 ): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
   const id = formString(formData, "id").trim();
   const display = formJsonObject(formData, "display");
   const body = formJsonArray(formData, "body");
@@ -115,7 +115,7 @@ export async function savePost(
 }
 
 export async function deletePost(id: string): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
 
   if (!uuidSchema.safeParse(id).success) {
     return { ok: false, error: "Invalid blog post id." };

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { PUBLIC_CONTENT_TAG } from "@/lib/content/cache";
 import { describeDbError } from "@/lib/admin/errors";
 import type { AdminActionResult } from "@/lib/admin/action-result";
@@ -27,7 +27,7 @@ function revalidateProject(id?: string) {
 export async function saveProject(
   formData: FormData
 ): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
   const id = formString(formData, "id").trim();
   const gallery = formJsonArray(formData, "gallery");
   const jsonErrors: Record<string, string[]> = {};
@@ -117,7 +117,7 @@ export async function saveProject(
 }
 
 export async function deleteProject(id: string): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
 
   if (!uuidSchema.safeParse(id).success) {
     return { ok: false, error: "Invalid project id." };

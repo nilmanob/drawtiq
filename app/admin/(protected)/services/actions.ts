@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { PUBLIC_CONTENT_TAG } from "@/lib/content/cache";
 import { describeDbError } from "@/lib/admin/errors";
 import type { AdminActionResult } from "@/lib/admin/action-result";
@@ -31,7 +31,7 @@ function revalidateService(id?: string) {
 export async function saveService(
   formData: FormData
 ): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
   const id = formString(formData, "id").trim();
   const deliverables = formJsonArray(formData, "deliverables");
   const faqs = formJsonArray(formData, "faqs");
@@ -118,7 +118,7 @@ export async function saveService(
 }
 
 export async function deleteService(id: string): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("content:write");
 
   if (!uuidSchema.safeParse(id).success) {
     return { ok: false, error: "Invalid service id." };

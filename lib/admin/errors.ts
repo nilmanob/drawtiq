@@ -21,6 +21,8 @@ export function describeDbError(error: DbError) {
       return "Some fields do not meet the database constraints. Check the values and try again.";
     case "42501":
       return "The database refused this action. Check that the admin policy and allowlist are configured.";
+    case "P0001":
+      return error.message || "The database refused this action.";
     case "42P01":
       return "The database tables are missing. Apply the Supabase migration first.";
     case "PGRST116":

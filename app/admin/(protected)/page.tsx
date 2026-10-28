@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDashboardData } from "@/lib/admin/data";
+import { getAdminSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/auth/roles";
 import {
   ANALYTICS_MAX_ROWS,
   getAnalyticsDashboard,
@@ -31,7 +33,7 @@ import {
 } from "./_components/analytics-ui";
 
 export const metadata: Metadata = {
-  title: "Visitor analytics",
+  title: "Dashboard",
 };
 
 export const dynamic = "force-dynamic";
@@ -48,10 +50,14 @@ const RANGE_LINKS = [
 
 export default async function AdminHomePage({ searchParams }: PageProps) {
   const window = getAnalyticsWindow(searchParams);
-  const [analytics, content] = await Promise.all([
+  const [analytics, content, session] = await Promise.all([
     getAnalyticsDashboard(window),
     getDashboardData(),
+    getAdminSession(),
   ]);
+  const canManageContent = session.admin
+    ? hasPermission(session.admin.role, "content:write")
+    : false;
 
   const hasData =
     analytics.ok &&
@@ -62,9 +68,13 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
   return (
     <>
       <AdminPageHeader
-        kicker="Analytics / Visitors"
-        title="Visitor analytics"
-        description="Anonymous, first-party activity from the public Drawtiq site. No names, emails, or IP addresses are stored."
+        kicker="Studio / Dashboard"
+        title="Dashboard"
+        description={
+          canManageContent
+            ? "Visitor analytics and a quick overview of the studio content. Anonymous, first-party activity only — no names, emails, or IP addresses are stored."
+            : "Visitor analytics for the studio site. Anonymous, first-party activity only — no names, emails, or IP addresses are stored."
+        }
         actions={
           <Link className="admin-button" href={allVisitorsHref}>
             All visitors
@@ -367,44 +377,49 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
         </>
       )}
 
-      <section className="admin-panel admin-analytics-content-panel">
-        <div className="admin-panel-header">
-          <div>
-            <p className="admin-kicker">Studio / Content</p>
-            <h2>Content overview</h2>
+      {canManageContent ? (
+        <section className="admin-panel admin-analytics-content-panel">
+          <div className="admin-panel-header">
+            <div>
+              <p className="admin-kicker">Studio / Content</p>
+              <h2>Content overview</h2>
+            </div>
+            <Link className="admin-text-link" href="/admin/cms">
+              Site CMS
+            </Link>
           </div>
-          <Link className="admin-text-link" href="/admin/cms">
-            Site CMS
-          </Link>
-        </div>
 
-        {!content.ok ? (
-          <AdminErrorState title="Content overview unavailable" message={content.error} />
-        ) : (
-          <div className="admin-content-overview">
-            <Link href="/admin/projects">
-              <span>Projects</span>
-              <strong>{content.data.counts.projects}</strong>
-              <small>{content.data.counts.projectsPublished} published</small>
-            </Link>
-            <Link href="/admin/services">
-              <span>Services</span>
-              <strong>{content.data.counts.services}</strong>
-              <small>{content.data.counts.servicesPublished} published</small>
-            </Link>
-            <Link href="/admin/posts">
-              <span>Blog posts</span>
-              <strong>{content.data.counts.posts}</strong>
-              <small>{content.data.counts.postsPublished} published</small>
-            </Link>
-            <Link href="/admin/inquiries">
-              <span>Inquiries</span>
-              <strong>{content.data.counts.inquiriesNew}</strong>
-              <small>{content.data.counts.inquiries} total</small>
-            </Link>
-          </div>
-        )}
-      </section>
+          {!content.ok ? (
+            <AdminErrorState
+              title="Content overview unavailable"
+              message={content.error}
+            />
+          ) : (
+            <div className="admin-content-overview">
+              <Link href="/admin/projects">
+                <span>Projects</span>
+                <strong>{content.data.counts.projects}</strong>
+                <small>{content.data.counts.projectsPublished} published</small>
+              </Link>
+              <Link href="/admin/services">
+                <span>Services</span>
+                <strong>{content.data.counts.services}</strong>
+                <small>{content.data.counts.servicesPublished} published</small>
+              </Link>
+              <Link href="/admin/posts">
+                <span>Blog posts</span>
+                <strong>{content.data.counts.posts}</strong>
+                <small>{content.data.counts.postsPublished} published</small>
+              </Link>
+              <Link href="/admin/inquiries">
+                <span>Inquiries</span>
+                <strong>{content.data.counts.inquiriesNew}</strong>
+                <small>{content.data.counts.inquiries} total</small>
+              </Link>
+            </div>
+          )}
+        </section>
+      ) : null}
     </>
   );
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getInquiry } from "@/lib/admin/data";
 import { formatAdminDateTime } from "@/lib/admin/format";
+import { getAdminSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/auth/roles";
 import {
   AdminBackLink,
   AdminErrorState,
@@ -19,7 +21,10 @@ type PageProps = {
 };
 
 export default async function AdminInquiryPage({ params }: PageProps) {
-  const result = await getInquiry(params.id);
+  const [result, session] = await Promise.all([
+    getInquiry(params.id),
+    getAdminSession(),
+  ]);
 
   if (!result.ok) {
     return (
@@ -94,7 +99,14 @@ export default async function AdminInquiryPage({ params }: PageProps) {
 
           <div className="admin-divider" />
 
-          <InquiryStatusForm id={inquiry.id} status={inquiry.status} />
+          {session.admin &&
+          hasPermission(session.admin.role, "inquiries:write") ? (
+            <InquiryStatusForm id={inquiry.id} status={inquiry.status} />
+          ) : (
+            <p className="admin-field-hint">
+              Your role has read-only access to inquiries.
+            </p>
+          )}
 
           <p className="admin-field-hint">
             Updating the status does not send an email to the contact.

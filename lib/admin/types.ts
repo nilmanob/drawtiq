@@ -1,5 +1,14 @@
+import type { AdminRole } from "@/lib/auth/roles";
+
 export type ContentStatus = "draft" | "published" | "archived";
 export type InquiryStatus = "new" | "read" | "replied" | "archived";
+
+export type AdminTeamMember = {
+  user_id: string;
+  email: string;
+  role: AdminRole;
+  created_at: string;
+};
 
 export type AdminProject = {
   id: string;

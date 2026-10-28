@@ -3,8 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { hasSupabaseEnv } from "@/lib/env";
-import { ForgotPasswordForm } from "./forgot-password-form";
-import { LoginForm } from "./login-form";
+import { LoginPanel } from "./login-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -52,29 +51,26 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
         </Link>
 
         <p className="admin-kicker">Drawtiq / Studio access</p>
-        <h1>Sign in to the admin.</h1>
-        <p>
-          Use the email and password for the authorized studio admin account.
-        </p>
 
         {showSetup ? (
-          <div className="admin-setup">
-            <strong>Supabase is not configured yet.</strong>
-            <p>
-              Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-              <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> to{" "}
-              <code>.env.local</code>, run the database migration, then restart
-              the dev server. The full setup steps are in the README.
-            </p>
-          </div>
-        ) : (
           <>
-            <LoginForm nextPath={nextPath} />
-            <details className="admin-recovery">
-              <summary>Forgot your password?</summary>
-              <ForgotPasswordForm />
-            </details>
+            <h1>Sign in to the admin.</h1>
+            <p>
+              Use the email and password for the authorized studio admin
+              account.
+            </p>
+            <div className="admin-setup">
+              <strong>Supabase is not configured yet.</strong>
+              <p>
+                Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+                <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> to{" "}
+                <code>.env.local</code>, run the database migration, then
+                restart the dev server. The full setup steps are in the README.
+              </p>
+            </div>
           </>
+        ) : (
+          <LoginPanel nextPath={nextPath} />
         )}
 
         <p className="admin-note">

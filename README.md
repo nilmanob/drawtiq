@@ -28,7 +28,10 @@ available after the project and credentials are configured.
 
 1. Create a Supabase project.
 2. Copy `.env.example` to `.env.local` and add the project URL and anon key.
-   The anon key is safe for the browser because RLS enforces access.
+   The anon key is safe for the browser because RLS enforces access. Also set
+   `NEXT_PUBLIC_SITE_URL` to the canonical public URL
+   (`https://drawtiq.netlify.app`) so invitation and recovery emails never
+   point at localhost.
 3. Apply the migrations in `supabase/migrations/` with the Supabase CLI:
    ```bash
    npx supabase link --project-ref <your-project-ref>
@@ -38,14 +41,46 @@ available after the project and credentials are configured.
 4. In Supabase Authentication, create the authorized admin user. Confirm the
    email if confirmations are enabled, and disable public sign-ups if the
    project does not need them.
-5. Add that user to the allowlist. Replace the email with the real admin email:
+5. Add that user to the allowlist with a role. The first account should be an
+   owner; later team members default to viewer in the database:
    ```sql
-   insert into public.admin_users (user_id, email)
-   select id, email
+   insert into public.admin_users (user_id, email, role)
+   select id, email, 'owner'
    from auth.users
    where email = 'the-admin@example.com';
    ```
 6. Restart the dev server and sign in at `/admin/login`.
+
+### Team roles
+
+Roles are stored in `public.admin_users.role`, not in user-editable profile
+metadata. This keeps them authoritative for RLS and lets an owner change them
+without changing the auth user. Apply
+`supabase/migrations/20261028000400_admin_roles.sql` before using the Team
+screen. Existing allowlisted accounts are backfilled as owners; new rows default
+to viewer.
+
+| Role | Access |
+| --- | --- |
+| `owner` | Everything, including adding team members and changing roles. |
+| `admin` | Content, inquiries, analytics, and retention. Cannot manage roles. |
+| `editor` | Create/edit projects, services, posts, and CMS content; update inquiry status. |
+| `viewer` | Read-only dashboard, analytics, and inquiries. Content editors are hidden. |
+
+The owner-only **Team** screen at `/admin/team` lists allowlisted users and lets
+the owner change roles, add an existing Supabase Auth user by email, or remove
+admin access without deleting the auth account. New users always start as
+`viewer`; promote them deliberately. You can also set a role directly in the
+Supabase table editor:
+
+```sql
+update public.admin_users
+set role = 'editor'
+where email = 'teammate@example.com';
+```
+
+Invite users from **Supabase Authentication** first. The website cannot create
+auth users because it intentionally does not hold the service-role key.
 
 ### Invites and password recovery
 
@@ -63,13 +98,25 @@ password screen and the callback:
   - `http://localhost:3000/admin/set-password`
   - `http://localhost:3000/auth/callback`
 
+If the reset or invitation email still opens `localhost`, Supabase is falling
+back to its **Site URL**. Change that value to the live domain. Dashboard
+invitations use the Site URL; the app's own "Forgot your password?" form uses
+`NEXT_PUBLIC_SITE_URL` (or the current origin if it is unset).
+
+Set `NEXT_PUBLIC_SITE_URL=https://drawtiq.netlify.app` in both `.env.local` and
+the Netlify environment variables, then redeploy. Restart the local dev server
+after changing it. If a reset is requested from localhost while the canonical
+URL is the live site, the app uses an implicit-flow recovery link so the token
+is not tied to localhost's PKCE cookie.
+
 Links already configured to land on the site root are forwarded to the password
 screen with their token intact. PKCE and token-hash links are completed by
 `/auth/callback`; implicit-flow links are completed in the browser.
 
 After accepting an invitation, make sure the user is also added to
-`public.admin_users` using the SQL from step 5. Without that allowlist row the
-password can be set, but the admin will show "Access denied."
+`public.admin_users` with an appropriate role. Without that allowlist row the
+password can be set, but the admin will show "Access denied." Owners can add
+them from `/admin/team`; the role defaults to `viewer` if omitted.
 
 Do not add `SUPABASE_SERVICE_ROLE_KEY` to the Next.js environment. The app uses
 the anon key plus the signed-in user session; the service role key bypasses RLS
@@ -156,7 +203,7 @@ state until real events exist.
 
 ### Admin screens
 
-- `/admin` — visitor analytics dashboard with a secondary content overview.
+- `/admin` — Dashboard with visitor analytics and a secondary content overview.
 - `/admin/analytics/visitors` — anonymous visitor list with date filters and
   search; each row links to session and navigation history.
 - `/admin/projects` — list, create, edit, publish, and delete portfolio projects.
@@ -164,10 +211,16 @@ state until real events exist.
 - `/admin/posts` — list, create, edit, publish, and delete blog posts.
 - `/admin/inquiries` — filter and read inquiries, with a status update on each
   inquiry detail page.
-- `/admin/cms` — edit homepage sections, navigation, footer, and settings.
+- `/admin/cms` - edit homepage sections, navigation, footer, and settings.
+- `/admin/team` - owner-only team list and role management.
 
-Forms use server actions and re-check the admin allowlist and RLS on every
+The admin sidebar groups Dashboard and Visitors under **Overview**, studio
+content pages under **Main pages**, and the owner-only Team screen under
+**Account**. Links and server actions are filtered by role; RLS repeats the
+permission checks in the database.
+
+Forms use server actions and re-check the signed-in user's role and RLS on every
 mutation. Complex content fields are JSON textareas: project `gallery`, service
 `deliverables`/`faqs`, and post `display`/`body`. Invalid JSON is rejected
 server-side and shown under the relevant field. Draft and archived content is
-visible only to the allowlisted admin.
+visible only to roles that can manage content.

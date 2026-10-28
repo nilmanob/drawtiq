@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth";
 import { describeDbError } from "@/lib/admin/errors";
 import type { AdminActionResult } from "@/lib/admin/action-result";
 import { formString, zodFieldErrors } from "@/lib/admin/form-data";
@@ -16,7 +16,7 @@ const statusInputSchema = z.object({
 export async function updateInquiryStatus(
   formData: FormData
 ): Promise<AdminActionResult> {
-  const { supabase } = await requireAdmin();
+  const { supabase } = await requirePermission("inquiries:write");
   const parsed = statusInputSchema.safeParse({
     id: formString(formData, "id"),
     status: formString(formData, "status"),
