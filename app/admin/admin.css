@@ -588,6 +588,40 @@ textarea.admin-input {
   overflow-wrap: anywhere;
 }
 
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.admin-inline-form {
+  display: inline;
+  margin: 0;
+}
+
+.admin-inline-button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.admin-inline-button:hover:not(:disabled) {
+  color: var(--muted);
+}
+
+.admin-inline-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
 .admin-table-preview {
   display: block;
   max-width: 360px;
@@ -602,6 +636,39 @@ textarea.admin-input {
   margin-top: 4px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.admin-cms-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+}
+
+.admin-cms-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-cms-list li {
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+}
+
+.admin-cms-list li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.admin-cms-list li:last-child {
+  padding-bottom: 0;
+}
+
+.admin-cms-list .admin-record-link span {
+  margin-top: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .admin-badge {

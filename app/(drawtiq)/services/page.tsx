@@ -1,37 +1,56 @@
 import Link from "next/link";
 import { getPublishedServices } from "@/lib/content/data";
 import { getServiceIcon, serviceHref } from "@/lib/content/presentation";
+import { pageContent, getPageSeo } from "@/lib/content/page-content";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
 
-export const metadata = {
-  title: "Services",
-  description:
-    "UI/UX, digital product design, brand identity, graphic design, motion design, and video editing services by Drawtiq.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("services");
+  return {
+    title: seo.title || "Services",
+    description:
+      seo.description ||
+      "UI/UX, digital product design, brand identity, graphic design, motion design, and video editing services by Drawtiq.",
+    alternates: { canonical: "/services" },
+  };
+}
 
 export default async function ServicesPage() {
-  const { data: services } = await getPublishedServices();
+  const [{ data: services }, hero, note, panels, list, cta] = await Promise.all([
+    getPublishedServices(),
+    pageContent("services", "hero", { eyebrow: "02 / What we do", heading: "Good thinking.<br /><em>Made useful.</em>", lead: "We can take on the whole thing or just the part you're stuck on. Either way, you work with the people doing the work." }),
+    pageContent("services", "note", { drawn: "Strategy, design, and the bits in between.", mono: "STRATEGY × DESIGN × DELIVERY" }),
+    pageContent("services", "engagement-panels", {
+      items: [
+        { number: "ENGAGEMENT / 01", title: "Focused project", body: "A clear brief, a shared timeline, and a defined outcome. Good for a launch, a rebrand, or one knotty product problem.", label: "Discuss a project", href: "/contact" },
+        { number: "ENGAGEMENT / 02", title: "Ongoing design partner", body: "A steady pair of hands for teams shipping continuously. We keep the context, so you don't have to brief us from scratch every month.", label: "Explore a partnership", href: "/contact" },
+      ],
+    }),
+    pageContent("services", "list", {
+      heading: "Our services",
+      emptyText: "Service details are being updated. Please check back soon.",
+      tagsFallback: "Strategy · Design · Delivery",
+    }),
+    pageContent("services", "cta", { heading: "Not sure what you need?", body: "That's normal. Tell us what's stuck and we'll suggest the smallest useful place to start.", label: "Let's talk", href: "/contact" }),
+  ]);
 
   return (
     <main id="main">
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>
-          02 / What we do
+          {hero.eyebrow}
         </p>
-        <h1>
-          Good thinking.
-          <br />
-          <em>Made useful.</em>
-        </h1>
+         <h1 dangerouslySetInnerHTML={{ __html: hero.heading }} />
         <p className="lead">
-          We can take on the whole thing or just the part you&apos;re stuck on. Either way, you work with the people doing the work.
+          {hero.lead}
         </p>
       </section>
 
       <section className="page-content section-wrap">
-        <h2 className="sr-only">Our services</h2>
+        <h2 className="sr-only">{list.heading}</h2>
         {services.length > 0 ? (
           <div className="service-list">
             {services.map((service, index) => {
@@ -56,7 +75,7 @@ export default async function ServicesPage() {
                   <div className="service-detail">
                     {service.tags.length
                       ? service.tags.join(" · ")
-                      : "Strategy · Design · Delivery"}
+                      : list.tagsFallback}
                   </div>
                   <span className="service-arrow">↗</span>
                 </Link>
@@ -64,40 +83,34 @@ export default async function ServicesPage() {
             })}
           </div>
         ) : (
-          <p className="lead">Service details are being updated. Please check back soon.</p>
+          <p className="lead">{list.emptyText}</p>
         )}
 
         <div className="service-note">
-          <span className="drawn-underline">Strategy, design, and the bits in between.</span>
-          <span className="mono">STRATEGY × DESIGN × DELIVERY</span>
+          <span className="drawn-underline">{note.drawn}</span>
+          <span className="mono">{note.mono}</span>
         </div>
 
         <div className="service-pair">
-          <article className="service-panel">
-            <span className="mono">ENGAGEMENT / 01</span>
-            <h3>Focused project</h3>
-            <p>A clear brief, a shared timeline, and a defined outcome. Good for a launch, a rebrand, or one knotty product problem.</p>
-            <Link href="/contact" className="text-link">
-              Discuss a project <span>↗</span>
-            </Link>
-          </article>
-          <article className="service-panel">
-            <span className="mono">ENGAGEMENT / 02</span>
-            <h3>Ongoing design partner</h3>
-            <p>A steady pair of hands for teams shipping continuously. We keep the context, so you don&apos;t have to brief us from scratch every month.</p>
-            <Link href="/contact" className="text-link">
-              Explore a partnership <span>↗</span>
-            </Link>
-          </article>
+          {(panels.items as Array<{ number: string; title: string; body: string; label: string; href: string }>).map((panel) => (
+            <article className="service-panel" key={panel.number}>
+              <span className="mono">{panel.number}</span>
+              <h3>{panel.title}</h3>
+              <p>{panel.body}</p>
+              <Link href={panel.href} className="text-link">
+                {panel.label} <span>↗</span>
+              </Link>
+            </article>
+          ))}
         </div>
 
         <div className="page-cta">
           <div>
-            <h2>Not sure what you need?</h2>
-            <p>That&apos;s normal. Tell us what&apos;s stuck and we&apos;ll suggest the smallest useful place to start.</p>
+            <h2>{cta.heading}</h2>
+            <p>{cta.body}</p>
           </div>
-          <Link href="/contact" className="button button-dark">
-            Let&apos;s talk <span>↗</span>
+          <Link href={cta.href} className="button button-dark">
+            {cta.label} <span>↗</span>
           </Link>
         </div>
       </section>

@@ -1,38 +1,45 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import { getGlobalSettings } from "@/lib/content/cms";
 import "./../styles/global.css";
 
-export const metadata: Metadata = {
-  title: {
-    default: "Drawtiq — Design that moves brands forward",
-    template: "%s | Drawtiq",
-  },
-  description:
-    "Drawtiq is an independent design studio for digital products and brand identities that need to work in the real world.",
-  keywords: ["design agency", "UI/UX design", "brand identity", "graphic design", "product design", "Drawtiq"],
-  authors: [{ name: "Drawtiq Studio" }],
-  creator: "Drawtiq",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    title: "Drawtiq — Design that moves brands forward",
-    description:
-      "Products and brands made to be used.",
-    siteName: "Drawtiq",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Drawtiq — Design that moves brands forward",
-    description:
-      "Products and brands made to be used.",
-  },
-  category: "Design Agency",
-  // themeColor: "#f5f3ed",
-  icons: {
-    icon: "/assets/Drawtiq-favicon.png",
-    apple: "/assets/Drawtiq-favicon.png",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: settings } = await getGlobalSettings();
+  const siteName = settings?.site_name || "Drawtiq";
+  const title = settings?.seo_title || "Drawtiq — Design that moves brands forward";
+  const description =
+    settings?.seo_description ||
+    "Drawtiq is an independent design studio for digital products and brand identities that need to work in the real world.";
+
+  return {
+    title: {
+      default: title,
+      template: `%s | ${siteName}`,
+    },
+    description,
+    keywords: ["design agency", "UI/UX design", "brand identity", "graphic design", "product design", "Drawtiq"],
+    authors: [{ name: `${siteName} Studio` }],
+    creator: siteName,
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      title,
+      description,
+      siteName,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    category: "Design Agency",
+    // themeColor: "#f5f3ed",
+    icons: {
+      icon: "/assets/Drawtiq-favicon.png",
+      apple: "/assets/Drawtiq-favicon.png",
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#f5f3ed",

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Testimonial = {
+export type Testimonial = {
   quote: string;
   emphasis: string;
   number: string;
@@ -10,7 +10,7 @@ type Testimonial = {
 };
 
 // A small studio manifesto, not invented client feedback.
-const testimonials: Testimonial[] = [
+const fallbackTestimonials: Testimonial[] = [
   {
     quote:
       "Make the complicated feel obvious. Then make it feel good.",
@@ -48,7 +48,15 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-export function TestimonialCarousel() {
+export function TestimonialCarousel({
+  items = fallbackTestimonials,
+  eyebrow = "05 / What we aim for",
+  attribution = "Studio note · Drawtiq",
+}: {
+  items?: Testimonial[];
+  eyebrow?: string;
+  attribution?: string;
+}) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [engaged, setEngaged] = useState(false);
@@ -65,9 +73,9 @@ export function TestimonialCarousel() {
   }, []);
 
   const go = useCallback((next: number) => {
-    const count = testimonials.length;
+    const count = items.length;
     setActive(((next % count) + count) % count);
-  }, []);
+  }, [items.length]);
 
   const goManual = useCallback(
     (next: number) => {
@@ -80,7 +88,7 @@ export function TestimonialCarousel() {
   useEffect(() => {
     if (paused || engaged || reduceMotion) return;
     const id = window.setInterval(() => {
-      setActive((current) => (current + 1) % testimonials.length);
+      setActive((current) => (current + 1) % items.length);
     }, 7000);
     return () => window.clearInterval(id);
   }, [paused, engaged, reduceMotion]);
@@ -106,7 +114,7 @@ export function TestimonialCarousel() {
     }
   };
 
-  const testimonial = testimonials[active];
+  const testimonial = items[active] ?? fallbackTestimonials[0];
   const [before, after] = testimonial.quote.split(testimonial.emphasis);
   const autoPlaying = !paused && !engaged && !reduceMotion;
 
@@ -118,12 +126,12 @@ export function TestimonialCarousel() {
     >
       <div className="quote-head">
         <p className="eyebrow" id="testimonials-title">
-          05 / What we aim for
+          {eyebrow}
         </p>
         <p className="quote-counter mono">
           <b>{String(active + 1).padStart(2, "0")}</b>
           <span aria-hidden="true"> / </span>
-          <span>{String(testimonials.length).padStart(2, "0")}</span>
+          <span>{String(items.length).padStart(2, "0")}</span>
         </p>
       </div>
 
@@ -147,7 +155,7 @@ export function TestimonialCarousel() {
               </span>
               <span className="quote-person-text">
                 <b>{testimonial.label}</b>
-                <span>Studio note · Drawtiq</span>
+                <span>{attribution}</span>
               </span>
             </figcaption>
           </figure>
@@ -160,7 +168,7 @@ export function TestimonialCarousel() {
 
       <div className="quote-controls">
         <div className="quote-people" ref={railRef} role="group" aria-label="Choose a studio note">
-          {testimonials.map((person, index) => (
+          {items.map((person, index) => (
             <button
               key={person.number}
               ref={(el) => {
@@ -186,7 +194,7 @@ export function TestimonialCarousel() {
 
         <div className="quote-nav">
           <div className="quote-progress" aria-hidden="true">
-            <i style={{ transform: `scaleX(${(active + 1) / testimonials.length})` }} />
+            <i style={{ transform: `scaleX(${(active + 1) / items.length})` }} />
           </div>
           <button
             type="button"

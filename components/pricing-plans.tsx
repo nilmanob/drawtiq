@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import type { PricingPlan, PricingPlanFeature } from "@/lib/content/cms";
 
 type Plan = {
   name: string;
@@ -67,8 +68,46 @@ const plans: Plan[] = [
 const money = (value: number) =>
   "$" + value.toLocaleString("en-US", { maximumFractionDigits: 0 });
 
-export function PricingPlans() {
+export function PricingPlans({
+  cmsPlans = [],
+  cmsFeatures = [],
+  labels,
+}: {
+  cmsPlans?: PricingPlan[];
+  cmsFeatures?: PricingPlanFeature[];
+  labels?: {
+    monthly?: string;
+    quarterly?: string;
+    quarterlySave?: string;
+    featured?: string;
+    perMonth?: string;
+    monthlyNote?: string;
+    quarterlyNote?: string;
+    ctaHref?: string;
+  };
+}) {
+  const monthlyLabel = labels?.monthly || "Monthly";
+  const quarterlyLabel = labels?.quarterly || "Quarterly";
+  const quarterlySave = labels?.quarterlySave || "save 15%";
+  const featuredLabel = labels?.featured || "Most popular";
+  const perMonthLabel = labels?.perMonth || "/ month";
+  const monthlyNote = labels?.monthlyNote || "Rolling monthly · cancel anytime";
+  const quarterlyNote = labels?.quarterlyNote || "Billed quarterly · pause anytime";
+  const ctaHref = labels?.ctaHref || "/contact";
   const [quarterly, setQuarterly] = useState(false);
+  const displayPlans: Plan[] = cmsPlans.length
+    ? cmsPlans.map((plan) => ({
+        name: plan.name,
+        tagline: plan.tagline || "",
+        monthly: plan.monthly_price,
+        quarterly: plan.quarterly_price,
+        cta: plan.cta_label || `Start with ${plan.name}`,
+        featured: plan.is_featured,
+        features: cmsFeatures
+          .filter((feature) => feature.plan_id === plan.id)
+          .map((feature) => feature.feature_text),
+      }))
+    : plans;
 
   return (
     <div className="pricing">
@@ -79,7 +118,7 @@ export function PricingPlans() {
           aria-pressed={!quarterly}
           onClick={() => setQuarterly(false)}
         >
-          Monthly
+          {monthlyLabel}
         </button>
         <button
           type="button"
@@ -87,27 +126,27 @@ export function PricingPlans() {
           aria-pressed={quarterly}
           onClick={() => setQuarterly(true)}
         >
-          Quarterly <span>save 15%</span>
+          {quarterlyLabel} <span>{quarterlySave}</span>
         </button>
       </div>
 
       <div className="pricing-grid">
-        {plans.map((plan) => (
+        {displayPlans.map((plan) => (
           <article
             key={plan.name}
             className={`pricing-card reveal${plan.featured ? " featured" : ""}`}
           >
-            {plan.featured && <span className="pricing-flag mono">Most popular</span>}
+            {plan.featured && <span className="pricing-flag mono">{featuredLabel}</span>}
             <h2>{plan.name}</h2>
             <p className="pricing-tagline">{plan.tagline}</p>
             <p className="pricing-price">
               <strong>{money(quarterly ? plan.quarterly : plan.monthly)}</strong>
-              <span>/ month</span>
+              <span>{perMonthLabel}</span>
             </p>
             <p className="pricing-note">
-              {quarterly ? "Billed quarterly · pause anytime" : "Rolling monthly · cancel anytime"}
+              {quarterly ? quarterlyNote : monthlyNote}
             </p>
-            <Link href="/contact" className="button button-dark pricing-cta">
+            <Link href={ctaHref} className="button button-dark pricing-cta">
               {plan.cta} <span>↗</span>
             </Link>
             <ul className="pricing-features">

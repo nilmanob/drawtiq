@@ -2,9 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Faq } from "@/components/faq";
 import { getPublishedServiceDetail } from "@/lib/content/data";
+import { pageContent } from "@/lib/content/page-content";
 
 export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
-  const { data: detail } = await getPublishedServiceDetail(routeSlug);
+  const [{ data: detail }, copy] = await Promise.all([
+    getPublishedServiceDetail(routeSlug),
+    pageContent("service-details", "shared", { eyebrowSuffix: "Service detail", heroPrimaryLabel: "Start a project", heroPrimaryHref: "/contact", heroSecondaryLabel: "Explore deliverables", approachEyebrow: "How we approach it", faqEyebrow: "A few common questions", faqHeading: "Good to <em>know.</em>" }),
+  ]);
 
   if (!detail) {
     notFound();
@@ -15,16 +19,16 @@ export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>
-          {detail.number} / Service detail
+          {detail.number} / {copy.eyebrowSuffix}
         </p>
         <h1>{detail.heroTitle}</h1>
         <p className="lead">{detail.lead}</p>
         <div className="hero-actions" style={{ marginTop: "30px" }}>
-          <Link href="/contact" className="button button-dark">
-            Start a project <span>↗</span>
+          <Link href={copy.heroPrimaryHref} className="button button-dark">
+            {copy.heroPrimaryLabel} <span>↗</span>
           </Link>
           <Link href="#deliverables" className="text-link">
-            Explore deliverables <span>↓</span>
+            {copy.heroSecondaryLabel} <span>↓</span>
           </Link>
         </div>
       </section>
@@ -94,7 +98,7 @@ export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
       <section className="page-content section-wrap">
         <div className="service-detail-grid">
           <div className="service-detail-copy">
-            <p className="eyebrow">How we approach it</p>
+            <p className="eyebrow">{copy.approachEyebrow}</p>
             <h2>
               {detail.introHeadingPrefix} <em>{detail.introHeadingEmphasis}</em>
             </h2>
@@ -135,10 +139,8 @@ export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
 
         <div className="section-heading" style={{ marginTop: "100px" }}>
           <div>
-            <p className="eyebrow">A few common questions</p>
-            <h2>
-              Good to <em>know.</em>
-            </h2>
+            <p className="eyebrow">{copy.faqEyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: copy.faqHeading }} />
           </div>
         </div>
 

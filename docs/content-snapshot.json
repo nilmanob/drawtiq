@@ -1,0 +1,785 @@
+{
+  "meta": {
+    "project": "Drawtiq",
+    "generatedAt": "2026-10-26T00:00:00Z",
+    "source": "Hardcoded React components and fallback data files",
+    "supabaseProjectRef": "cpirkzcffqkzktdlboip",
+    "purpose": "Content migration snapshot for CMS import. Excludes secrets, credentials, and personal data."
+  },
+  "globalSettings": {
+    "logo": "/assets/Drawtiq-logo.png",
+    "footerLogo": "/assets/Drawtiq-logo-white.png",
+    "siteTitle": "Drawtiq — Design that moves brands forward",
+    "siteDescription": "Drawtiq is an independent design studio for digital products and brand identities that need to work in the real world.",
+    "footerTagline": "Small studio. Clear thinking. Work made to be used.",
+    "footerBottom": "DESIGNED TO MOVE YOU.",
+    "copyrightPrefix": "Drawtiq Studio. Made with care.",
+    "contactEmail": "hello@drawtiq.studio",
+    "careersEmail": "careers@drawtiq.studio"
+  },
+  "navItems": [
+    { "href": "/work", "label": "Work", "order": 1 },
+    { "href": "/services", "label": "Services", "order": 2 },
+    { "href": "/pricing", "label": "Pricing", "order": 3 },
+    { "href": "/about", "label": "About", "order": 4 },
+    { "href": "/insights", "label": "Insights", "order": 5 },
+    { "href": "/careers", "label": "Careers", "order": 6 }
+  ],
+  "headerCta": {
+    "label": "Start a project",
+    "href": "/contact"
+  },
+  "mobileContact": {
+    "label": "Have a project in mind?",
+    "href": "/contact"
+  },
+  "footerLinks": [
+    { "label": "Work", "href": "/work" },
+    { "label": "Services", "href": "/services" },
+    { "label": "Pricing", "href": "/pricing" },
+    { "label": "About", "href": "/about" },
+    { "label": "Insights", "href": "/insights" },
+    { "label": "Careers", "href": "/careers" }
+  ],
+  "footerSocial": [
+    { "label": "hello@drawtiq.studio", "href": "mailto:hello@drawtiq.studio" },
+    { "label": "Start a project", "href": "/contact" }
+  ],
+  "homepage": {
+    "hero": {
+      "eyebrow": "Independent design studio",
+      "heading": "Make it meaningful.<br />Make it move.",
+      "intro": "We help small teams turn complicated ideas into products and brands that feel simple to use.",
+      "ctaPrimary": { "label": "Start a project", "href": "/contact" },
+      "ctaSecondary": { "label": "Explore selected work", "href": "/work" },
+      "footnote": "No big brief needed. A sentence is enough.",
+      "artIndex": "DT—001 / BRAND IN MOTION",
+      "artSticker": "Ideas<br />into impact",
+      "floatingUiTop": { "label": "Concept / 04", "value": "Clarity, by design." },
+      "floatingUiBottom": { "value": "FORM FOLLOWS FEELING" },
+      "artCaption": "FIG 01. A SYSTEM OF POSSIBILITY"
+    },
+    "trustStrip": {
+      "label": "Good work comes from",
+      "principles": [
+        "Curiosity", "Plain talk", "Good questions", "Strong opinions",
+        "Loose grip", "Real deadlines", "Care", "Follow-through"
+      ]
+    },
+    "workSection": {
+      "eyebrow": "01 / Selected work",
+      "heading": "Thoughtful work.<br />Made to be used.",
+      "cta": { "label": "Have a project in mind?", "href": "#contact" },
+      "bottomCta": { "label": "Let's make yours next", "href": "#contact" },
+      "featuredProjects": ["northstar", "orbit"]
+    },
+    "servicesSection": {
+      "eyebrow": "02 / What we do",
+      "heading": "Good thinking.<br />Made useful.",
+      "note": "Strategy, design, and build. One team from first sketch to final pixel.",
+      "footerNote": { "drawn": "Small details. Bigger picture.", "mono": "STRATEGY × DESIGN × DELIVERY" }
+    },
+    "processSection": {
+      "eyebrow": "03 / How we work",
+      "heading": "Clear process.<br />No black boxes.",
+      "note": "A simple process, run collaboratively. You always know what we're doing and why.",
+      "steps": [
+        { "index": "01", "symbol": "⌕", "title": "Discover", "body": "We ask a lot of questions, listen properly, and resist the urge to jump to a solution.", "label": "LISTEN FIRST" },
+        { "index": "02", "symbol": "⌗", "title": "Define", "body": "We agree on the problem, the constraints, and what success actually looks like.", "label": "FIND THE FOCUS" },
+        { "index": "03", "symbol": "✳", "title": "Design", "body": "We make, test, throw away, and make again until it feels inevitable.", "label": "MAKE IT REAL" },
+        { "index": "04", "symbol": "↗", "title": "Deliver", "body": "We hand over work your team can use, with the files and context to keep it moving.", "label": "BUILT TO MOVE" }
+      ]
+    },
+    "studioSection": {
+      "eyebrow": "04 / The studio",
+      "heading": "Not just how it looks.<br />How it works.",
+      "lead": "We make things that work first, then make them feel good.",
+      "paragraphs": [
+        "We're a small studio. We work directly with founders and product teams, ask a lot of questions, and stay close to the work from first sketch to launch. No handoffs to a mystery team.",
+        "No design theatre. No decks that die in a folder. Just clear decisions and work that ships."
+      ],
+      "values": [
+        { "index": "01", "label": "Curiosity before assumptions" },
+        { "index": "02", "label": "Plain talk over jargon" },
+        { "index": "03", "label": "Care in the details" }
+      ],
+      "visualAsset": "/assets/studio/drawtiq_orbital_chart.webm",
+      "visualFallback": "/assets/studio/drawtiq_orbital_chart.gif",
+      "visualPoster": "/assets/studio/drawtiq_orbital_chart_poster.webp"
+    },
+    "testimonials": {
+      "eyebrow": "05 / What we aim for",
+      "note": "A small studio manifesto, not invented client feedback.",
+      "items": [
+        { "number": "01", "label": "Clarity", "quote": "Make the complicated feel obvious. Then make it feel good.", "emphasis": "obvious." },
+        { "number": "02", "label": "Questions", "quote": "Ask the question behind the brief. The answer usually gets simpler.", "emphasis": "behind the brief." },
+        { "number": "03", "label": "Shipping", "quote": "Ship the thing. A good deck is not the work.", "emphasis": "Ship the thing." },
+        { "number": "04", "label": "Handover", "quote": "Leave the team with something they can use without us.", "emphasis": "without us." },
+        { "number": "05", "label": "Details", "quote": "Care about the details, but don't confuse them with the point.", "emphasis": "the point." }
+      ]
+    },
+    "insightsSection": {
+      "eyebrow": "06 / Notes from the studio",
+      "heading": "Notes from<br />the work.",
+      "cta": { "label": "Read all notes", "href": "/insights" },
+      "featuredPosts": ["clarity-is-a-feature", "consistency-without-predictability", "the-better-question"]
+    },
+    "contactSection": {
+      "eyebrow": "07 / Your turn",
+      "heading": "Have a good idea?<br />Let's make it work.",
+      "paragraph": "Tell us what you're working on. We'll reply within two business days with a few honest questions and a clear next step.",
+      "email": "hello@drawtiq.studio"
+    }
+  },
+  "about": {
+    "hero": {
+      "eyebrow": "05 / The studio",
+      "heading": "Not just how it looks.<br />How it works.",
+      "lead": "We make digital products and identities for teams who want the work to do a job—not just look the part."
+    },
+    "studioBand": {
+      "image": "/assets/about/drawtiq-studio-1600.webp",
+      "imageSet": [
+        { "src": "/assets/about/drawtiq-studio-800.webp", "w": 800 },
+        { "src": "/assets/about/drawtiq-studio-1200.webp", "w": 1200 },
+        { "src": "/assets/about/drawtiq-studio-1600.webp", "w": 1600 },
+        { "src": "/assets/about/drawtiq-studio-2000.webp", "w": 2000 },
+        { "src": "/assets/about/drawtiq-studio-2560.webp", "w": 2560 }
+      ],
+      "captionEyebrow": "Studio study / no. 05",
+      "caption": "A quiet corner, in print."
+    },
+    "pointOfView": {
+      "eyebrow": "Our point of view",
+      "heading": "Curiosity, plain talk, and <em>care.</em>",
+      "paragraphs": [
+        "We're a small studio. We work directly with founders and product teams, ask a lot of questions, and stay close to the work from first sketch to launch. No handoffs to a mystery team.",
+        "No design theatre. No decks that die in a folder. Just clear decisions and work that ships.",
+        "We do our best work when design is part of the thinking from the beginning—not a layer added at the end."
+      ]
+    },
+    "values": {
+      "eyebrow": "What guides us",
+      "heading": "A few things we <em>believe.</em>",
+      "items": [
+        { "index": "01 / CURIOUS", "title": "Ask better questions.", "body": "We challenge assumptions before we commit to a solution." },
+        { "index": "02 / CLEAR", "title": "Make the complex feel simple.", "body": "Good design helps people understand what matters and what to do next." },
+        { "index": "03 / THOUGHTFUL", "title": "Details have a job.", "body": "Every choice should serve the experience, the message, or the moment." },
+        { "index": "04 / OPEN", "title": "Make together.", "body": "We invite feedback early and make progress visible throughout the work." },
+        { "index": "05 / PRACTICAL", "title": "Beautiful and useful.", "body": "Creative ambition matters most when it works in the real world." },
+        { "index": "06 / CAREFUL", "title": "Leave things better.", "body": "We aim to deliver work teams can understand, use, and build on." }
+      ]
+    },
+    "team": {
+      "eyebrow": "The people behind the pixels",
+      "heading": "Small team. <em>Long attention spans.</em>",
+      "note": "A flexible studio model brings the right creative skills together around each project.",
+      "disclaimer": "The team grid illustrates the studio disciplines, not named individual staff profiles.",
+      "members": [
+        { "role": "Creative direction", "discipline": "Strategy & visual systems" },
+        { "role": "Product design", "discipline": "Research & interaction" },
+        { "role": "Brand design", "discipline": "Identity & art direction" },
+        { "role": "Graphic design", "discipline": "Campaigns & visual storytelling" }
+      ]
+    },
+    "cta": {
+      "heading": "Good work starts with a good question.",
+      "paragraph": "Tell us what you're hoping to make better.",
+      "button": { "label": "Start a conversation", "href": "/contact" }
+    }
+  },
+  "careers": {
+    "hero": {
+      "eyebrow": "08 / Careers",
+      "heading": "Do the best work<br />of your <em>career.</em>",
+      "lead": "We're a small studio. We care about the work, protect time to think, and don't confuse busy with good. If that sounds like you, send us something you're proud of.",
+      "ctaPrimary": { "label": "Send your portfolio", "href": "mailto:careers@drawtiq.studio" },
+      "ctaSecondary": { "label": "See open roles", "href": "#open-roles" }
+    },
+    "perks": {
+      "eyebrow": "Why Drawtiq",
+      "heading": "A place to do<br />your best work.",
+      "note": "Good work takes time. We plan for it, and we don't confuse busy with good.",
+      "items": [
+        { "number": "01", "title": "Craft over churn", "body": "We protect time for thinking, so the work is something you are proud to sign." },
+        { "number": "02", "title": "Small team, big say", "body": "Everyone shapes decisions. There is no layer between your idea and the work." },
+        { "number": "03", "title": "Remote first", "body": "Work from wherever you do your best thinking, with overlap hours that keep us close." },
+        { "number": "04", "title": "Grow in public", "body": "A training budget, time for side projects, and honest feedback that moves you forward." },
+        { "number": "05", "title": "Healthy pace", "body": "Sustainable timelines, real holidays, and no hero culture — ever." },
+        { "number": "06", "title": "Tools that sing", "body": "The kit you need to do great work, and a say in what we use next." }
+      ]
+    },
+    "roles": {
+      "eyebrow": "Open roles",
+      "heading": "Come build<br />with us.",
+      "note": "Roles we are opening as the studio grows. Speculative applications welcome.",
+      "items": [
+        { "title": "Senior Product Designer", "meta": "Full-time · Remote (EU/US overlap)", "body": "Lead end-to-end product design for our partners — from research and flows to polished, motion-ready interfaces." },
+        { "title": "Brand Designer", "meta": "Full-time · Remote", "body": "Shape identities and systems that hold together across products, campaigns, and the everyday details." },
+        { "title": "Motion Designer", "meta": "Contract · Remote", "body": "Bring brands and interfaces to life with motion that explains, guides, and delights." },
+        { "title": "Video Editor", "meta": "Contract · Remote", "body": "Cut story-first films and social edits from the first assembly through colour, sound, and delivery." },
+        { "title": "Design Engineer", "meta": "Full-time · Remote", "body": "Build the front-ends our designers imagine — accessible, fast, and animated with real craft." }
+      ],
+      "speculative": {
+        "heading": "Don't see your role?",
+        "body": "Tell us what you do and what you would love to make. We keep a warm list and reach out when the right project appears.",
+        "button": { "label": "Send a speculative note", "href": "mailto:careers@drawtiq.studio" }
+      }
+    },
+    "hiringProcess": {
+      "eyebrow": "How hiring works",
+      "heading": "Clear, kind,<br />and quick.",
+      "steps": [
+        { "number": "01", "title": "Say hello", "body": "Send your portfolio and a short note about the work you love to make." },
+        { "number": "02", "title": "A real conversation", "body": "A relaxed call about your experience, your goals, and how we might work together." },
+        { "number": "03", "title": "A small challenge", "body": "A paid, time-boxed exercise that reflects the work — never free labour." },
+        { "number": "04", "title": "Meet the studio", "body": "Talk with the people you would work with, ask anything, and get a decision quickly." }
+      ]
+    },
+    "faqs": [
+      { "q": "Do you hire remotely?", "a": "Yes. Drawtiq is a remote-first studio. We ask for a few hours of overlap with the team, but your location is up to you." },
+      { "q": "I don't see a role that fits. Should I still apply?", "a": "Definitely. We keep a warm list of people we would love to work with and reach out when the right project or opening appears." },
+      { "q": "What should my application include?", "a": "Your portfolio, a short note about the work you are proud of, and the role or discipline you are interested in. That is enough to start." }
+    ],
+    "cta": {
+      "heading": "Ready when you are.",
+      "paragraph": "Send your work — we read every note that lands in the studio.",
+      "button": { "label": "Email the studio", "href": "mailto:careers@drawtiq.studio" }
+    }
+  },
+  "contact": {
+    "hero": {
+      "eyebrow": "06 / Start a conversation",
+      "heading": "Have a good idea?<br />Let's make it work.",
+      "lead": "Tell us what you're working on. We'll reply within two business days with a few honest questions and a clear next step."
+    },
+    "copy": {
+      "eyebrow": "Your turn",
+      "heading": "Good things start with <em>a note.</em>",
+      "paragraph": "You don't need a perfect brief. A little context about the idea, the challenge, and what success could look like is a great place to start.",
+      "email": { "label": "EMAIL US", "href": "mailto:hello@drawtiq.studio" },
+      "steps": [
+        "We read your note properly.",
+        "You get a reply within two working days.",
+        "If it fits, we set up a short call."
+      ]
+    },
+    "form": {
+      "heading": "PROJECT INQUIRY / 001",
+      "subheading": "Share as much or as little as you know. A sentence is enough.",
+      "fields": [
+        { "name": "name", "label": "Your name", "placeholder": "How should we call you?", "required": true, "type": "text" },
+        { "name": "email", "label": "Email address", "placeholder": "you@company.com", "required": true, "type": "email" },
+        { "name": "service", "label": "What do you need?", "required": true, "type": "select", "options": ["UI/UX & Product Design", "Brand Identity", "Graphic Design", "Motion Design", "Video Editing", "Website Design", "Ongoing design support", "A bit of everything"] },
+        { "name": "budget", "label": "Estimated budget", "required": false, "type": "select", "options": ["Choose a range (optional)", "Under $1,000", "$1,000–$3,000", "$3,000–$7,500", "$7,500+", "Let's discuss"] },
+        { "name": "message", "label": "A little about the project", "placeholder": "The idea, the challenge, the big ambition…", "required": true, "type": "textarea" },
+        { "name": "brief", "label": "Brief (optional; not uploaded)", "required": false, "type": "file", "accept": ".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" }
+      ],
+      "submit": { "label": "Send inquiry" },
+      "hint": "We use these details only to reply to your inquiry. Files are not uploaded; we'll request a brief by email if needed."
+    }
+  },
+  "pricing": {
+    "hero": {
+      "eyebrow": "07 / Pricing",
+      "heading": "Simple pricing.<br />No surprises.",
+      "lead": "One monthly rate. No timesheets. A team that already knows the work. Choose the pace that fits what you're building."
+    },
+    "plans": [
+      { "name": "Essential", "tagline": "For focused, one-at-a-time design needs.", "monthly": 2400, "quarterly": 2000, "cta": "Start with Essential", "featured": false, "features": ["One active request at a time", "UI/UX or graphic design", "Two revision rounds per request", "Weekly progress updates", "Async collaboration in your tools", "Pause or cancel anytime"] },
+      { "name": "Growth", "tagline": "For teams shipping continuously.", "monthly": 4800, "quarterly": 4100, "cta": "Start with Growth", "featured": true, "features": ["Two active requests in parallel", "All design services, including motion", "A dedicated design lead", "48-hour first response", "Weekly working session", "Design system upkeep", "Priority support"] },
+      { "name": "Studio", "tagline": "A full creative team, embedded.", "monthly": 9600, "quarterly": 8400, "cta": "Talk about Studio", "featured": false, "features": ["Unlimited request queue", "All services, including video editing", "Senior multi-disciplinary team", "Same-day response", "Strategy workshops", "Motion & video production", "Roadmap and delivery SLA"] }
+    ],
+    "includedFeatures": [
+      "A dedicated design lead",
+      "Weekly progress updates",
+      "Async collaboration in your tools",
+      "Organized design files & handoff",
+      "Motion-ready components",
+      "No lock-in contracts"
+    ],
+    "engagementModels": [
+      { "number": "01", "title": "Subscribe", "body": "A rolling monthly plan for teams that need a consistent design partner. Pause or cancel whenever priorities change." },
+      { "number": "02", "title": "One-off project", "body": "A fixed brief, a fixed scope, a fixed price. Ideal for a launch, a rebrand, or a specific product problem." },
+      { "number": "03", "title": "Full partnership", "body": "An embedded studio for ambitious roadmaps — strategy, design, motion, and video under one roof." }
+    ],
+    "addons": [
+      { "title": "Brand sprint", "price": "from $3,900", "note": "Positioning, identity direction, and core assets in four weeks." },
+      { "title": "Website design & build", "price": "from $6,500", "note": "Design, motion, and a fast, accessible front-end build." },
+      { "title": "Motion pack", "price": "from $1,800", "note": "A set of animated brand or product moments, ready to ship." },
+      { "title": "Video edit", "price": "from $1,200", "note": "Story-first edit with colour, sound, and social cutdowns." }
+    ],
+    "faqs": [
+      { "q": "How does the monthly model actually work?", "a": "You start with a shared request list. We work through it in priority order, one or two items at a time, and update you as each lands. There is no hourly tracking and no surprise invoices." },
+      { "q": "Can I change plan later?", "a": "Yes. Plans are designed to flex. Upgrade when a big push arrives, and move down or pause when things are quiet — with a little notice before the next cycle." },
+      { "q": "Do you offer one-off project pricing?", "a": "We do. Tell us the scope and outcome you have in mind and we will send a fixed-price proposal with clear milestones." },
+      { "q": "Are the listed prices final?", "a": "They are honest starting points, not quotes. Final pricing depends on scope, timelines, and the mix of services — we confirm everything before any work begins." }
+    ],
+    "cta": {
+      "heading": "Not sure which plan fits?",
+      "paragraph": "Tell us about the work. We'll recommend the simplest way to start.",
+      "button": { "label": "Let's talk", "href": "/contact" }
+    },
+    "disclaimer": "Prices are shown in USD and are indicative starting points for planning, not a formal quote."
+  },
+  "services": {
+    "page": {
+      "eyebrow": "02 / What we do",
+      "heading": "Good thinking.<br />Made useful.",
+      "lead": "We can take on the whole thing or just the part you're stuck on. Either way, you work with the people doing the work.",
+      "footerNote": { "drawn": "Strategy, design, and the bits in between.", "mono": "STRATEGY × DESIGN × DELIVERY" },
+      "servicePair": [
+        { "label": "ENGAGEMENT / 01", "title": "Focused project", "body": "A clear brief, a shared timeline, and a defined outcome. Good for a launch, a rebrand, or one knotty product problem.", "cta": { "label": "Discuss a project", "href": "/contact" } },
+        { "label": "ENGAGEMENT / 02", "title": "Ongoing design partner", "body": "A steady pair of hands for teams shipping continuously. We keep the context, so you don't have to brief us from scratch every month.", "cta": { "label": "Explore a partnership", "href": "/contact" } }
+      ],
+      "cta": { "heading": "Not sure what you need?", "paragraph": "That's normal. Tell us what's stuck and we'll suggest the smallest useful place to start.", "button": { "label": "Let's talk", "href": "/contact" } }
+    },
+    "items": [
+      { "slug": "ui-ux-design", "title": "UI/UX Design", "blurb": "Make the complex feel obvious.", "icon": "icon-ux", "tags": ["Research", "User journeys", "Wireframes", "Prototyping", "Usability"], "sortOrder": 1, "detailPath": "/service-ui-ux" },
+      { "slug": "digital-product-design", "title": "Digital Product Design", "blurb": "Make the tool feel like second nature.", "icon": "icon-product", "tags": ["SaaS", "Web apps", "Mobile apps", "Design systems"], "sortOrder": 2, "detailPath": "/service-ui-ux" },
+      { "slug": "brand-identity", "title": "Brand Identity", "blurb": "Look like you mean it.", "icon": "icon-brand", "tags": ["Strategy", "Identity systems", "Guidelines", "Art direction"], "sortOrder": 3, "detailPath": "/service-graphic-design" },
+      { "slug": "graphic-design", "title": "Graphic Design", "blurb": "Make the idea visible.", "icon": "icon-graphic", "tags": ["Campaigns", "Packaging", "Editorial", "Social", "Print"], "sortOrder": 4, "detailPath": "/service-graphic-design" },
+      { "slug": "motion-design", "title": "Motion Design", "blurb": "Make the idea move.", "icon": "icon-motion", "tags": ["Storyboards", "Animation", "Motion systems", "Lottie"], "sortOrder": 5, "detailPath": "/service-motion-design" },
+      { "slug": "video-editing", "title": "Video Editing", "blurb": "Find the story in the footage.", "icon": "icon-video", "tags": ["Edit", "Color", "Sound", "Social cutdowns", "Titles"], "sortOrder": 6, "detailPath": "/service-video-editing" }
+    ],
+    "serviceDetails": [
+      {
+        "routeSlug": "service-ui-ux",
+        "serviceSlugs": ["service-ui-ux", "ui-ux-design"],
+        "number": "03",
+        "heroTitle": "Make the complex feel obvious.",
+        "lead": "We design digital products around real people, clear journeys, and the details that make complicated things feel simple.",
+        "introHeadingPrefix": "UI/UX Design that feels",
+        "introHeadingEmphasis": "clear.",
+        "introParagraphs": [
+          "From early discovery to polished prototypes, our work connects user needs with product goals—so the experience feels intuitive and the interface has a clear purpose.",
+          "We bring the right amount of structure to each project: enough to make decisions with confidence, and enough curiosity to discover a better answer when one appears."
+        ],
+        "sectionLabel": "What's included",
+        "deliverables": [
+          { "title": "Research & discovery", "body": "Stakeholder conversations, user needs, product goals, and a shared definition of success." },
+          { "title": "Information architecture", "body": "Content structure, user flows, navigation models, and clear task journeys." },
+          { "title": "Wireframes & interaction", "body": "Low- and high-fidelity screens that establish hierarchy, behavior, and key states." },
+          { "title": "Visual interface design", "body": "A polished UI system with thoughtful typography, spacing, color, and component patterns." },
+          { "title": "Interactive prototype", "body": "Clickable prototypes to communicate intent, validate flows, and support stakeholder alignment." },
+          { "title": "Design system & handoff", "body": "Reusable components, usage notes, responsive states, and organized developer handoff." }
+        ],
+        "faqs": [
+          { "q": "How long does a typical project take?", "a": "It depends on scope, decision-making, and the number of deliverables. After an initial conversation, we'll recommend a realistic timeline and milestones." },
+          { "q": "Can you work with our existing brand or product?", "a": "Yes. We can extend an existing system, improve a specific experience, or help establish a new direction where needed." },
+          { "q": "What do you need to get started?", "a": "A short conversation about your goals, audience, timeline, and constraints is enough to begin. We can help shape the brief together." }
+        ],
+        "pair": [
+          { "number": "01 / ALIGN", "title": "Discover & define", "body": "We clarify goals, audiences, constraints, and success criteria before visual decisions begin." },
+          { "number": "02 / MAKE", "title": "Design & refine", "body": "We explore directions, share work early, and refine the details through feedback and testing." }
+        ],
+        "cta": { "heading": "Need a distinctive visual identity?", "body": "Explore brand identity and graphic design.", "href": "/service-graphic-design", "label": "Explore service" },
+        "exploreHref": "/work",
+        "exploreLabel": "Explore selected work",
+        "visual": null,
+        "seoTitle": "UI/UX Design",
+        "seoDescription": "Research-led UI/UX and digital product design by Drawtiq."
+      },
+      {
+        "routeSlug": "service-graphic-design",
+        "serviceSlugs": ["service-graphic-design", "brand-identity", "graphic-design"],
+        "number": "04",
+        "heroTitle": "Make the idea visible.",
+        "lead": "We build identities and graphic systems that hold together across products, campaigns, and the everyday details.",
+        "introHeadingPrefix": "Graphic Design & Branding that feels",
+        "introHeadingEmphasis": "clear.",
+        "introParagraphs": [
+          "From the core identity to the everyday assets that bring it to life, we make visual systems that are recognizable, adaptable, and built to work in the real world.",
+          "We bring the right amount of structure to each project: enough to make decisions with confidence, and enough curiosity to discover a better answer when one appears."
+        ],
+        "sectionLabel": "What's included",
+        "deliverables": [
+          { "title": "Brand direction", "body": "A coherent visual direction shaped around positioning, audience, personality, and ambition." },
+          { "title": "Logo & identity system", "body": "Distinctive marks, supporting elements, and flexible identity variations." },
+          { "title": "Typography & color", "body": "A practical type and color system with rules that keep the brand consistent." },
+          { "title": "Brand guidelines", "body": "Clear usage principles, examples, and handoff assets for teams and partners." },
+          { "title": "Campaign & social graphics", "body": "Reusable creative assets for launches, campaigns, social channels, and digital promotion." },
+          { "title": "Packaging & editorial", "body": "Considered layouts and print-ready artwork for packaging, publications, and collateral." }
+        ],
+        "faqs": [
+          { "q": "How long does a typical project take?", "a": "It depends on scope, decision-making, and the number of deliverables. After an initial conversation, we'll recommend a realistic timeline and milestones." },
+          { "q": "Can you work with our existing brand or product?", "a": "Yes. We can extend an existing system, improve a specific experience, or help establish a new direction where needed." },
+          { "q": "What do you need to get started?", "a": "A short conversation about your goals, audience, timeline, and constraints is enough to begin. We can help shape the brief together." }
+        ],
+        "pair": [
+          { "number": "01 / ALIGN", "title": "Discover & define", "body": "We clarify goals, audiences, constraints, and success criteria before visual decisions begin." },
+          { "number": "02 / MAKE", "title": "Design & refine", "body": "We explore directions, share work early, and refine the details through feedback and testing." }
+        ],
+        "cta": { "heading": "Need a better digital experience?", "body": "Explore UI/UX and digital product design.", "href": "/service-ui-ux", "label": "Explore service" },
+        "exploreHref": "/work",
+        "exploreLabel": "Explore selected work",
+        "visual": null,
+        "seoTitle": "Graphic Design & Branding",
+        "seoDescription": "Brand identity, graphic design, and art direction by Drawtiq."
+      },
+      {
+        "routeSlug": "service-motion-design",
+        "serviceSlugs": ["service-motion-design", "motion-design"],
+        "number": "05",
+        "heroTitle": "Make the idea move.",
+        "lead": "We use motion to explain, guide, and give a brand a signature way of arriving on screen.",
+        "introHeadingPrefix": "Motion that explains, not just",
+        "introHeadingEmphasis": "entertains.",
+        "introParagraphs": [
+          "Motion is the part of a design people feel before they can name it. We treat it as a language: every transition should answer a question, show a relationship, or reward an action.",
+          "From a single loading state to a full campaign film, we keep the movement purposeful, performant, and unmistakably yours."
+        ],
+        "sectionLabel": "What's included",
+        "deliverables": [
+          { "title": "Motion direction", "body": "A clear motion language for the brand or product — what moves, how fast, and why it moves at all." },
+          { "title": "Storyboards & style frames", "body": "Frame-by-frame planning and key visuals so the sequence is agreed before a single asset is animated." },
+          { "title": "UI & product animation", "body": "Transitions, micro-interactions, and state changes that make an interface feel responsive and alive." },
+          { "title": "Brand & logo motion", "body": "Animated marks, idents, and openers that give a brand a signature way of arriving on screen." },
+          { "title": "Social & campaign motion", "body": "Scroll-stopping loops, explainers, and ad variants designed for every placement and ratio." },
+          { "title": "Motion systems & handoff", "body": "Timing, easing, and export-ready assets (Lottie, MP4, WebM) documented for your team to reuse." }
+        ],
+        "faqs": [
+          { "q": "Can motion work fit an existing brand?", "a": "Yes. We start from your current identity and build a motion layer that extends it — same voice, new dimension." },
+          { "q": "Which formats will we receive?", "a": "Deliverables are shaped to where they live: Lottie or code-ready assets for product, and MP4, WebM, or ProRes for film and social." },
+          { "q": "How do you keep animation performant?", "a": "We design for 60fps on real devices, keep easing and structure simple, and test on lower-powered hardware before handoff." }
+        ],
+        "pair": [
+          { "number": "01 / DESIGN", "title": "Define the motion language", "body": "We agree on timing, easing, and intent so every animation shares one clear personality." },
+          { "number": "02 / DELIVER", "title": "Animate & hand off", "body": "We produce the sequences and export assets your team can ship and reuse with confidence." }
+        ],
+        "cta": { "heading": "Need the final cut too?", "body": "Explore video editing and post-production with Drawtiq.", "href": "/service-video-editing", "label": "Explore service" },
+        "exploreHref": "/work",
+        "exploreLabel": "See movement in context",
+        "visual": "motion",
+        "seoTitle": "Motion Design",
+        "seoDescription": "Motion design and animation for digital products, brands, and campaigns by Drawtiq."
+      },
+      {
+        "routeSlug": "service-video-editing",
+        "serviceSlugs": ["service-video-editing", "video-editing"],
+        "number": "06",
+        "heroTitle": "Find the story in the footage.",
+        "lead": "The shoot gives you footage. The edit decides what it means. We shape raw material into films that hold attention and land the point.",
+        "introHeadingPrefix": "An edit that makes people",
+        "introHeadingEmphasis": "stay.",
+        "introParagraphs": [
+          "Good video is not a filming problem — it is a story problem. We start with structure, decide what the piece is about, and cut until only the essential remains.",
+          "Then we finish it: colour, sound, and titles that make the story feel considered from first frame to last, on every screen it will play."
+        ],
+        "sectionLabel": "What's included",
+        "deliverables": [
+          { "title": "Story & structure edit", "body": "We find the spine of the film — what it is really about — and cut everything that does not serve it." },
+          { "title": "Pacing & rhythm", "body": "The cut that makes people stay: timing, pauses, and momentum shaped to the audience and the platform." },
+          { "title": "Color grading", "body": "A consistent look that supports the story and makes footage from every source feel like one film." },
+          { "title": "Sound design & mix", "body": "Clean dialogue, considered music, and texture that carries the emotion half of the picture." },
+          { "title": "Titles & motion graphics", "body": "Lower thirds, captions, and animated type that match your brand and stay readable at any size." },
+          { "title": "Social cutdowns & formats", "body": "Square, vertical, and wide edits designed natively for each placement — not just resized after the fact." }
+        ],
+        "faqs": [
+          { "q": "Do you work from our existing footage?", "a": "Absolutely. Send us the raw files and a little context, and we will shape the story from what you already have." },
+          { "q": "Can you handle a full shoot-to-edit project?", "a": "We can lead the edit and post-production, and bring trusted collaborators in for filming when the project needs it." },
+          { "q": "How many revisions are included?", "a": "Every engagement includes structured review rounds. We share work early so feedback stays focused and the final cut lands fast." }
+        ],
+        "pair": [
+          { "number": "01 / ASSEMBLE", "title": "Structure the story", "body": "We log, select, and assemble a rough cut that reveals what the film wants to be." },
+          { "number": "02 / FINISH", "title": "Colour, sound & delivery", "body": "We polish the picture and mix, then deliver every format your channels need." }
+        ],
+        "cta": { "heading": "Want movement baked in?", "body": "Explore motion design and animation with Drawtiq.", "href": "/service-motion-design", "label": "Explore service" },
+        "exploreHref": "/work",
+        "exploreLabel": "See the work",
+        "visual": "video",
+        "seoTitle": "Video Editing",
+        "seoDescription": "Video editing, colour, sound, and motion graphics for brands and campaigns by Drawtiq."
+      }
+    ]
+  },
+  "projects": {
+    "page": {
+      "eyebrow": "01 / Selected work",
+      "heading": "Thoughtful work.<br />Made to be used.",
+      "lead": "A few projects, shown properly: the brief, the decisions, and the work.",
+      "kicker": "SELECTED PROJECTS / 2024—26",
+      "filters": ["All work", "UI/UX", "Branding", "Graphic"],
+      "cta": { "heading": "Have a good idea?", "paragraph": "Let's make it work.", "button": { "label": "Start a project", "href": "/contact" } },
+      "disclaimer": "Portfolio projects shown here are illustrative concepts created for this website preview, not claims of commissioned client work."
+    },
+    "items": [
+      {
+        "slug": "northstar",
+        "title": "Northstar Finance",
+        "subtitle": "Making money feel human.",
+        "lead": "A calmer, clearer way to understand your financial picture and take the next step with confidence.",
+        "summary": "Making money feel a little more human.",
+        "category": "Case study / UI/UX",
+        "discipline": "UI/UX · Product design",
+        "industry": "Fintech",
+        "scope": "Product strategy, UX, UI",
+        "challenge": "Financial information can be powerful, but dense dashboards often make the next step hard to see. This concept explores how hierarchy, language, and a calmer interface can make the experience feel more approachable.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "fintech",
+        "featured": true,
+        "sortOrder": 1,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "northstar", "number": "$248,590", "listNumber": "$248,590.00", "growth": "↗ 12.8% this month", "listLabel": "PRODUCT DESIGN / CONCEPT", "detailLabel": "DESIGN EXPLORATION / DRAWTIQ" }
+      },
+      {
+        "slug": "bloomwell",
+        "title": "Bloomwell",
+        "subtitle": "A softer kind of wellness.",
+        "lead": "An approachable visual identity and digital experience for everyday wellbeing.",
+        "summary": "A brighter identity for everyday wellbeing.",
+        "category": "Case study / Branding",
+        "discipline": "Brand identity · Digital design",
+        "industry": "Wellness",
+        "scope": "Identity, art direction, UI",
+        "challenge": "Wellness can feel crowded with competing messages. This concept explores a quieter, more human visual language built around warmth, confidence, and clarity.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "bloom",
+        "featured": false,
+        "sortOrder": 2,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "bloomwell", "number": "b.", "listLabel": "IDENTITY / CONCEPT", "detailLabel": "IDENTITY & DIGITAL EXPERIENCE / DRAWTIQ" }
+      },
+      {
+        "slug": "form-object",
+        "title": "Form & Object",
+        "subtitle": "Less, but better.",
+        "lead": "A considered visual world for everyday objects that deserve a little more thought.",
+        "summary": "Giving useful things a point of view.",
+        "category": "Case study / Graphic",
+        "discipline": "Graphic design · Art direction",
+        "industry": "E-commerce",
+        "scope": "Campaign, packaging, art direction",
+        "challenge": "A product range needs to feel cohesive without losing the character of individual objects. This concept uses restrained typography and tactile composition to bring a point of view to the collection.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "form",
+        "featured": false,
+        "sortOrder": 3,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "FORM / OBJECT", "number": "FORM", "note": "Everyday objects, considered.", "listLabel": "ART DIRECTION / CONCEPT", "detailLabel": "ART DIRECTION & PACKAGING / DRAWTIQ" }
+      },
+      {
+        "slug": "orbit",
+        "title": "Orbit Workspace",
+        "subtitle": "Less admin. More momentum.",
+        "lead": "A more coherent workspace experience designed to help teams understand what needs attention.",
+        "summary": "Less admin. More momentum.",
+        "category": "Case study / UI/UX",
+        "discipline": "UI/UX · Product design",
+        "industry": "SaaS",
+        "scope": "UX flows, dashboard UI",
+        "challenge": "When team information is scattered across multiple views, it can be hard to see progress and priorities. This concept organizes key signals into a clearer, more scannable dashboard.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "orbit",
+        "featured": true,
+        "sortOrder": 4,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "orbit.", "number": "18", "listLabel": "SAAS / CONCEPT", "detailLabel": "SAAS WORKSPACE UX / DRAWTIQ" }
+      },
+      {
+        "slug": "goodkind",
+        "title": "Goodkind",
+        "subtitle": "Care, made visible.",
+        "lead": "A warm, flexible identity direction for a purpose-led community brand.",
+        "summary": "A warmer voice for a purpose-led brand.",
+        "category": "Case study / Branding",
+        "discipline": "Brand identity · Graphic design",
+        "industry": "Community",
+        "scope": "Identity, guidelines, campaign",
+        "challenge": "Purpose-led brands need to feel distinctive and welcoming while remaining consistent across many touchpoints. This concept balances a friendly tone with a practical identity system.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "goodkind",
+        "featured": false,
+        "sortOrder": 5,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "goodkind", "number": "g.", "listLabel": "BRAND SYSTEM / CONCEPT", "detailLabel": "COMMUNITY BRAND IDENTITY / DRAWTIQ" }
+      },
+      {
+        "slug": "field-notes",
+        "title": "Field Notes",
+        "subtitle": "Make room to think.",
+        "lead": "An editorial design concept for sharing ideas, observations, and work in progress.",
+        "summary": "A visual language for ideas in progress.",
+        "category": "Case study / Graphic",
+        "discipline": "Graphic design · Editorial",
+        "industry": "Publishing",
+        "scope": "Art direction, typography, layouts",
+        "challenge": "A collection of ideas needs a visual rhythm that supports reading instead of competing with it. This concept uses typography and a flexible grid to make each note feel part of one system.",
+        "approach": null,
+        "solution": null,
+        "outcome": null,
+        "visualKey": "field-notes",
+        "featured": false,
+        "sortOrder": 6,
+        "gallery": [],
+        "seoTitle": null,
+        "seoDescription": null,
+        "visual": { "brand": "FIELD NOTES / 006", "number": "006", "note": "Notes on better work.", "listLabel": "EDITORIAL / CONCEPT", "detailLabel": "EDITORIAL DESIGN / DRAWTIQ", "listEyebrow": "Editorial · Graphic" }
+      }
+    ]
+  },
+  "insights": {
+    "page": {
+      "eyebrow": "06 / Notes from the studio",
+      "heading": "Notes from<br />the work.",
+      "lead": "What we're learning about design, product, and the small decisions that change the outcome.",
+      "cta": { "heading": "Want this thinking on your product?", "paragraph": "Tell us what you're working on and we'll bring the questions.", "button": { "label": "Start a project", "href": "/contact" } }
+    },
+    "items": [
+      {
+        "slug": "clarity-is-a-feature",
+        "title": "Clarity is a feature, not a finishing touch.",
+        "excerpt": "Clarity is not the polish you add at the end. It is a decision you make at the start and protect through every screen.",
+        "category": "Design principles",
+        "readTime": "5 min read",
+        "date": "2026-08-14",
+        "visual": "one",
+        "label": "FIELD NOTES / 001",
+        "display": "Less,<br /><em>but better.</em>",
+        "body": [
+          { "type": "p", "text": "Most interfaces do not fail because they are ugly. They fail because they make people think too hard. A button that could be a sentence, a menu that could be a single choice, a screen that explains itself twice — these are the small taxes that add up into a frustrating product." },
+          { "type": "h2", "text": "Clarity is a decision, not a coat of paint." },
+          { "type": "p", "text": "Teams often treat clarity like a final pass: tighten the copy, space the sections, ship it. But by the time you reach that pass, the hard decisions are already frozen. The real work happens earlier — deciding what matters, what can wait, and what should not exist at all." },
+          { "type": "quote", "text": "If a screen needs a paragraph to explain it, the paragraph is usually telling you what the design should have done." },
+          { "type": "p", "text": "When hierarchy is intentional, people move through a product without noticing the work behind it. That invisibility is the point. Good structure feels obvious because someone made a hundred small calls so the user never had to." },
+          { "type": "h2", "text": "A few habits that keep clarity honest." },
+          { "type": "list", "items": ["Write the headline before you draw the layout — it reveals what the screen is really about.", "Remove one element from every screen and see if it still works. If it does, it probably should go.", "Use color as a signal, not decoration, so the eye knows where to go first.", "Test the design with real content, not placeholders, and watch where people hesitate."] },
+          { "type": "p", "text": "Clarity is not the absence of craft. It is craft with a job to do. Every detail should earn its place, and when it does, the whole experience feels calmer, faster, and more human." }
+        ]
+      },
+      {
+        "slug": "consistency-without-predictability",
+        "title": "Consistency doesn't have to mean predictable.",
+        "excerpt": "A system should hold a brand together, not flatten it. The trick is to be consistent about what matters and flexible about everything else.",
+        "category": "Brand systems",
+        "readTime": "7 min read",
+        "date": "2026-07-30",
+        "visual": "two",
+        "label": "FIELD NOTES / 002",
+        "display": "A system<br />is a <em>promise.</em>",
+        "body": [
+          { "type": "p", "text": "Consistency gets a bad reputation. People hear the word and picture a brand that looks the same everywhere — safe, tidy, and a little bit boring. But that is not consistency. That is repetition." },
+          { "type": "h2", "text": "Decide what is fixed and what is free." },
+          { "type": "p", "text": "A strong identity system is really a set of agreements. Some things are fixed: the logo, the core palette, the way the brand sounds. Others are free: how a campaign moves, how a social post is composed, how a product page breathes. Clarity about which is which is what gives a system its range." },
+          { "type": "quote", "text": "A system is not a cage. It is the set of rules that lets everyone else be brave without being lost." },
+          { "type": "list", "items": ["Fix the voice and the core marks. Free the layouts and the imagery.", "Give teams a few strong moves they can own instead of long lists of do-nots.", "Show the system working in the wild — real posts, real screens, real packaging.", "Revisit the rules every year. A brand that never evolves starts to feel generic."] },
+          { "type": "p", "text": "When people trust the system, they stop asking permission for every decision. That is where a brand starts to feel alive: consistent in its soul, surprising in its expression." }
+        ]
+      },
+      {
+        "slug": "the-better-question",
+        "title": "The best interface is built on a better question.",
+        "excerpt": "Great products are not the result of better pixels. They are the result of asking a sharper question before the first pixel is placed.",
+        "category": "Product thinking",
+        "readTime": "4 min read",
+        "date": "2026-07-09",
+        "visual": "three",
+        "label": "FIELD NOTES / 003",
+        "display": "Make space<br />for better<br /><em>questions.</em>",
+        "body": [
+          { "type": "p", "text": "The brief usually arrives as a solution. “Add a dashboard.” “Redesign the app.” “Make it more modern.” It takes a little nerve to slow down and ask what problem those solutions are actually trying to solve." },
+          { "type": "h2", "text": "Reframe the request before you answer it." },
+          { "type": "p", "text": "A dashboard might really be a request for confidence. A redesign might really be a request for clarity. Once you hear the real question, the right answer often looks nothing like the original brief — and works far better." },
+          { "type": "quote", "text": "People rarely ask for what they need. They ask for the closest thing they can imagine. Our job is to imagine further." },
+          { "type": "list", "items": ["Ask what changes for the person using this, not just what changes on the screen.", "Find the moment where the current experience breaks, and start there.", "Prototype the question, not the answer — the quickest way to learn.", "Write the sentence you want people to say when it works, then design toward it."] },
+          { "type": "p", "text": "Better questions lead to better products, not because they are clever, but because they point the whole team at the same thing. Everything after that — the flows, the type, the motion — has somewhere honest to aim." }
+        ]
+      },
+      {
+        "slug": "motion-is-a-language",
+        "title": "Motion is a language, not a decoration.",
+        "excerpt": "Good motion explains relationships: where something came from, where it went, and what to do next. Bad motion just shows off.",
+        "category": "Motion design",
+        "readTime": "6 min read",
+        "date": "2026-06-18",
+        "visual": "four",
+        "label": "FIELD NOTES / 004",
+        "display": "Movement<br />with <em>meaning.</em>",
+        "body": [
+          { "type": "p", "text": "Motion is the part of a design that most people feel and few can name. When it is right, an interface feels responsive and clear. When it is wrong, everything feels slippery and slow, even when the screens are beautiful." },
+          { "type": "h2", "text": "Motion should answer a question." },
+          { "type": "p", "text": "Where did this panel come from? Is this the same object, moved? Did my action work? Every transition is an opportunity to answer one of those questions. If a movement answers nothing, it is probably just noise." },
+          { "type": "quote", "text": "If you can remove the animation and the user understands the screen just as well, it was decoration." },
+          { "type": "list", "items": ["Use shared elements to show that two screens are the same thing, changed.", "Keep durations short — most UI motion belongs between 150ms and 400ms.", "Match easing to intent: quick out for momentum, gentle settle for arrival.", "Let motion carry hierarchy, so the eye follows the story instead of scanning it."] },
+          { "type": "p", "text": "Treated as a language, motion turns a sequence of screens into a single, coherent experience. That is when people stop noticing the animation and start trusting the product." }
+        ]
+      },
+      {
+        "slug": "editing-writes-the-story",
+        "title": "Editing is where the story is written.",
+        "excerpt": "The shoot gives you footage. The edit decides what it means. Structure, pacing, and restraint are the real craft of video.",
+        "category": "Video editing",
+        "readTime": "5 min read",
+        "date": "2026-05-27",
+        "visual": "five",
+        "label": "FIELD NOTES / 005",
+        "display": "Cut,<br />pause,<br /><em>land.</em>",
+        "body": [
+          { "type": "p", "text": "Video is often treated as a filming problem. But most of the feeling in a good film is decided after the cameras are packed away — in the edit, where a pause becomes tension and a jump cut becomes energy." },
+          { "type": "h2", "text": "Structure first, effects last." },
+          { "type": "p", "text": "The first job of an edit is not color or sound design. It is deciding what the piece is actually about, and what can be cut. A tighter story with modest finishing will always beat a loose story with expensive polish." },
+          { "type": "quote", "text": "The edit is not where you add things until it works. It is where you take things away until it does." },
+          { "type": "list", "items": ["Cut the story to the bone before adding a single title or transition.", "Use rhythm — let the pace breathe in and out instead of staying on one speed.", "Treat sound as half the picture; a clean mix does more than a filter.", "Design for the destination: a vertical cutdown is not a resized film."] },
+          { "type": "p", "text": "When editing is treated as writing, a video stops being a record of an event and becomes a point of view. That is what people remember, share, and come back to." }
+        ]
+      }
+    ]
+  },
+  "assetPaths": {
+    "logo": "/assets/Drawtiq-logo.png",
+    "footerLogo": "/assets/Drawtiq-logo-white.png",
+    "favicon": "/assets/Drawtiq-favicon.png",
+    "aboutImage": "/assets/about/drawtiq-studio-1600.webp",
+    "studioVideo": "/assets/studio/drawtiq_orbital_chart.webm",
+    "studioVideoFallback": "/assets/studio/drawtiq_orbital_chart.gif",
+    "studioPoster": "/assets/studio/drawtiq_orbital_chart_poster.webp",
+    "servicePreviews": {
+      "ui-ux": "/assets/services/ui-ux.svg",
+      "digital-product": "/assets/services/digital-product.svg",
+      "brand-identity": "/assets/services/brand-identity.svg",
+      "graphic-design": "/assets/services/graphic-design.svg",
+      "motion-design": "/assets/services/motion-design.svg",
+      "video-editing": "/assets/services/video-editing.svg"
+    }
+  },
+  "counts": {
+    "globalSettingsItems": 1,
+    "navItems": 6,
+    "homepageSections": 11,
+    "aboutSections": 8,
+    "careersSections": 7,
+    "contactSections": 3,
+    "pricingSections": 8,
+    "services": 6,
+    "serviceDetails": 4,
+    "projects": 6,
+    "insights": 5,
+    "testimonials": 5,
+    "teamMembers": 4,
+    "footerLinks": 6,
+    "pricingPlans": 3,
+    "pricingAddons": 4,
+    "careersRoles": 5,
+    "careersPerks": 6
+  }
+}

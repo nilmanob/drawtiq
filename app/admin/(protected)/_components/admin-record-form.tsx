@@ -16,6 +16,7 @@ type AdminRecordFormProps = {
   listHref: string;
   editHrefTemplate: string;
   saved?: boolean;
+  hiddenFields?: Record<string, string>;
 };
 
 function fieldError(
@@ -35,6 +36,7 @@ export function AdminRecordForm({
   listHref,
   editHrefTemplate,
   saved = false,
+  hiddenFields,
 }: AdminRecordFormProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -105,6 +107,7 @@ export function AdminRecordForm({
   return (
     <form className="admin-record-form" onSubmit={handleSubmit}>
       {recordId ? <input type="hidden" name="id" value={recordId} /> : null}
+      {hiddenFields ? Object.entries(hiddenFields).map(([name, value]) => <input key={name} type="hidden" name={name} value={value} />) : null}
 
       {savedState ? (
         <div className="admin-alert admin-alert-success" role="status">

@@ -26,6 +26,22 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/(drawtiq)/service-ui-ux/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(drawtiq)/service-ui-ux/page.js"
+    ],
+    "/admin/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/login/page.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admin/layout.css",
+      "static/chunks/app/admin/layout.js"
+    ],
     "/admin/(protected)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -51,36 +67,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/admin/(protected)/not-found.js"
     ],
-    "/admin/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/admin/layout.css",
-      "static/chunks/app/admin/layout.js"
-    ],
     "/admin/(protected)/projects/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/admin/(protected)/projects/page.js"
     ],
-    "/admin/login/page": [
+    "/admin/(protected)/services/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/login/page.js"
-    ],
-    "/admin/(protected)/inquiries/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/(protected)/inquiries/page.js"
+      "static/chunks/app/admin/(protected)/services/page.js"
     ],
     "/admin/(protected)/posts/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/admin/(protected)/posts/page.js"
     ],
-    "/admin/(protected)/services/page": [
+    "/admin/(protected)/inquiries/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/(protected)/services/page.js"
+      "static/chunks/app/admin/(protected)/inquiries/page.js"
+    ],
+    "/admin/(protected)/cms/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/cms/page.js"
+    ],
+    "/admin/(protected)/cms/[table]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/(protected)/cms/[table]/page.js"
     ]
   }
 }

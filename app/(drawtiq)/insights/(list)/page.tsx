@@ -1,42 +1,59 @@
 import Link from "next/link";
 import { getPublishedPosts } from "@/lib/content/data";
+import { getPageSeo, pageContent } from "@/lib/content/page-content";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
 
-export const metadata = {
-  title: "Insights",
-  description:
-    "Notes from the Drawtiq studio on design principles, brand systems, product thinking, motion design, and video craft.",
-  alternates: { canonical: "/insights" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("insights");
+  return {
+    title: seo.title || "Insights",
+    description:
+      seo.description ||
+      "Notes from the Drawtiq studio on design principles, brand systems, product thinking, motion design, and video craft.",
+    alternates: { canonical: "/insights" },
+  };
+}
 
 export default async function InsightsPage() {
-  const { data: posts } = await getPublishedPosts();
+  const [{ data: posts }, hero, listHeading, cta] = await Promise.all([
+    getPublishedPosts(),
+    pageContent("insights", "hero", {
+      eyebrow: "06 / Notes from the studio",
+      heading: "Notes from<br /><em>the work.</em>",
+      lead: "What we're learning about design, product, and the small decisions that change the outcome.",
+    }),
+    pageContent("insights", "list", {
+      eyebrow: "All notes",
+      heading: "Recent <em>notes.</em>",
+      emptyText: "New studio notes are on the way. Check back soon.",
+      cardLinkLabel: "Read the note",
+    }),
+    pageContent("insights", "cta", {
+      heading: "Want this thinking on your product?",
+      body: "Tell us what you're working on and we'll bring the questions.",
+      label: "Start a project",
+      href: "/contact",
+    }),
+  ]);
 
   return (
     <main id="main">
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>
-          06 / Notes from the studio
+          {hero.eyebrow}
         </p>
-        <h1>
-          Notes from
-          <br />
-          <em>the work.</em>
-        </h1>
-        <p className="lead">
-          What we&apos;re learning about design, product, and the small decisions that change the outcome.
-        </p>
+        <h1 dangerouslySetInnerHTML={{ __html: hero.heading }} />
+        <p className="lead">{hero.lead}</p>
       </section>
 
       <section className="page-content section-wrap">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">All notes</p>
-            <h2>
-              Recent <em>notes.</em>
-            </h2>
+            <p className="eyebrow">{listHeading.eyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: listHeading.heading }} />
           </div>
         </div>
 
@@ -61,21 +78,21 @@ export default async function InsightsPage() {
                   <span>{post.readTime}</span>
                 </div>
                 <h3>{post.title}</h3>
-                <span className="insight-link">Read the note ↗</span>
+                <span className="insight-link">{listHeading.cardLinkLabel} ↗</span>
               </Link>
             ))}
           </div>
         ) : (
-          <p className="lead">New studio notes are on the way. Check back soon.</p>
+          <p className="lead">{listHeading.emptyText}</p>
         )}
 
         <div className="page-cta">
           <div>
-            <h2>Want this thinking on your product?</h2>
-            <p>Tell us what you&apos;re working on and we&apos;ll bring the questions.</p>
+            <h2>{cta.heading}</h2>
+            <p>{cta.body}</p>
           </div>
-          <Link href="/contact" className="button button-dark">
-            Start a project <span>↗</span>
+          <Link href={cta.href} className="button button-dark">
+            {cta.label} <span>↗</span>
           </Link>
         </div>
       </section>

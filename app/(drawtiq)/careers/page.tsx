@@ -1,12 +1,23 @@
 import Link from "next/link";
 import { Faq } from "@/components/faq";
+import { getCareersFaqs, getCareersPerks, getCareersProcess, getCareersRoles, getGlobalSettings } from "@/lib/content/cms";
+import { getPageSeo, pageContent } from "@/lib/content/page-content";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Careers",
-  description:
-    "Join Drawtiq — product, brand, motion, and video roles for people who care about craft.",
-  alternates: { canonical: "/careers" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [seo, { data: settings }] = await Promise.all([
+    getPageSeo("careers"),
+    getGlobalSettings(),
+  ]);
+  const careersEmail = settings?.careers_email || "careers@drawtiq.studio";
+  return {
+    title: seo.title || "Careers",
+    description:
+      seo.description ||
+      `Join Drawtiq — product, brand, motion, and video roles for people who care about craft. Write to ${careersEmail}.`,
+    alternates: { canonical: "/careers" },
+  };
+}
 
 const perks = [
   { n: "01", title: "Craft over churn", body: "We protect time for thinking, so the work is something you are proud to sign." },
@@ -67,28 +78,72 @@ const faqs = [
   },
 ];
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const [perksResult, rolesResult, processResult, faqsResult, { data: settings }, hero, why, rolesHeading, roleOpen, hiring, faqHeading, cta] = await Promise.all([
+    getCareersPerks(), getCareersRoles(), getCareersProcess(), getCareersFaqs(), getGlobalSettings(),
+    pageContent("careers", "hero", {
+      eyebrow: "08 / Careers",
+      heading: "Do the best work<br />of your <em>career.</em>",
+      lead: "We're a small studio. We care about the work, protect time to think, and don't confuse busy with good. If that sounds like you, send us something you're proud of.",
+      primaryLabel: "Send your portfolio",
+      primaryEmail: "careers@drawtiq.studio",
+      secondaryLabel: "See open roles",
+    }),
+    pageContent("careers", "why", {
+      eyebrow: "Why Drawtiq",
+      heading: "A place to do<br /><em>your best work.</em>",
+      note: "Good work takes time. We plan for it, and we don't confuse busy with good.",
+    }),
+    pageContent("careers", "roles", {
+      eyebrow: "Open roles",
+      heading: "Come build<br /><em>with us.</em>",
+      note: "Roles we are opening as the studio grows. Speculative applications welcome.",
+      applyLabel: "Apply for this role",
+    }),
+    pageContent("careers", "role-open", {
+      heading: "Don't see your role?",
+      body: "Tell us what you do and what you would love to make. We keep a warm list and reach out when the right project appears.",
+      label: "Send a speculative note",
+      email: "careers@drawtiq.studio",
+    }),
+    pageContent("careers", "hiring", {
+      eyebrow: "How hiring works",
+      heading: "Clear, kind,<br /><em>and quick.</em>",
+    }),
+    pageContent("careers", "faq", {
+      eyebrow: "A few common questions",
+      heading: "Good to <em>know.</em>",
+    }),
+    pageContent("careers", "cta", {
+      heading: "Ready when you are.",
+      body: "Send your work — we read every note that lands in the studio.",
+      label: "Email the studio",
+      email: "careers@drawtiq.studio",
+    }),
+  ]);
+  const careersEmail = settings?.careers_email || "careers@drawtiq.studio";
+  const perkItems = perksResult.data.length
+    ? perksResult.data.map((item) => ({ n: item.number, title: item.title, body: item.body })) : perks;
+  const roleItems = rolesResult.data.length ? rolesResult.data : roles;
+  const processItems = processResult.data.length
+    ? processResult.data.map((item) => ({ n: item.number, title: item.title, body: item.body })) : process;
+  const faqItems = faqsResult.data.length
+    ? faqsResult.data.map((item) => ({ q: item.question, a: item.answer })) : faqs;
   return (
     <main id="main">
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>
-          08 / Careers
+          {hero.eyebrow}
         </p>
-        <h1>
-          Do the best work<br />
-          of your <em>career.</em>
-        </h1>
-        <p className="lead">
-          We&apos;re a small studio. We care about the work, protect time to think, and don&apos;t confuse busy with
-          good. If that sounds like you, send us something you&apos;re proud of.
-        </p>
+        <h1 dangerouslySetInnerHTML={{ __html: hero.heading }} />
+        <p className="lead">{hero.lead}</p>
         <div className="hero-actions" style={{ marginTop: "30px" }}>
-          <a href="mailto:careers@drawtiq.studio" className="button button-dark">
-            Send your portfolio <span>↗</span>
+          <a href={`mailto:${hero.primaryEmail || careersEmail}`} className="button button-dark">
+            {hero.primaryLabel} <span>↗</span>
           </a>
           <Link href="#open-roles" className="text-link">
-            See open roles <span>↓</span>
+            {hero.secondaryLabel} <span>↓</span>
           </Link>
         </div>
       </section>
@@ -96,19 +151,14 @@ export default function CareersPage() {
       <section className="page-content section-wrap">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Why Drawtiq</p>
-            <h2>
-              A place to do<br />
-              <em>your best work.</em>
-            </h2>
+            <p className="eyebrow">{why.eyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: why.heading }} />
           </div>
-          <p className="heading-note">
-            Good work takes time. We plan for it, and we don&apos;t confuse busy with good.
-          </p>
+          <p className="heading-note">{why.note}</p>
         </div>
 
         <div className="value-grid value-grid-3">
-          {perks.map((perk) => (
+          {perkItems.map((perk) => (
             <article className="value-card" key={perk.n}>
               <span className="mono">{perk.n}</span>
               <h3>{perk.title}</h3>
@@ -119,54 +169,45 @@ export default function CareersPage() {
 
         <div className="section-heading" id="open-roles" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">Open roles</p>
-            <h2>
-              Come build<br />
-              <em>with us.</em>
-            </h2>
+            <p className="eyebrow">{rolesHeading.eyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: rolesHeading.heading }} />
           </div>
-          <p className="heading-note">Roles we are opening as the studio grows. Speculative applications welcome.</p>
+          <p className="heading-note">{rolesHeading.note}</p>
         </div>
 
         <div className="role-list">
-          {roles.map((role) => (
+          {roleItems.map((role) => (
             <article className="role-card" key={role.title}>
               <div className="role-head">
                 <h3>{role.title}</h3>
                 <span className="role-meta mono">{role.meta}</span>
               </div>
               <p>{role.body}</p>
-              <a href="mailto:careers@drawtiq.studio" className="text-link">
-                Apply for this role <span>↗</span>
+              <a href={`mailto:${careersEmail}`} className="text-link">
+                {rolesHeading.applyLabel} <span>↗</span>
               </a>
             </article>
           ))}
         </div>
 
         <div className="role-open">
-          <h3>Don’t see your role?</h3>
-          <p>
-            Tell us what you do and what you would love to make. We keep a warm list and reach out when the right
-            project appears.
-          </p>
-          <a href="mailto:careers@drawtiq.studio" className="button button-accent">
-            Send a speculative note <span>↗</span>
+          <h3>{roleOpen.heading}</h3>
+          <p>{roleOpen.body}</p>
+          <a href={`mailto:${roleOpen.email || careersEmail}`} className="button button-accent">
+            {roleOpen.label} <span>↗</span>
           </a>
         </div>
 
         <div className="section-heading" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">How hiring works</p>
-            <h2>
-              Clear, kind,<br />
-              <em>and quick.</em>
-            </h2>
+            <p className="eyebrow">{hiring.eyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: hiring.heading }} />
           </div>
         </div>
 
         <div className="process-track">
           <div className="process-line"><span></span></div>
-          {process.map((step) => (
+          {processItems.map((step) => (
             <article className="process-step" key={step.n}>
               <span className="step-index">{step.n}</span>
               <h3>{step.title}</h3>
@@ -177,22 +218,20 @@ export default function CareersPage() {
 
         <div className="section-heading" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">A few common questions</p>
-            <h2>
-              Good to <em>know.</em>
-            </h2>
+            <p className="eyebrow">{faqHeading.eyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: faqHeading.heading }} />
           </div>
         </div>
 
-        <Faq items={faqs} />
+         <Faq items={faqItems} />
 
         <div className="page-cta">
           <div>
-            <h2>Ready when you are.</h2>
-            <p>Send your work — we read every note that lands in the studio.</p>
+            <h2>{cta.heading}</h2>
+            <p>{cta.body}</p>
           </div>
-          <a href="mailto:careers@drawtiq.studio" className="button button-dark">
-            Email the studio <span>↗</span>
+          <a href={`mailto:${cta.email || careersEmail}`} className="button button-dark">
+            {cta.label} <span>↗</span>
           </a>
         </div>
       </section>

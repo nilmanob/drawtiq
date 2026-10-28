@@ -8,7 +8,13 @@ import {
   splitHeadline,
 } from "@/lib/content/presentation";
 
-export function PortfolioCard({ project }: { project: PublicProject }) {
+export function PortfolioCard({
+  project,
+  labels,
+}: {
+  project: PublicProject;
+  labels?: { noteForm?: string; noteDefault?: string; growth?: string };
+}) {
   const kind = projectVisualKind(project);
   const brand =
     project.visual?.brand ??
@@ -19,7 +25,9 @@ export function PortfolioCard({ project }: { project: PublicProject }) {
   const headline = splitHeadline(subtitle);
   const note =
     project.visual?.note ??
-    (kind === "form" ? "Everyday objects, considered." : "Notes on better work.");
+    (kind === "form"
+      ? labels?.noteForm ?? "Everyday objects, considered."
+      : labels?.noteDefault ?? "Notes on better work.");
 
   return (
     <Link
@@ -38,7 +46,7 @@ export function PortfolioCard({ project }: { project: PublicProject }) {
               <small>Total balance</small>
               <strong>{listNumber}</strong>
               <span className="growth">
-                {project.visual?.growth ?? "↗ 12.8% this month"}
+                {project.visual?.growth ?? labels?.growth ?? "↗ 12.8% this month"}
               </span>
             </div>
             <svg viewBox="0 0 500 140" preserveAspectRatio="none">

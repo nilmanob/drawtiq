@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPublishedPost, getPublishedPosts } from "@/lib/content/data";
 import { formatPostDate } from "@/lib/content/presentation";
+import { getPageSeo, pageContent } from "@/lib/content/page-content";
 
 export const revalidate = 60;
 
@@ -16,23 +17,38 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { data: post } = await getPublishedPost(params.slug);
+  const [{ data: post }, seo] = await Promise.all([
+    getPublishedPost(params.slug),
+    getPageSeo("insights-detail"),
+  ]);
 
   if (!post) {
     return { title: "Note not found" };
   }
 
   return {
-    title: post.seoTitle || `${post.title} — Insights`,
-    description: post.seoDescription || post.excerpt,
+    title: post.seoTitle || seo.title || `${post.title} — Insights`,
+    description: post.seoDescription || seo.description || post.excerpt,
     alternates: { canonical: `/insights/${post.slug}` },
   };
 }
 
 export default async function PostPage({ params }: Props) {
-  const [{ data: post }, { data: posts }] = await Promise.all([
+  const [{ data: post }, { data: posts }, postPage] = await Promise.all([
     getPublishedPost(params.slug),
     getPublishedPosts(),
+    pageContent("insights-detail", "shared", {
+      emptyBody: "This note is being prepared. Please check back soon.",
+      moreEyebrow: "Keep reading",
+      moreHeading: "More studio <em>notes.</em>",
+      moreLinkLabel: "All insights",
+      cardLinkLabel: "Read the note",
+      ctaHeading: "Have a project in mind?",
+      ctaBody: "Let's turn a good question into something people love to use.",
+      ctaLabel: "Start a project",
+      ctaHref: "/contact",
+      backLabel: "← Back to all insights",
+    }),
   ]);
 
   if (!post) {
@@ -79,7 +95,7 @@ export default async function PostPage({ params }: Props) {
               return <p key={index}>{block.text}</p>;
             })
           ) : (
-            <p>This note is being prepared. Please check back soon.</p>
+            <p>{postPage.emptyBody}</p>
           )}
         </section>
       </article>
@@ -88,13 +104,11 @@ export default async function PostPage({ params }: Props) {
         <section className="section-wrap post-more">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Keep reading</p>
-              <h2>
-                More studio <em>notes.</em>
-              </h2>
+              <p className="eyebrow">{postPage.moreEyebrow}</p>
+              <h2 dangerouslySetInnerHTML={{ __html: postPage.moreHeading }} />
             </div>
             <Link href="/insights" className="text-link">
-              All insights <span>↗</span>
+              {postPage.moreLinkLabel} <span>↗</span>
             </Link>
           </div>
           <div className="insight-grid">
@@ -116,7 +130,7 @@ export default async function PostPage({ params }: Props) {
                   <span>{item.readTime}</span>
                 </div>
                 <h3>{item.title}</h3>
-                <span className="insight-link">Read the note ↗</span>
+                <span className="insight-link">{postPage.cardLinkLabel} ↗</span>
               </Link>
             ))}
           </div>
@@ -125,17 +139,17 @@ export default async function PostPage({ params }: Props) {
 
       <div className="page-cta section-wrap">
         <div>
-          <h2>Have a project in mind?</h2>
-          <p>Let&apos;s turn a good question into something people love to use.</p>
+          <h2>{postPage.ctaHeading}</h2>
+          <p>{postPage.ctaBody}</p>
         </div>
-        <Link href="/contact" className="button button-dark">
-          Start a project <span>↗</span>
+        <Link href={postPage.ctaHref} className="button button-dark">
+          {postPage.ctaLabel} <span>↗</span>
         </Link>
       </div>
 
       <p className="section-wrap" style={{ padding: "0 0 90px" }}>
         <Link href="/insights" className="text-link">
-          ← Back to all insights <span>↗</span>
+          {postPage.backLabel} <span>↗</span>
         </Link>
       </p>
     </main>

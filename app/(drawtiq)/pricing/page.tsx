@@ -1,13 +1,27 @@
 import Link from "next/link";
 import { Faq } from "@/components/faq";
 import { PricingPlans } from "@/components/pricing-plans";
+import {
+  getPricingAddons,
+  getPricingEngagementModels,
+  getPricingFaqs,
+  getPricingIncludedFeatures,
+  getPricingPlanFeatures,
+  getPricingPlans,
+} from "@/lib/content/cms";
+import { pageContent, getPageSeo } from "@/lib/content/page-content";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Pricing",
-  description:
-    "Transparent monthly design plans for UI/UX, brand identity, graphic design, motion design, and video editing by Drawtiq.",
-  alternates: { canonical: "/pricing" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("pricing");
+  return {
+    title: seo.title || "Pricing",
+    description:
+      seo.description ||
+      "Transparent monthly design plans for UI/UX, brand identity, graphic design, motion design, and video editing by Drawtiq.",
+    alternates: { canonical: "/pricing" },
+  };
+}
 
 const included = [
   "A dedicated design lead",
@@ -62,31 +76,38 @@ const faqs = [
   },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const [plansResult, featuresResult, includedResult, modelsResult, addonsResult, faqsResult, copy] = await Promise.all([
+    getPricingPlans(), getPricingPlanFeatures(), getPricingIncludedFeatures(),
+    getPricingEngagementModels(), getPricingAddons(), getPricingFaqs(),
+    pageContent("pricing", "copy", { eyebrow: "07 / Pricing", heading: "Simple pricing.<br /><em>No surprises.</em>", lead: "One monthly rate. No timesheets. A team that already knows the work. Choose the pace that fits what you're building.", includedEyebrow: "Every plan includes", modelsEyebrow: "Ways to work together", modelsHeading: "Choose your<br /><em>way in.</em>", modelsNote: "Plans and projects are built on the same process and the same care. Only the pace changes.", addonsEyebrow: "Add-ons", addonsHeading: "One-off <em>extras.</em>", addonsNote: "Standalone engagements you can add to any plan, or book on their own.", faqEyebrow: "A few common questions", faqHeading: "Good to <em>know.</em>", ctaHeading: "Not sure which plan fits?", ctaBody: "Tell us about the work. We'll recommend the simplest way to start.", ctaLabel: "Let's talk", ctaHref: "/contact", disclaimer: "Prices are shown in USD and are indicative starting points for planning, not a formal quote.", planLabels: { monthly: "Monthly", quarterly: "Quarterly", quarterlySave: "save 15%", featured: "Most popular", perMonth: "/ month", monthlyNote: "Rolling monthly · cancel anytime", quarterlyNote: "Billed quarterly · pause anytime", ctaHref: "/contact" } }),
+  ]);
+  const includedItems = includedResult.data.length ? includedResult.data.map((item) => item.feature_text) : included;
+  const engagementModels = modelsResult.data.length
+    ? modelsResult.data.map((item) => ({ n: item.number, title: item.title, body: item.body })) : models;
+  const addonItems = addonsResult.data.length ? addonsResult.data : addons;
+  const faqItems = faqsResult.data.length
+    ? faqsResult.data.map((item) => ({ q: item.question, a: item.answer })) : faqs;
   return (
     <main id="main">
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>
-          07 / Pricing
+          {copy.eyebrow}
         </p>
-        <h1>
-          Simple pricing.<br />
-          <em>No surprises.</em>
-        </h1>
+         <h1 dangerouslySetInnerHTML={{ __html: copy.heading }} />
         <p className="lead">
-          One monthly rate. No timesheets. A team that already knows the work. Choose the pace that fits what you&apos;re
-          building.
+          {copy.lead}
         </p>
       </section>
 
       <section className="page-content section-wrap">
-        <PricingPlans />
+         <PricingPlans cmsPlans={plansResult.data} cmsFeatures={featuresResult.data} labels={copy.planLabels} />
 
         <div className="pricing-included">
-          <p className="eyebrow">Every plan includes</p>
+          <p className="eyebrow">{copy.includedEyebrow}</p>
           <div className="included-grid">
-            {included.map((item) => (
+            {includedItems.map((item) => (
               <div className="included-item" key={item}>
                 <span aria-hidden="true">✳</span>
                 {item}
@@ -97,19 +118,16 @@ export default function PricingPage() {
 
         <div className="section-heading" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">Ways to work together</p>
-            <h2>
-              Choose your<br />
-              <em>way in.</em>
-            </h2>
+            <p className="eyebrow">{copy.modelsEyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: copy.modelsHeading }} />
           </div>
           <p className="heading-note">
-            Plans and projects are built on the same process and the same care. Only the pace changes.
+            {copy.modelsNote}
           </p>
         </div>
 
         <div className="value-grid value-grid-3">
-          {models.map((model) => (
+          {engagementModels.map((model) => (
             <article className="value-card" key={model.n}>
               <span className="mono">{model.n}</span>
               <h3>{model.title}</h3>
@@ -120,16 +138,14 @@ export default function PricingPage() {
 
         <div className="section-heading" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">Add-ons</p>
-            <h2>
-              One-off <em>extras.</em>
-            </h2>
+            <p className="eyebrow">{copy.addonsEyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: copy.addonsHeading }} />
           </div>
-          <p className="heading-note">Standalone engagements you can add to any plan, or book on their own.</p>
+          <p className="heading-note">{copy.addonsNote}</p>
         </div>
 
         <div className="addon-list">
-          {addons.map((addon) => (
+          {addonItems.map((addon) => (
             <div className="addon-row" key={addon.title}>
               <div>
                 <h3>{addon.title}</h3>
@@ -142,27 +158,25 @@ export default function PricingPage() {
 
         <div className="section-heading" style={{ marginTop: "110px" }}>
           <div>
-            <p className="eyebrow">A few common questions</p>
-            <h2>
-              Good to <em>know.</em>
-            </h2>
+            <p className="eyebrow">{copy.faqEyebrow}</p>
+            <h2 dangerouslySetInnerHTML={{ __html: copy.faqHeading }} />
           </div>
         </div>
 
-        <Faq items={faqs} />
+         <Faq items={faqItems} />
 
         <div className="page-cta">
           <div>
-            <h2>Not sure which plan fits?</h2>
-            <p>Tell us about the work. We&apos;ll recommend the simplest way to start.</p>
+            <h2>{copy.ctaHeading}</h2>
+            <p>{copy.ctaBody}</p>
           </div>
-          <Link href="/contact" className="button button-dark">
-            Let’s talk <span>↗</span>
+          <Link href={copy.ctaHref} className="button button-dark">
+            {copy.ctaLabel} <span>↗</span>
           </Link>
         </div>
 
         <p className="team-note">
-          Prices are shown in USD and are indicative starting points for planning, not a formal quote.
+          {copy.disclaimer}
         </p>
       </section>
     </main>
