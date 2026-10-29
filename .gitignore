@@ -10,6 +10,7 @@ build/
 
 # Supabase CLI local state
 supabase/.temp/
+supabase/.branches/
 
 .DS_Store
 tsconfig.tsbuildinfo
@@ -17,5 +18,3 @@ tsconfig.tsbuildinfo
 .commandcode
 .freebuff
 .vscode
-
-supabase
