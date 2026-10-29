@@ -8,7 +8,7 @@ Next.js conversion of the Drawtiq design agency website.
 npm run dev
 ```
 
-Open [https://enchanting-sorbet-b7a714.netlify.app/](https://enchanting-sorbet-b7a714.netlify.app/)
+Open [http://localhost:3000](http://localhost:3000). Live site: [https://drawtiq.netlify.app](https://drawtiq.netlify.app)
 
 ## Structure
 
@@ -122,18 +122,18 @@ links so they work when the email is opened on another device.
 
 Supabase Dashboard → **Authentication → URL Configuration**:
 
-- Site URL: the production domain (for example `https://drawtiq.netlify.app`).
+- Site URL: `https://drawtiq.netlify.app`
 - Redirect URLs:
-  - `https://<production-domain>/admin/set-password`
-  - `https://<production-domain>/auth/callback`
+  - `https://drawtiq.netlify.app/admin/set-password`
+  - `https://drawtiq.netlify.app/auth/callback`
   - `http://localhost:3000/admin/set-password`
   - `http://localhost:3000/auth/callback`
-  - Optional for Netlify deploy previews: `https://*--<site-name>.netlify.app/**`
+  - Optional for Netlify deploy previews: `https://*--drawtiq.netlify.app/**`
 
 Netlify → **Site configuration → Environment variables**:
 
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SITE_URL` = the production domain (no trailing slash). Redeploy
+- `NEXT_PUBLIC_SITE_URL` = `https://drawtiq.netlify.app` (no trailing slash). Redeploy
   after changing it; `NEXT_PUBLIC_` values are inlined at build time.
 - `SUPABASE_SERVICE_ROLE_KEY` (optional, secret, runtime/functions scope only).
 

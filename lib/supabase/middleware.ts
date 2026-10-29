@@ -11,6 +11,15 @@ const PUBLIC_ADMIN_PATHS = new Set([
   "/admin/forgot-password",
 ]);
 
+// Friendly auth URLs. Handled here rather than in next.config.js because
+// Netlify runs middleware at the edge before config redirects, which sent
+// these to the login screen. Browsers keep the #fragment across a redirect,
+// so recovery tokens survive.
+const ADMIN_ALIASES: Record<string, string> = {
+  "/admin/reset-password": "/admin/set-password",
+  "/admin/update-password": "/admin/account",
+};
+
 function isAdminPath(pathname: string) {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
@@ -23,6 +32,13 @@ function isAdminPath(pathname: string) {
  * and are enforced again in the server layout and by RLS.
  */
 export async function updateSession(request: NextRequest) {
+  const alias = ADMIN_ALIASES[request.nextUrl.pathname.replace(/\/$/, "")];
+  if (alias) {
+    const url = request.nextUrl.clone();
+    url.pathname = alias;
+    return NextResponse.redirect(url, 307);
+  }
+
   // Keep the public site and the admin setup screen usable before Supabase is
   // configured. The protected layout will redirect to the setup screen.
   if (!hasSupabaseEnv()) {

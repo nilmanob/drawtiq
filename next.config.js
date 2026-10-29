@@ -9,22 +9,6 @@ const nextConfig = {
   },
   // Optimize font loading with next/font when needed
   // Keep Google Fonts in HTML for design fidelity
-  // Common auth URLs used in email templates and docs. Redirects run before
-  // middleware and browsers keep the #fragment, so recovery tokens survive.
-  async redirects() {
-    return [
-      {
-        source: '/admin/reset-password',
-        destination: '/admin/set-password',
-        permanent: false,
-      },
-      {
-        source: '/admin/update-password',
-        destination: '/admin/account',
-        permanent: false,
-      },
-    ];
-  },
   async rewrites() {
     return [
       {
