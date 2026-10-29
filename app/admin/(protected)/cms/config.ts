@@ -1,3 +1,5 @@
+import type { AdminPermission } from "@/lib/auth/roles";
+
 export const CMS_TABLES = [
   "global_settings", "nav_items", "footer_links", "footer_social", "homepage_sections",
   "testimonials", "about_sections", "about_values", "team_members", "careers_roles",
@@ -8,4 +10,15 @@ export const CMS_TABLES = [
 export type CmsTable = (typeof CMS_TABLES)[number];
 export function isCmsTable(value: string): value is CmsTable {
   return (CMS_TABLES as readonly string[]).includes(value);
+}
+
+// Global configuration: owner/admin only (can_manage_settings() in RLS).
+// Everything else is page or collection content (can_manage_content()).
+export const SETTINGS_TABLES = [
+  "global_settings", "nav_items", "footer_links", "footer_social",
+] as const satisfies readonly CmsTable[];
+export function cmsTablePermission(table: CmsTable): AdminPermission {
+  return (SETTINGS_TABLES as readonly string[]).includes(table)
+    ? "settings:write"
+    : "content:write";
 }

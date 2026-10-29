@@ -27,6 +27,17 @@ export function describeDbError(error: DbError) {
       return "The database tables are missing. Apply the Supabase migration first.";
     case "PGRST116":
       return "The requested record was not found.";
+    case "PGRST202":
+    case "42883":
+      return "A required database function is missing. Apply the Supabase migrations (see README) and try again.";
+    case "42703":
+      return "The database is missing a column this screen needs. Apply the Supabase migrations and try again.";
+    // Custom codes raised by the team functions in 20261029000100_team_access.sql.
+    case "DT403":
+    case "DT404":
+    case "DT409":
+    case "DT422":
+      return error.message || "The database refused this action.";
     default: {
       const code = error.code ? ` (${error.code})` : "";
       return `The database request failed${code}. Please try again.`;

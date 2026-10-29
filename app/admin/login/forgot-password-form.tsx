@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { createPasswordResetClient } from "@/lib/supabase/reset";
 import { getSiteUrl } from "@/lib/site-url";
 
@@ -28,7 +27,7 @@ export function ForgotPasswordForm({
   onBack,
 }: {
   initialEmail?: string;
-  onBack: (email?: string) => void;
+  onBack?: (email?: string) => void;
 }) {
   const [email, setEmail] = useState(initialEmail);
   const [error, setError] = useState<string | null>(null);
@@ -43,12 +42,12 @@ export function ForgotPasswordForm({
     setLoading(true);
 
     try {
+      // Always request an implicit-flow link. A PKCE link only works in the
+      // browser that asked for it, so opening the email on a phone or from a
+      // local build would fail. The password screen scrubs the token from the
+      // URL before using it.
       const redirectTo = `${getSiteUrl(window.location.origin)}/admin/set-password`;
-      const crossOrigin =
-        new URL(redirectTo).origin !== window.location.origin;
-      const supabase = crossOrigin
-        ? createPasswordResetClient()
-        : createSupabaseBrowserClient();
+      const supabase = createPasswordResetClient();
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
         nextEmail,
         { redirectTo }
@@ -79,13 +78,19 @@ export function ForgotPasswordForm({
           Password reset link sent. If an account exists for{" "}
           <strong>{email}</strong>, check your inbox and spam folder.
         </p>
-        <button
-          className="admin-button admin-button-secondary"
-          type="button"
-          onClick={() => onBack(email)}
-        >
-          Back to sign in
-        </button>
+        {onBack ? (
+          <button
+            className="admin-button admin-button-secondary"
+            type="button"
+            onClick={() => onBack(email)}
+          >
+            Back to sign in
+          </button>
+        ) : (
+          <a className="admin-button admin-button-secondary" href="/admin/login">
+            Back to sign in
+          </a>
+        )}
       </div>
     );
   }
@@ -120,13 +125,19 @@ export function ForgotPasswordForm({
         {loading ? "Sending link…" : "Send reset link"}
       </button>
 
-      <button
-        className="admin-reset-back"
-        type="button"
-        onClick={() => onBack(email.trim())}
-      >
-        Back to sign in
-      </button>
+      {onBack ? (
+        <button
+          className="admin-reset-back"
+          type="button"
+          onClick={() => onBack(email.trim())}
+        >
+          Back to sign in
+        </button>
+      ) : (
+        <a className="admin-reset-back" href="/admin/login">
+          Back to sign in
+        </a>
+      )}
     </form>
   );
 }

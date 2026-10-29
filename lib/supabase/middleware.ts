@@ -3,7 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabasePublicEnv, hasSupabaseEnv } from "@/lib/env";
 
 const LOGIN_PATH = "/admin/login";
-const SET_PASSWORD_PATH = "/admin/set-password";
+// Reachable without a session: their sessions arrive in the email link, or
+// they exist to request one.
+const PUBLIC_ADMIN_PATHS = new Set([
+  LOGIN_PATH,
+  "/admin/set-password",
+  "/admin/forgot-password",
+]);
 
 function isAdminPath(pathname: string) {
   return pathname === "/admin" || pathname.startsWith("/admin/");
@@ -73,8 +79,7 @@ export async function updateSession(request: NextRequest) {
   if (
     !user &&
     isAdminPath(pathname) &&
-    pathname !== LOGIN_PATH &&
-    pathname !== SET_PASSWORD_PATH
+    !PUBLIC_ADMIN_PATHS.has(pathname)
   ) {
     const url = request.nextUrl.clone();
     url.pathname = LOGIN_PATH;

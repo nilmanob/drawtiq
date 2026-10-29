@@ -61,7 +61,8 @@ export function AdminRecordForm({
       }
 
       if (mode === "create") {
-        router.replace(`${editHrefTemplate.replace("[id]", result.id)}?saved=1`);
+        const editHref = editHrefTemplate.replace("[id]", result.id);
+        router.replace(`${editHref}${editHref.includes("?") ? "&" : "?"}saved=1`);
         router.refresh();
         return;
       }

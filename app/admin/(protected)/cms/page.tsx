@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { getAdminSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/auth/roles";
 import { AdminPageHeader } from "../_components/admin-ui";
+import { cmsTablePermission, isCmsTable } from "./config";
 import { CMS_TABLE_DESCRIPTIONS, CMS_TABLE_LABELS } from "./schema";
 
 const GROUPS: { title: string; tables: string[] }[] = [
@@ -42,13 +45,22 @@ const GROUPS: { title: string; tables: string[] }[] = [
   },
 ];
 
-export default function CmsIndexPage() {
+export default async function CmsIndexPage() {
+  const { admin } = await getAdminSession();
+  const groups = GROUPS.map((group) => ({
+    ...group,
+    tables: group.tables.filter(
+      (table) =>
+        admin && isCmsTable(table) && hasPermission(admin.role, cmsTablePermission(table))
+    ),
+  })).filter((group) => group.tables.length > 0);
+
   return (
     <>
       <AdminPageHeader
-        kicker="Site CMS"
-        title="Content collections"
-        description="Edit every editorial section of the website. Reorder or hide records from each collection list, or open a record to edit its content and SEO."
+        kicker="Content"
+        title="All collections"
+        description="Every CMS collection in one list. The same records are also grouped by page under Website pages."
       />
 
       <p className="admin-field-hint" style={{ marginBottom: "22px" }}>
@@ -59,7 +71,7 @@ export default function CmsIndexPage() {
       </p>
 
       <div className="admin-cms-grid">
-        {GROUPS.map((group) => (
+        {groups.map((group) => (
           <section className="admin-panel" key={group.title}>
             <div className="admin-panel-header">
               <div>

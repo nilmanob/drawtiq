@@ -384,8 +384,8 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
               <p className="admin-kicker">Studio / Content</p>
               <h2>Content overview</h2>
             </div>
-            <Link className="admin-text-link" href="/admin/cms">
-              Site CMS
+            <Link className="admin-text-link" href="/admin/pages/homepage">
+              Edit website pages
             </Link>
           </div>
 

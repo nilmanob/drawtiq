@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { validateNewPassword } from "@/lib/auth/password";
 
 type Status = "checking" | "ready" | "invalid" | "success";
 
@@ -17,46 +18,153 @@ function friendlyAuthError(message: string | undefined) {
     lower.includes("session missing") ||
     lower.includes("invalid") ||
     lower.includes("expired") ||
-    lower.includes("token has expired")
+    lower.includes("token has expired") ||
+    lower.includes("not found") ||
+    lower.includes("jwt") ||
+    lower.includes("refresh token") ||
+    lower.includes("otp") ||
+    lower.includes("code verifier") ||
+    lower.includes("auth code")
   ) {
     return "This password link is invalid or has expired. Request a new link.";
+  }
+
+  if (lower.includes("same") && lower.includes("password")) {
+    return "Choose a password that is different from your current one.";
+  }
+
+  if (lower.includes("weak") || lower.includes("pwned")) {
+    return "That password is too weak or has appeared in a data breach. Choose another.";
   }
 
   return message;
 }
 
-function readInitialError() {
-  const search = new URLSearchParams(window.location.search);
-  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  return (
-    hash.get("error_description") ??
-    search.get("error_description") ??
-    hash.get("error") ??
-    search.get("error")
-  );
-}
+type AuthLink = {
+  error: string | null;
+  code: string | null;
+  tokenHash: string | null;
+  otpType: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+};
 
-function clearAuthParams() {
+const AUTH_PARAMS = [
+  "access_token",
+  "refresh_token",
+  "expires_in",
+  "expires_at",
+  "token_type",
+  "provider_token",
+  "provider_refresh_token",
+  "code",
+  "token_hash",
+  "type",
+  "error",
+  "error_code",
+  "error_description",
+  "sb",
+];
+
+/**
+ * Read every supported email-link format, then remove it from the address bar
+ * before a Supabase client is created. The SSR browser client only accepts
+ * PKCE links and rejects implicit-flow fragments (dashboard invites, Team
+ * invitations and cross-origin recovery emails), so this screen completes each
+ * format itself. Scrubbing first also keeps tokens out of history and
+ * referrers.
+ */
+function takeAuthLink(): AuthLink {
   const url = new URL(window.location.href);
-  [
-    "access_token",
-    "refresh_token",
-    "expires_in",
-    "expires_at",
-    "token_type",
-    "provider_token",
-    "provider_refresh_token",
-    "code",
-    "token_hash",
-    "type",
-    "error",
-    "error_code",
-    "error_description",
-  ].forEach((key) => {
-    url.searchParams.delete(key);
-  });
+  const search = url.searchParams;
+  const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+  const read = (key: string) => hash.get(key) ?? search.get(key);
+
+  const link: AuthLink = {
+    error: read("error_description") ?? read("error"),
+    code: search.get("code"),
+    tokenHash: search.get("token_hash"),
+    otpType: read("type"),
+    accessToken: hash.get("access_token"),
+    refreshToken: hash.get("refresh_token"),
+  };
+
+  AUTH_PARAMS.forEach((key) => search.delete(key));
   url.hash = "";
   window.history.replaceState({}, "", `${url.pathname}${url.search}`);
+
+  return link;
+}
+
+type LinkResult =
+  | { ok: true; email: string | null }
+  | { ok: false; message: string | undefined };
+
+let linkCheck: Promise<LinkResult> | null = null;
+
+async function completeAuthLink(): Promise<LinkResult> {
+  const link = takeAuthLink();
+  const supabase = createSupabaseBrowserClient();
+
+  if (link.error) {
+    return { ok: false, message: link.error };
+  }
+
+  // Implicit flow: Supabase validates the access token before it is stored,
+  // so a forged or expired fragment cannot create a session.
+  if (link.accessToken && link.refreshToken) {
+    const { data, error } = await supabase.auth.setSession({
+      access_token: link.accessToken,
+      refresh_token: link.refreshToken,
+    });
+    return error || !data.session
+      ? { ok: false, message: error?.message }
+      : { ok: true, email: data.session.user.email ?? null };
+  }
+
+  if (link.tokenHash && link.otpType) {
+    const { data, error } = await supabase.auth.verifyOtp({
+      token_hash: link.tokenHash,
+      type: link.otpType as EmailOtpType,
+    });
+    return error
+      ? { ok: false, message: error.message }
+      : { ok: true, email: data.user?.email ?? null };
+  }
+
+  // PKCE: only works in the browser that requested the email, because the
+  // code verifier is stored there.
+  if (link.code) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(link.code);
+    if (error || !data.session) {
+      return {
+        ok: false,
+        message: error?.message?.toLowerCase().includes("verifier")
+          ? "Open the link in the same browser you requested it from, or request a new link."
+          : error?.message,
+      };
+    }
+    return { ok: true, email: data.session.user.email ?? null };
+  }
+
+  // No link: allow an existing session (for example after /auth/callback wrote
+  // the cookies). getUser validates it with Supabase.
+  const { data, error } = await supabase.auth.getUser();
+  return error || !data.user
+    ? { ok: false, message: undefined }
+    : { ok: true, email: data.user.email ?? null };
+}
+
+/**
+ * Links are single-use, so run the check once per page load even when React
+ * mounts the effect twice in development.
+ */
+function completeAuthLinkOnce() {
+  linkCheck ??= completeAuthLink().catch(() => ({
+    ok: false as const,
+    message: "Could not reach the authentication service. Please try again.",
+  }));
+  return linkCheck;
 }
 
 export function SetPasswordForm() {
@@ -71,82 +179,24 @@ export function SetPasswordForm() {
 
   useEffect(() => {
     let active = true;
-    const initialError = readInitialError();
-    const search = new URLSearchParams(window.location.search);
-    const tokenHash = search.get("token_hash");
-    const otpType = search.get("type");
-    const supabase = createSupabaseBrowserClient();
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (!active) {
-          return;
-        }
-
-        if (session) {
-          setEmail(session.user.email ?? null);
-          setStatus("ready");
-          setError(null);
-        }
-      }
-    );
-
-    async function checkSession() {
-      if (initialError) {
-        if (active) {
-          setError(friendlyAuthError(initialError));
-          setStatus("invalid");
-          clearAuthParams();
-        }
-        return;
-      }
-
-      if (tokenHash && otpType) {
-        const { data, error: verifyError } = await supabase.auth.verifyOtp({
-          token_hash: tokenHash,
-          type: otpType as EmailOtpType,
-        });
-
-        if (!active) {
-          return;
-        }
-
-        if (verifyError) {
-          setError(friendlyAuthError(verifyError.message));
-          setStatus("invalid");
-          clearAuthParams();
-          return;
-        }
-
-        setEmail(data.user?.email ?? null);
-        setStatus("ready");
-        clearAuthParams();
-        return;
-      }
-
-      const { data, error: sessionError } = await supabase.auth.getSession();
-
+    void completeAuthLinkOnce().then((result) => {
       if (!active) {
         return;
       }
 
-      if (sessionError || !data.session) {
-        setError(friendlyAuthError(sessionError?.message));
+      if (result.ok) {
+        setEmail(result.email);
+        setError(null);
+        setStatus("ready");
+      } else {
+        setError(friendlyAuthError(result.message));
         setStatus("invalid");
-        clearAuthParams();
-        return;
       }
-
-      setEmail(data.session.user.email ?? null);
-      setStatus("ready");
-      clearAuthParams();
-    }
-
-    void checkSession();
+    });
 
     return () => {
       active = false;
-      listener.subscription.unsubscribe();
     };
   }, []);
 
@@ -154,13 +204,9 @@ export function SetPasswordForm() {
     event.preventDefault();
     setError(null);
 
-    if (password.length < 8) {
-      setError("Use at least 8 characters for your new password.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("The two passwords do not match.");
+    const validationError = validateNewPassword(password, confirmPassword);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -177,7 +223,9 @@ export function SetPasswordForm() {
         return;
       }
 
-      clearAuthParams();
+      // Sign out any other session that may still hold the old password.
+      await supabase.auth.signOut({ scope: "others" }).catch(() => undefined);
+
       setStatus("success");
       setPassword("");
       setConfirmPassword("");
@@ -216,12 +264,17 @@ export function SetPasswordForm() {
           {error ?? "This password link is invalid or has expired."}
         </p>
         <p className="admin-note">
-          Request a new invite or recovery link from the Supabase dashboard, or
-          use the password reset option on the sign-in page.
+          Links expire after a short time and can only be used once. Request a
+          new reset link, or ask a Super Admin to resend your invitation.
         </p>
-        <a className="admin-button" href="/admin/login">
-          Return to sign in
-        </a>
+        <div className="admin-auth-actions">
+          <a className="admin-button" href="/admin/forgot-password">
+            Request a new link
+          </a>
+          <a className="admin-button admin-button-secondary" href="/admin/login">
+            Return to sign in
+          </a>
+        </div>
       </>
     );
   }
@@ -244,10 +297,14 @@ export function SetPasswordForm() {
           name="password"
           autoComplete="new-password"
           minLength={8}
+          maxLength={72}
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
+        <p className="admin-field-hint">
+          At least 8 characters, with a letter and a number.
+        </p>
       </div>
 
       <div className="admin-field">
@@ -259,6 +316,7 @@ export function SetPasswordForm() {
           name="confirm-password"
           autoComplete="new-password"
           minLength={8}
+          maxLength={72}
           required
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}

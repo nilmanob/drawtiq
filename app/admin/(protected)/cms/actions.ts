@@ -7,7 +7,7 @@ import { describeDbError } from "@/lib/admin/errors";
 import { formString } from "@/lib/admin/form-data";
 import type { AdminActionResult } from "@/lib/admin/action-result";
 import { uuidSchema } from "@/lib/validation/content";
-import { isCmsTable } from "./config";
+import { cmsTablePermission, isCmsTable } from "./config";
 import { CMS_SCHEMAS, SINGLETON_TABLES } from "./schema";
 
 function refresh() {
@@ -108,7 +108,7 @@ export async function saveCmsRecord(formData: FormData): Promise<AdminActionResu
     };
   }
 
-  const { supabase } = await requirePermission("content:write");
+  const { supabase } = await requirePermission(cmsTablePermission(table));
 
   if (!id && isSingleton(table)) {
     const { data: existing, error: existingError } = await supabase
@@ -157,7 +157,7 @@ export async function moveCmsRecord(
     return { ok: false, error: "This collection does not support ordering." };
   }
 
-  const { supabase } = await requirePermission("content:write");
+  const { supabase } = await requirePermission(cmsTablePermission(table));
   const { data, error } = await supabase
     .from(table)
     .select("id, order_index")
@@ -211,7 +211,7 @@ export async function toggleCmsVisibility(
     return { ok: false, error: "This collection does not use visibility." };
   }
 
-  const { supabase } = await requirePermission("content:write");
+  const { supabase } = await requirePermission(cmsTablePermission(table));
   const { data: current, error: readError } = await supabase
     .from(table)
     .select("id, is_visible")
@@ -243,7 +243,7 @@ export async function deleteCmsRecord(table: string, id: string): Promise<AdminA
     };
   }
 
-  const { supabase } = await requirePermission("content:write");
+  const { supabase } = await requirePermission(cmsTablePermission(table));
   const { data, error } = await supabase
     .from(table)
     .delete()

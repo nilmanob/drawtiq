@@ -4,13 +4,13 @@ import { createClient } from "@supabase/supabase-js";
 import { getSupabasePublicEnv } from "@/lib/env";
 
 /**
- * Reset-email client for cross-origin redirects.
+ * Reset-email client.
  *
  * The normal @supabase/ssr browser client uses PKCE, whose verifier is stored
- * on the origin that requested the email. If a local request points the email
- * at the live site, that verifier does not exist there. This client asks
- * Supabase for an implicit-flow recovery link instead, so the live password
- * screen can consume the returned session on any domain.
+ * in the browser (and on the origin) that requested the email. Opening the link
+ * on another device, or a local request pointing the email at the live site,
+ * would then fail. This client asks Supabase for an implicit-flow recovery link
+ * instead, so the password screen can consume the session anywhere.
  */
 export function createPasswordResetClient() {
   const env = getSupabasePublicEnv();

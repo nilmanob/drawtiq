@@ -13,3 +13,9 @@ supabase/.temp/
 
 .DS_Store
 tsconfig.tsbuildinfo
+
+.commandcode
+.freebuff
+.vscode
+
+supabase

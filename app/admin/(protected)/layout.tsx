@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminSession } from "@/lib/auth";
@@ -28,13 +28,25 @@ export default async function ProtectedAdminLayout({
       <main className="admin-shell admin-shell-narrow">
         <div className="admin-card">
           <p className="admin-kicker">Drawtiq / Admin</p>
-          <h1>Access denied.</h1>
-          <p>
-            The signed-in account is not on the studio admin allowlist. Sign in
-            with the authorized admin account or ask the site owner to add your
-            email from the Team screen or the <code>public.admin_users</code>{" "}
-            allowlist.
-          </p>
+          {session.suspended ? (
+            <>
+              <h1>Access suspended.</h1>
+              <p>
+                Your admin access has been suspended by a Super Admin. Your
+                login still works, but you cannot open the admin until your
+                access is restored.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1>Access denied.</h1>
+              <p>
+                The signed-in account is not on the studio team. Sign in with
+                an authorized account or ask a Super Admin to invite you from
+                the Team screen.
+              </p>
+            </>
+          )}
           <p className="admin-user">{session.user.email}</p>
           <div className="admin-denied">
             <SignOutButton />
@@ -57,7 +69,9 @@ export default async function ProtectedAdminLayout({
           <p className="admin-brand-label">Studio admin</p>
         </div>
 
-        <AdminNav role={session.admin.role} />
+        <Suspense fallback={<nav className="admin-nav" aria-label="Admin navigation" />}>
+          <AdminNav role={session.admin.role} />
+        </Suspense>
 
         <div className="admin-sidebar-footer">
           <Link className="admin-link" href="/">
@@ -72,7 +86,9 @@ export default async function ProtectedAdminLayout({
           <div>
             <p className="admin-kicker">Signed in as</p>
             <p className="admin-user">
-              {session.user.email}
+              <Link className="admin-user-link" href="/admin/account">
+                {session.admin.display_name || session.user.email}
+              </Link>
               <span className="admin-role-badge">
                 {ADMIN_ROLE_LABELS[session.admin.role]}
               </span>

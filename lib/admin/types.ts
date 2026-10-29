@@ -1,12 +1,37 @@
-import type { AdminRole } from "@/lib/auth/roles";
+import type { AdminRole, AdminStatus } from "@/lib/auth/roles";
 
 export type ContentStatus = "draft" | "published" | "archived";
 export type InquiryStatus = "new" | "read" | "replied" | "archived";
 
+export type AdminInviteState = "pending" | "never_signed_in" | "accepted" | "unknown";
+
 export type AdminTeamMember = {
   user_id: string;
   email: string;
+  display_name: string | null;
   role: AdminRole;
+  status: AdminStatus;
+  created_at: string;
+  invited_at: string | null;
+  invited_by_email: string | null;
+  status_changed_at: string | null;
+  last_sign_in_at: string | null;
+  email_confirmed_at: string | null;
+  invite_state: AdminInviteState;
+};
+
+export type AdminTeamData = {
+  members: AdminTeamMember[];
+  /** False until 20261029000100_team_access.sql is applied. */
+  accessMigrationApplied: boolean;
+};
+
+export type AdminAuditEntry = {
+  id: number;
+  actor_email: string | null;
+  action: string;
+  target_email: string | null;
+  details: Record<string, unknown>;
   created_at: string;
 };
 

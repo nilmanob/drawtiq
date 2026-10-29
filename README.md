@@ -41,8 +41,8 @@ available after the project and credentials are configured.
 4. In Supabase Authentication, create the authorized admin user. Confirm the
    email if confirmations are enabled, and disable public sign-ups if the
    project does not need them.
-5. Add that user to the allowlist with a role. The first account should be an
-   owner; later team members default to viewer in the database:
+5. Add that first user to the allowlist as a Super Admin (`owner`). This is
+   the only manual SQL step; everyone else is invited from **Team & access**:
    ```sql
    insert into public.admin_users (user_id, email, role)
    select id, email, 'owner'
@@ -51,77 +51,102 @@ available after the project and credentials are configured.
    ```
 6. Restart the dev server and sign in at `/admin/login`.
 
-### Team roles
+### Team roles and access
 
-Roles are stored in `public.admin_users.role`, not in user-editable profile
-metadata. This keeps them authoritative for RLS and lets an owner change them
-without changing the auth user. Apply
-`supabase/migrations/20261028000400_admin_roles.sql` before using the Team
-screen. The oldest existing allowlisted account becomes owner; any other
-existing accounts become admin so the owner can review them. New rows default to
-viewer.
+Roles are stored in `public.admin_users`, never in user-editable Auth metadata,
+and enforced by RLS through `current_admin_role()`. Two migrations power it:
 
-| Role | Access |
-| --- | --- |
-| `owner` | Everything, including adding team members and changing roles. |
-| `admin` | Content, inquiries, analytics, and retention. Cannot manage roles. |
-| `editor` | Create/edit projects, services, posts, and CMS content; update inquiry status. |
-| `viewer` | Read-only dashboard, analytics, and inquiries. Content editors are hidden. |
+- `20261028000400_admin_roles.sql` adds the `role` column. The oldest existing
+  allowlisted account becomes `owner` (Super Admin); any others become `admin`.
+- `20261029000100_team_access.sql` adds `status` (active/suspended), display
+  names, invitation metadata, the `admin_audit_log`, a guard that always keeps
+  one active Super Admin, owner-only team functions, and restricts site
+  settings and inquiry changes to owner/admin. Existing rows become `active`.
 
-The owner-only **Team** screen at `/admin/team` lists allowlisted users and lets
-the owner change roles, add an existing Supabase Auth user by email, or remove
-admin access without deleting the auth account. New users always start as
-`viewer`; promote them deliberately. You can also set a role directly in the
-Supabase table editor:
+Until both are applied, the app treats every allowlisted user as a Super Admin
+(the pre-roles behaviour), so nobody is locked out.
 
-```sql
-update public.admin_users
-set role = 'editor'
-where email = 'teammate@example.com';
-```
+| Permission | Super Admin (`owner`) | Admin | Editor | Viewer |
+| --- | --- | --- | --- | --- |
+| Dashboard, analytics, read inquiries | Yes | Yes | Yes | Yes |
+| Edit website pages and content collections | Yes | Yes | Yes | — |
+| Edit site settings, navigation, footer | Yes | Yes | — | — |
+| Change or delete inquiries, analytics retention | Yes | Yes | — | — |
+| Invite, change roles, suspend, remove team members | Yes | — | — | — |
 
-Invite users from **Supabase Authentication** first. The website cannot create
-auth users because it intentionally does not hold the service-role key.
+Nobody can change, suspend, or remove their own access, and the database
+refuses any change (from the app, SQL editor, or an Auth user deletion) that
+would leave no active Super Admin. Direct writes to `admin_users` are revoked
+from API users; every team change goes through an owner-checked function and is
+written to `admin_audit_log` by a trigger.
+
+**Team & access → Team members** (`/admin/team`, Super Admin only) lists name,
+email, role, status, invitation state, and last sign-in, with search and
+role/status filters. From there a Super Admin can:
+
+- **Invite to team** (name, email, role Admin/Editor/Viewer): the database is
+  checked first. An email already on the team is rejected; an email that
+  already has a Supabase login is added with that login's UUID and no email.
+  Otherwise the Supabase Auth user is created by invitation and the team row is
+  written with the new UUID. Invitations need `SUPABASE_SERVICE_ROLE_KEY` on the
+  server; without it only existing logins can be added. If the email is sent
+  but the team insert fails, the screen says so and resubmitting finishes the
+  job without a second email. Promote someone to Super Admin from the list.
+- **Change role**, **Edit name**, **Suspend / Restore access** (keeps the row,
+  role, and history), **Resend invite / Send setup link**, and **Remove**
+  (deletes only the allowlist row; the Auth login, authored content, and audit
+  history stay).
+
+Suspension and removal take effect on the member's next request because every
+RLS check reads the live row. **My account** (`/admin/account`) lets every
+member change their display name and password.
 
 ### Invites and password recovery
 
-Invitation and recovery emails end on `/admin/set-password`, where the user
-chooses a password before entering the admin. The sign-in page also has a
-"Forgot your password?" form that requests a new recovery email.
+| Route | Purpose |
+| --- | --- |
+| `/admin/login` | Sign in, with an inline "Forgot your password?" form. |
+| `/admin/forgot-password` | Standalone reset request (linked from expired links). |
+| `/admin/set-password` | Lands from invite and recovery emails; sets the password. |
+| `/admin/reset-password` | Alias of `/admin/set-password` (keeps the token fragment). |
+| `/admin/account` | Signed-in password change (`/admin/update-password` redirects here). |
+| `/auth/callback` | Server completion for PKCE `code` and `token_hash` links. |
 
-In Supabase, open **Authentication → URL Configuration** and allow both the
-password screen and the callback:
+`/admin/set-password` accepts implicit-flow fragments (`#access_token=…`),
+`?token_hash=…&type=…`, and PKCE `?code=…`. It removes every token from the
+address bar before creating a Supabase client, validates the session with
+Supabase, and shows a clear "invalid or expired" state with a **Request a new
+link** button otherwise. After a successful change, other sessions are signed
+out and the user is sent to `/admin`. Reset requests always use implicit-flow
+links so they work when the email is opened on another device.
 
-- Site URL: `https://drawtiq.netlify.app`
+Supabase Dashboard → **Authentication → URL Configuration**:
+
+- Site URL: the production domain (for example `https://drawtiq.netlify.app`).
 - Redirect URLs:
-  - `https://drawtiq.netlify.app/admin/set-password`
-  - `https://drawtiq.netlify.app/auth/callback`
+  - `https://<production-domain>/admin/set-password`
+  - `https://<production-domain>/auth/callback`
   - `http://localhost:3000/admin/set-password`
   - `http://localhost:3000/auth/callback`
+  - Optional for Netlify deploy previews: `https://*--<site-name>.netlify.app/**`
 
-If the reset or invitation email still opens `localhost`, Supabase is falling
-back to its **Site URL**. Change that value to the live domain. Dashboard
-invitations use the Site URL; the app's own "Forgot your password?" form uses
-`NEXT_PUBLIC_SITE_URL` (or the current origin if it is unset).
+Netlify → **Site configuration → Environment variables**:
 
-Set `NEXT_PUBLIC_SITE_URL=https://drawtiq.netlify.app` in both `.env.local` and
-the Netlify environment variables, then redeploy. Restart the local dev server
-after changing it. If a reset is requested from localhost while the canonical
-URL is the live site, the app uses an implicit-flow recovery link so the token
-is not tied to localhost's PKCE cookie.
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SITE_URL` = the production domain (no trailing slash). Redeploy
+  after changing it; `NEXT_PUBLIC_` values are inlined at build time.
+- `SUPABASE_SERVICE_ROLE_KEY` (optional, secret, runtime/functions scope only).
 
-Links already configured to land on the site root are forwarded to the password
-screen with their token intact. PKCE and token-hash links are completed by
-`/auth/callback`; implicit-flow links are completed in the browser.
+Recommended: in Supabase → **Authentication → Emails**, configure custom SMTP.
+The built-in sender is heavily rate-limited, which makes invitations and resets
+fail with "rate limit" errors. Optionally, for the most robust links, change the
+**Invite user** and **Reset password** templates to
+`{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=invite&next=/admin/set-password`
+(use `type=recovery` for the reset template). The default templates also work.
 
-After accepting an invitation, make sure the user is also added to
-`public.admin_users` with an appropriate role. Without that allowlist row the
-password can be set, but the admin will show "Access denied." Owners can add
-them from `/admin/team`; the role defaults to `viewer` if omitted.
-
-Do not add `SUPABASE_SERVICE_ROLE_KEY` to the Next.js environment. The app uses
-the anon key plus the signed-in user session; the service role key bypasses RLS
-and should only be used for trusted one-off setup.
+If a link still opens the homepage, Supabase fell back to its Site URL because
+the redirect was not allowlisted; the site forwards those tokens to the password
+screen automatically.
 
 ## Admin and public content
 
@@ -204,21 +229,29 @@ state until real events exist.
 
 ### Admin screens
 
-- `/admin` — Dashboard with visitor analytics and a secondary content overview.
-- `/admin/analytics/visitors` — anonymous visitor list with date filters and
-  search; each row links to session and navigation history.
-- `/admin/projects` — list, create, edit, publish, and delete portfolio projects.
-- `/admin/services` — list, create, edit, publish, and delete services.
-- `/admin/posts` — list, create, edit, publish, and delete blog posts.
-- `/admin/inquiries` — filter and read inquiries, with a status update on each
-  inquiry detail page.
-- `/admin/cms` - edit homepage sections, navigation, footer, and settings.
-- `/admin/team` - owner-only team list and role management.
+The sidebar groups screens by what they edit. Groups can be collapsed (the
+group holding the current page stays open), and links a role cannot use are
+hidden; the server and RLS repeat every check.
 
-The admin sidebar groups Dashboard and Visitors under **Overview**, studio
-content pages under **Main pages**, and the owner-only Team screen under
-**Account**. Links and server actions are filtered by role; RLS repeats the
-permission checks in the database.
+- **Dashboard**: Overview (`/admin`), Analytics (`/admin/analytics/visitors`),
+  Inquiries (`/admin/inquiries`).
+- **Website pages** (`/admin/pages/[page]`): Homepage, Work / Portfolio, Case
+  Studies, Services, About, Pricing, Careers, Insights / Blog, Contact. Each
+  screen lists the existing CMS records that feed that page (for example
+  `pricing_plans`, `pricing_faqs`, and the `pricing` rows of `page_sections`)
+  with ordering and visibility controls, and links to the collections it uses.
+- **Content**: Projects, Services, Blog posts, Testimonials, Public team (the
+  About page's `team_members`, not admin users), and All collections
+  (`/admin/cms`).
+- **Team & access**: Team members (`/admin/team`) and My account.
+- **Site settings** (`/admin/settings`): global settings, header navigation,
+  footer links, footer social links, and header/footer labels only.
+
+Every record, however you reach it, opens the one shared editor at
+`/admin/cms/[table]/[id]` (or the project, service, and post editors), so there
+are no duplicate editors or content stores. Saving revalidates the public site.
+`global_settings` has legacy duplicate rows; the list marks the live row and
+labels the others "Unused duplicate". They are left in place for you to delete.
 
 Forms use server actions and re-check the signed-in user's role and RLS on every
 mutation. Complex content fields are JSON textareas: project `gallery`, service

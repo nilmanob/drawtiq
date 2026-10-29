@@ -116,9 +116,9 @@ export function AnalyticsTrendChart({
                     rx={1.5}
                     className="admin-chart-bar"
                   >
-                    <title>
-                      {point.label}: {formatCount(value)}
-                    </title>
+                    {/* One string child: React cannot hydrate a <title> split
+                        into several text nodes. */}
+                    <title>{`${point.label}: ${formatCount(value)}`}</title>
                   </rect>
                   {index % labelEvery === 0 || index === series.length - 1 ? (
                     <text
