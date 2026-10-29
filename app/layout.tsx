@@ -72,7 +72,13 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
+      {/*
+        Browser extensions (ColorZilla, Grammarly, password managers) add
+        attributes such as cz-shortcut-listen to <body> before React hydrates.
+        This only ignores attribute differences on <body> itself; children are
+        still checked.
+      */}
+      <body suppressHydrationWarning>
         <AuthLinkRedirect />
         {children}
       </body>
