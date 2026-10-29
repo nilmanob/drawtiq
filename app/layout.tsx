@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import NetlifyCommentStrip from "@/components/netlify-comment-strip";
 import { AuthLinkRedirect } from "@/components/auth-link-redirect";
 import { getGlobalSettings } from "@/lib/content/cms";
 import "./../styles/global.css";
@@ -55,6 +56,12 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <head>
         <meta charSet="utf-8" />
+        {/*
+          Netlify injects a promotional HTML comment into <head> on its edge.
+          React counts that comment as a head node, so hydration fails before
+          the client can take over. The strip below removes it in time.
+        */}
+        <NetlifyCommentStrip />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/assets/Drawtiq-favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/assets/Drawtiq-favicon.png" />

@@ -57,8 +57,9 @@ Roles are stored in `public.admin_users.role`, not in user-editable profile
 metadata. This keeps them authoritative for RLS and lets an owner change them
 without changing the auth user. Apply
 `supabase/migrations/20261028000400_admin_roles.sql` before using the Team
-screen. Existing allowlisted accounts are backfilled as owners; new rows default
-to viewer.
+screen. The oldest existing allowlisted account becomes owner; any other
+existing accounts become admin so the owner can review them. New rows default to
+viewer.
 
 | Role | Access |
 | --- | --- |

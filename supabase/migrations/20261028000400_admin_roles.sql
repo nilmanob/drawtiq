@@ -3,8 +3,8 @@
 -- Roles live in public.admin_users, not in user-editable metadata. The table is
 -- the single allowlist for the admin, and RLS uses these helpers as the final
 -- authority. New rows default to viewer. Existing allowlisted accounts were
--- full admins before roles existed, so the one-time backfill keeps them as
--- owners.
+-- full admins before roles existed: the oldest becomes owner and the rest become
+-- admin so the owner can review and demote them from the Team screen.
 
 do $$
 begin
@@ -25,7 +25,16 @@ begin
     alter table public.admin_users
       add column role public.admin_role not null default 'viewer';
 
-    update public.admin_users set role = 'owner';
+    update public.admin_users set role = 'admin';
+
+    update public.admin_users
+    set role = 'owner'
+    where user_id = (
+      select user_id
+      from public.admin_users
+      order by created_at asc, user_id asc
+      limit 1
+    );
   end if;
 end $$;
 
