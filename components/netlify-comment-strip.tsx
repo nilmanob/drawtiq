@@ -20,6 +20,12 @@
  * are removed.
  */
 
+declare global {
+  interface Window {
+    __drawtiqNetlifyCommentStripReady?: boolean;
+  }
+}
+
 const NETLIFY_MARKER = "Netlify";
 
 function stripNetlifyComments() {
