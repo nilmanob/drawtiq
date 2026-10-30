@@ -19,7 +19,6 @@ export const INQUIRY_BUDGETS = [
   "Let's discuss",
 ] as const;
 
-const BUDGET_VALUES = new Set<string>(INQUIRY_BUDGETS);
 
 const CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
 
@@ -66,21 +65,15 @@ export const inquirySchema = z.object({
         .email("Enter a valid email address.")
         .max(254, "Email is too long.")
     ),
-  service: z
-    .string()
-    .transform(sanitizeSingleLine)
-    .pipe(
-      z.enum(INQUIRY_SERVICES, {
-        errorMap: () => ({ message: "Choose a valid service." }),
-      })
-    ),
+  // Shape only. The allowed values come from the CMS contact form fields (with
+  // INQUIRY_SERVICES / INQUIRY_BUDGETS as the fallback) and are checked by the
+  // API route with isAllowedOption, so editing options in the admin never
+  // breaks the form.
+  service: singleLineField(120, "Service"),
   budget: z
     .string()
     .transform(sanitizeSingleLine)
-    .refine(
-      (value) => value === "" || BUDGET_VALUES.has(value),
-      "Choose a valid budget range."
-    )
+    .pipe(z.string().max(80, "Budget is too long."))
     .optional()
     .default(""),
   message: z
@@ -103,3 +96,17 @@ export const inquirySchema = z.object({
 });
 
 export type InquiryInput = z.infer<typeof inquirySchema>;
+
+/** Case- and whitespace-insensitive match against the allowed options. */
+export function matchOption(value: string, allowed: Set<string> | readonly string[]): string | null {
+  const key = sanitizeSingleLine(value).toLowerCase();
+  if (!key) {
+    return null;
+  }
+  for (const option of Array.from(allowed)) {
+    if (sanitizeSingleLine(option).toLowerCase() === key) {
+      return sanitizeSingleLine(option);
+    }
+  }
+  return null;
+}

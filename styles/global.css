@@ -1,32 +1,58 @@
 /* Drawtiq design system — CSS variables are the single source of truth. */
 :root {
   color-scheme: light;
-  --bg: #f5f3ed;
-  --paper: #fffef9;
-  --ink: #171916;
+  /* Theme colors. Admin → Site settings → Theme & colors can override these
+     from Supabase (see lib/theme/colors.ts); the values here are the approved
+     palette and the fallback. Every default below is the original value. */
+  --color-primary: #c8ff43;
+  --color-background: #f5f3ed;
+  --color-text: #171916;
+  --color-white: #fffef9;
+  --color-black: #171916;
+
+  --bg: var(--color-background);
+  --paper: var(--color-white);
+  --ink: var(--color-text);
   --muted: #666960;
   --line: #d9d8ce;
-  --accent: #c8ff43;
+  --accent: var(--color-primary);
   --accent-ink: #20251a;
   --surface: #ebe9df;
-  --dark: #171916;
+  --dark: var(--color-black);
+
+  /* Text on primary-colored buttons. Follows --accent-ink unless a custom
+     button text color is saved. */
+  --button-text: var(--accent-ink);
+
+  /* Shades used on the dark contact section and footer, which sit on the
+     black color in both light and dark mode. */
+  --on-dark-text: var(--color-background);
+  --on-dark-label: #e8e8df;
+  --on-dark-soft: #b9bcb1;
+  --on-dark-muted: #a5a89e;
+  --on-dark-faint: #85887d;
+  --on-dark-line-strong: #55584e;
+  --on-dark-input-line: #53564b;
+  --on-dark-line: #41443b;
+  --on-dark-panel: #22241f;
   --radius: 4px;
   --wrap: min(1240px, calc(100% - 96px));
   --ease: cubic-bezier(.2, .75, .25, 1);
-  --display: "Manrope", sans-serif;
-  --body: "DM Sans", sans-serif;
-  --mono: "DM Mono", monospace;
+  --display: var(--font-manrope, "Manrope"), sans-serif;
+  --body: var(--font-dm-sans, "DM Sans"), sans-serif;
+  --mono: var(--font-dm-mono, "DM Mono"), monospace;
 }
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #171916;
+  --bg: var(--color-black);
   --paper: #20221e;
-  --ink: #f5f3ed;
+  --ink: var(--color-background);
   --muted: #b1b3a9;
   --line: #41443b;
-  --accent: #c8ff43;
+  --accent: var(--color-primary);
   --accent-ink: #171916;
+  --button-text: var(--accent-ink);
   --surface: #242720;
   --dark: #0e0f0d;
 }
@@ -143,7 +169,8 @@ button {
   left: 0;
   width: 100%;
   height: 82px;
-  padding: 0 max(48px, calc((100vw - 1240px) / 2));
+  /* % (not vw) so the scrollbar is excluded, matching .section-wrap. */
+  padding: 0 max(48px, calc((100% - 1240px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -194,8 +221,15 @@ html[data-theme="dark"] .site-header.scrolled {
   margin-bottom: 6px;
 }
 
-html[data-theme="dark"] .site-logo {
-  filter: invert(1) hue-rotate(180deg);
+/* Dark mode swaps the header to the white logo file (see components/nav.tsx).
+   The footer is black in both themes and always shows the white logo. */
+.site-logo.site-logo-on-dark,
+html[data-theme="dark"] .site-logo.site-logo-on-light {
+  display: none;
+}
+
+html[data-theme="dark"] .site-logo.site-logo-on-dark {
+  display: block;
 }
 
 .site-logo-link:hover .site-logo {
@@ -233,8 +267,9 @@ html[data-theme="dark"] .site-logo {
   color: var(--ink);
 }
 
-.footer-links a:hover, .footer-social a:hover {
-  color: var(--accent);
+.footer-links a:hover, .footer-social a:hover,
+.footer-links a:focus-visible, .footer-social a:focus-visible {
+  color: var(--color-primary);
 }
 
 .header-actions {
@@ -286,7 +321,7 @@ html[data-theme="dark"] .site-logo {
 
 .button-dark {
   background: var(--accent);
-  color: var(--accent-ink);
+  color: var(--button-text);
 }
 
 .button-dark:hover {
@@ -296,7 +331,7 @@ html[data-theme="dark"] .site-logo {
 
 .button-accent {
   background: var(--accent);
-  color: var(--accent-ink);
+  color: var(--button-text);
 }
 
 .button-accent:hover {
@@ -1796,7 +1831,7 @@ blockquote em {
 /* Contact section (homepage form) */
 .contact-section {
   background: var(--dark);
-  color: #f5f3ed;
+  color: var(--on-dark-text);
   padding: 120px 0;
   position: relative;
   overflow: hidden;
@@ -1823,7 +1858,7 @@ blockquote em {
 }
 
 .contact-copy .eyebrow {
-  color: #b9bcb1;
+  color: var(--on-dark-soft);
 }
 
 .contact-copy h2 {
@@ -1837,7 +1872,7 @@ blockquote em {
 
 .contact-copy > p:not(.eyebrow) {
   max-width: 420px;
-  color: #b9bcb1;
+  color: var(--on-dark-soft);
   font-size: 15px;
 }
 
@@ -1847,7 +1882,7 @@ blockquote em {
   align-items: center;
   font: 500 18px var(--display);
   letter-spacing: -.04em;
-  border-bottom: 1px solid #55584e;
+  border-bottom: 1px solid var(--on-dark-line-strong);
   padding-bottom: 8px;
   margin-top: 28px;
 }
@@ -1857,14 +1892,14 @@ blockquote em {
 }
 
 .contact-note {
-  color: #85887d;
+  color: var(--on-dark-faint);
   font-size: 11px;
   margin-top: 55px;
 }
 
 .contact-form {
-  background: #22241f;
-  border: 1px solid #41443b;
+  background: var(--on-dark-panel);
+  border: 1px solid var(--on-dark-line);
   padding: 30px;
 }
 
@@ -1873,7 +1908,7 @@ blockquote em {
   flex-direction: column;
   gap: 8px;
   padding-bottom: 25px;
-  border-bottom: 1px solid #41443b;
+  border-bottom: 1px solid var(--on-dark-line);
   margin-bottom: 24px;
 }
 
@@ -1884,7 +1919,7 @@ blockquote em {
 
 .contact-form .form-heading span:last-child {
   font-size: 12px;
-  color: #a5a89e;
+  color: var(--on-dark-muted);
 }
 
 .contact-form label {
@@ -1892,7 +1927,7 @@ blockquote em {
   flex-direction: column;
   gap: 7px;
   font-size: 13px;
-  color: #e8e8df;
+  color: var(--on-dark-label);
   margin-bottom: 18px;
 }
 
@@ -1901,7 +1936,7 @@ blockquote em {
   background: transparent;
   color: var(--paper);
   border: 0;
-  border-bottom: 1px solid #53564b;
+  border-bottom: 1px solid var(--on-dark-input-line);
   padding: 10px 0;
   outline: none;
   border-radius: 0;
@@ -1914,11 +1949,11 @@ blockquote em {
 }
 
 .contact-form select option {
-  background: #22241f;
+  background: var(--on-dark-panel);
 }
 
 .contact-form input::placeholder, .contact-form textarea::placeholder {
-  color: #85887d;
+  color: var(--on-dark-faint);
 }
 
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
@@ -1933,15 +1968,16 @@ blockquote em {
 
 .form-hint {
   font-size: 12px;
-  color: #a5a89e;
+  color: var(--on-dark-muted);
   margin: 12px 0 0;
 }
 
 /* Site footer */
 .site-footer {
-  background: var(--dark);
-  color: #f5f3ed;
-  border-top: 1px solid #41443b;
+  /* Same black in both themes (--dark is darker in dark mode). */
+  background: var(--color-black);
+  color: var(--on-dark-text);
+  border-top: 1px solid var(--on-dark-line);
 }
 
 .footer-top {
@@ -1959,7 +1995,7 @@ blockquote em {
 .footer-top > p {
   font-size: 14px;
   line-height: 1.6;
-  color: #a5a89e;
+  color: var(--on-dark-muted);
   margin: 0;
 }
 
@@ -1970,7 +2006,7 @@ blockquote em {
 }
 
 .footer-links a, .footer-social a {
-  color: #b9bcb1;
+  color: var(--on-dark-soft);
   font-size: 13px;
 }
 
@@ -1979,8 +2015,8 @@ blockquote em {
   justify-content: space-between;
   align-items: center;
   padding-block: 17px;
-  border-top: 1px solid #41443b;
-  color: #a5a89e;
+  border-top: 1px solid var(--on-dark-line);
+  color: var(--on-dark-muted);
   font-size: 12px;
 }
 
@@ -1988,12 +2024,20 @@ blockquote em {
   font-size: 11px;
 }
 
+.footer-heart {
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: -1px;
+  fill: var(--color-primary);
+}
+
 .footer-bottom a {
   color: var(--paper);
 }
 
-.footer-bottom a:hover {
-  color: var(--accent);
+.footer-bottom a:hover,
+.footer-bottom a:focus-visible {
+  color: var(--color-primary);
 }
 
 /* Cursor label */
@@ -2137,6 +2181,12 @@ blockquote em {
   margin: 0;
 }
 
+/* Keep the button label on one line; the heading wraps instead. */
+.page-cta .button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .page-cta p {
   margin: 10px 0 0;
   font-size: 15px;
@@ -2261,6 +2311,11 @@ blockquote em {
 .service-detail-copy h2 {
   font-size: clamp(34px, 4.4vw, 58px);
   margin: 0 0 24px;
+}
+
+/* About "Our point of view": tight leading like the other display headings. */
+.about-split .service-detail-copy h2 {
+  line-height: .99;
 }
 
 .service-detail-copy p {
@@ -2529,6 +2584,8 @@ blockquote em {
 
 .contact-page-copy h2 {
   font-size: clamp(42px, 5vw, 64px);
+  /* Same tight leading as the homepage contact heading. */
+  line-height: .99;
   margin: 0 0 24px;
 }
 
@@ -3140,6 +3197,12 @@ blockquote em {
   }
 
   .studio-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  /* About "Our point of view": stack like the homepage studio section. */
+  .about-split {
     grid-template-columns: 1fr;
     gap: 48px;
   }
@@ -3793,7 +3856,7 @@ blockquote em {
 .pricing-card.featured .pricing-tagline,
 .pricing-card.featured .pricing-price span,
 .pricing-card.featured .pricing-note {
-  color: #b9bcb1;
+  color: var(--on-dark-soft);
 }
 
 .pricing-price {
@@ -3828,7 +3891,7 @@ blockquote em {
 
 .pricing-card.featured .button-dark {
   background: var(--accent);
-  color: var(--accent-ink);
+  color: var(--button-text);
 }
 
 .pricing-card.featured .button-dark:hover {
@@ -4136,7 +4199,7 @@ blockquote em {
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -50%);
-  background: #171916;
+  background: var(--color-black);
   box-shadow: 0 26px 60px rgba(0, 0, 0, 0.32);
   transition: opacity 0.25s var(--ease);
 }
@@ -4278,49 +4341,6 @@ p {
   }
 }
 
-/* The studio photograph is treated as a printed detail, not a stock image. */
-.studio-band {
-  position: relative;
-  overflow: hidden;
-}
-
-.studio-band-media {
-  display: block;
-  width: 240%;
-  max-width: none;
-  height: clamp(300px, 34vw, 500px);
-  object-fit: cover;
-  object-position: 0 62%;
-  filter: grayscale(1) contrast(1.12) sepia(.16);
-}
-
-.studio-band::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: clamp(300px, 34vw, 500px);
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(23, 25, 22, .09), transparent 48%),
-    radial-gradient(circle at 76% 18%, rgba(200, 255, 67, .11), transparent 42%);
-  mix-blend-mode: multiply;
-}
-
-.studio-band-caption {
-  position: relative;
-  z-index: 2;
-}
-
-.studio-band-caption .mono:last-child {
-  font-family: Georgia, serif;
-  font-style: italic;
-  text-transform: none;
-  letter-spacing: -.01em;
-  font-size: 13px;
-}
-
 /* A clearer, more human contact page. */
 .contact-steps {
   list-style: none;
@@ -4361,16 +4381,6 @@ textarea:focus-visible {
 @media (max-width: 700px) {
   .headline-outline {
     filter: drop-shadow(1.5px 1.5px 0 color-mix(in srgb, var(--accent) 72%, transparent));
-  }
-
-  .studio-band-media {
-    width: 215%;
-    height: 280px;
-    object-position: 0 60%;
-  }
-
-  .studio-band::after {
-    height: 280px;
   }
 
   .hero-footnote {
@@ -4471,3 +4481,818 @@ textarea:focus-visible {
   }
 }
 
+/* ------------------------------------------------------------------
+   Homepage showcase ("Studio in motion"), below the main hero.
+   Self-contained: every class starts with sc-. Black in both themes,
+   like the footer. All colours come from the theme variables.
+   ------------------------------------------------------------------ */
+/* Full-bleed panels; the content inside lines up with --wrap. */
+.showcase {
+  margin-top: 24px;
+}
+
+.showcase + .showcase {
+  margin-top: 0;
+}
+
+.showcase + :not(.showcase) {
+  margin-top: 88px;
+}
+
+.sc-stage {
+  --sc-mx: 72%;
+  --sc-my: 18%;
+  /* Accent for text and thin strokes: pure primary on black, a darker mix of
+     primary and text on the white variant so it stays readable. */
+  --sc-accent: var(--color-primary);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(56px, 7vw, 104px) 0 0;
+  border-block: 1px solid var(--on-dark-line);
+  background: var(--color-black);
+  color: var(--on-dark-text);
+  transition: background-color .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+}
+
+/* Cursor spotlight in the primary colour. */
+.sc-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(520px circle at var(--sc-mx) var(--sc-my), color-mix(in srgb, var(--color-primary) 22%, transparent), transparent 62%),
+    radial-gradient(700px circle at 0% 100%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 60%);
+  transition: background .2s linear;
+}
+
+/* Fine drafting grid, faded towards the edges. */
+.sc-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-background) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-background) 7%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at 60% 40%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 60% 40%, #000 30%, transparent 78%);
+  pointer-events: none;
+}
+
+.sc-layout {
+  width: var(--wrap);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.sc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 7px 12px;
+  border: 1px solid var(--on-dark-line);
+  border-radius: 999px;
+  color: var(--on-dark-soft);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--color-background) 4%, transparent);
+}
+
+/* Same title treatment as the original hero: outlined "meaningful." and an
+   italic serif "move." with a hand-drawn accent swash. */
+.sc-title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(48px, 5.7vw, 86px);
+  line-height: .99;
+  letter-spacing: -.075em;
+  color: var(--on-dark-text);
+  text-wrap: balance;
+}
+
+.sc-title em {
+  position: relative;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.065em;
+  color: var(--on-dark-muted);
+}
+
+.sc-title em::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 2%;
+  bottom: -6px;
+  height: 9px;
+  border-bottom: 2px solid var(--color-primary);
+  border-radius: 50%;
+  transform: rotate(-2deg);
+}
+
+/* The panel keeps its colours in both themes, so the outline follows the
+   panel's text colour rather than the page ink. */
+.sc-title .headline-outline {
+  -webkit-text-stroke-color: var(--on-dark-text);
+}
+
+/* As the first section, clear the fixed header like the original hero did. */
+main > .showcase:first-child {
+  margin-top: 0;
+}
+
+main > .showcase:first-child .sc-stage {
+  padding-top: calc(82px + clamp(48px, 6vw, 96px));
+  border-top: 0;
+}
+
+.sc-lead {
+  max-width: 440px;
+  margin: 26px 0 0;
+  color: var(--on-dark-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.sc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+  margin-top: 34px;
+}
+
+.sc-actions .button {
+  white-space: nowrap;
+}
+
+.sc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--on-dark-text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--on-dark-line-strong);
+  padding-bottom: 4px;
+  transition: color .2s, border-color .2s;
+}
+
+.sc-link span {
+  transition: transform .3s var(--ease);
+}
+
+.sc-link:hover,
+.sc-link:focus-visible {
+  color: var(--sc-accent);
+  border-color: var(--sc-accent);
+}
+
+.sc-link:hover span {
+  transform: translateX(4px);
+}
+
+/* Bento of live discipline cards. */
+.sc-bento {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  grid-template-areas:
+    "product brand"
+    "motion video";
+  gap: 14px;
+  perspective: 1200px;
+}
+
+.sc-card-product { grid-area: product; }
+.sc-card-brand { grid-area: brand; }
+.sc-card-video { grid-area: video; }
+.sc-card-motion { grid-area: motion; }
+
+.sc-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 236px;
+  padding: 16px 16px 18px;
+  overflow: hidden;
+  border: 1px solid var(--on-dark-line);
+  border-radius: 16px;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--color-background) 7%, transparent), transparent 55%),
+    var(--on-dark-panel);
+  color: var(--on-dark-text);
+  text-decoration: none;
+  transform: rotateX(var(--sc-rx, 0deg)) rotateY(var(--sc-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform .6s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+
+.sc-card.is-tilting {
+  transition: transform .12s linear, border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+
+.sc-card:hover,
+.sc-card:focus-visible {
+  border-color: color-mix(in srgb, var(--color-primary) 55%, var(--on-dark-line));
+  box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.sc-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.sc-card-head .mono {
+  color: var(--sc-accent);
+  font-size: 11px;
+}
+
+.sc-card-label {
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.sc-card-arrow {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--on-dark-line);
+  border-radius: 50%;
+  color: var(--on-dark-soft);
+  font-size: 12px;
+  transition: background .25s, color .25s, transform .35s var(--ease), border-color .25s;
+}
+
+.sc-card:hover .sc-card-arrow {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--button-text);
+  transform: rotate(45deg);
+}
+
+.sc-card-art {
+  position: relative;
+  flex: 1;
+  display: grid;
+  min-height: 120px;
+  transform: translateZ(28px);
+}
+
+.sc-card-caption {
+  color: var(--on-dark-muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* Product: a tiny live dashboard. */
+.sc-ui {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border: 1px solid var(--on-dark-line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-black) 60%, var(--on-dark-panel));
+}
+
+.sc-ui-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--on-dark-line);
+}
+
+.sc-ui-top i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--on-dark-line-strong);
+}
+
+.sc-ui-top b {
+  margin-left: auto;
+  width: 34%;
+  height: 6px;
+  border-radius: 6px;
+  background: var(--on-dark-line);
+}
+
+.sc-ui-body {
+  display: grid;
+  grid-template-columns: 22% 1fr;
+}
+
+.sc-ui-side {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  padding: 10px 8px;
+  border-right: 1px solid var(--on-dark-line);
+}
+
+.sc-ui-side i {
+  height: 5px;
+  border-radius: 5px;
+  background: var(--on-dark-line);
+}
+
+.sc-ui-side i:first-child {
+  background: var(--color-primary);
+  width: 80%;
+}
+
+.sc-ui-main {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.sc-ui-kpi {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sc-ui-kpi i {
+  width: 42%;
+  height: 6px;
+  border-radius: 6px;
+  background: var(--on-dark-line-strong);
+}
+
+.sc-ui-kpi b {
+  width: 16px;
+  height: 6px;
+  border-radius: 6px;
+  background: var(--color-primary);
+}
+
+.sc-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  min-height: 54px;
+}
+
+.sc-bars i {
+  flex: 1;
+  height: var(--h);
+  border-radius: 3px 3px 1px 1px;
+  background: color-mix(in srgb, var(--color-background) 18%, transparent);
+  transform-origin: bottom;
+  animation: sc-bar 3.2s var(--ease) infinite;
+  animation-delay: calc(var(--i) * .14s);
+}
+
+.sc-bars i:nth-child(5) {
+  background: var(--color-primary);
+}
+
+.sc-spark {
+  width: 100%;
+  height: 30px;
+  overflow: visible;
+}
+
+.sc-spark path {
+  fill: none;
+  stroke: var(--sc-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+  animation: sc-draw 3.6s var(--ease) infinite;
+}
+
+/* Brand: type specimen inside a rotating ring. */
+.sc-brand {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.sc-ring {
+  position: absolute;
+  width: min(100%, 170px);
+  aspect-ratio: 1;
+  animation: sc-spin 22s linear infinite;
+}
+
+.sc-ring text {
+  fill: var(--on-dark-muted);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 3px;
+}
+
+.sc-specimen {
+  font-family: var(--display);
+  font-size: 54px;
+  font-weight: 700;
+  letter-spacing: -.07em;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--on-dark-text) 30%, var(--sc-accent) 70%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sc-sheen 5s ease-in-out infinite;
+}
+
+.sc-swatches {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.sc-swatches i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--on-dark-line);
+}
+
+.sc-swatches .sw-primary { background: var(--color-primary); }
+.sc-swatches .sw-black { background: var(--color-black); }
+.sc-swatches .sw-background { background: var(--color-background); }
+.sc-swatches .sw-white { background: var(--color-white); }
+
+/* Video: frames, playhead, and waveform. */
+.sc-video {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  gap: 10px;
+}
+
+.sc-frames {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  min-height: 52px;
+}
+
+.sc-frames i {
+  border-radius: 5px;
+  background:
+    linear-gradient(calc(120deg + var(--i) * 18deg), color-mix(in srgb, var(--color-primary) calc(14% + var(--i) * 6%), transparent), transparent 70%),
+    color-mix(in srgb, var(--color-background) 9%, var(--on-dark-panel));
+  border: 1px solid var(--on-dark-line);
+}
+
+.sc-playhead {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  box-shadow: 0 0 14px var(--color-primary);
+  animation: sc-playhead 4.8s linear infinite;
+}
+
+.sc-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 30px;
+}
+
+.sc-wave i {
+  flex: 1;
+  height: var(--h);
+  border-radius: 2px;
+  background: var(--on-dark-line-strong);
+  transform-origin: center;
+  animation: sc-wave 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -.09s);
+}
+
+.sc-timecode {
+  color: var(--on-dark-faint);
+  font-size: 10.5px;
+}
+
+/* Motion: an eased curve with a travelling dot and a timeline. */
+.sc-motion {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 12px;
+}
+
+.sc-curve {
+  width: 100%;
+  height: 100%;
+  min-height: 92px;
+  overflow: visible;
+}
+
+.sc-curve-guide {
+  fill: none;
+  stroke: var(--on-dark-line);
+  stroke-dasharray: 3 5;
+}
+
+.sc-curve-path {
+  fill: none;
+  stroke: var(--on-dark-soft);
+  stroke-width: 2;
+}
+
+.sc-handle {
+  fill: var(--on-dark-panel);
+  stroke: var(--on-dark-soft);
+}
+
+.sc-dot {
+  fill: var(--color-primary);
+  filter: drop-shadow(0 0 8px var(--color-primary));
+}
+
+.sc-dot-static {
+  display: none;
+}
+
+.sc-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 14px;
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.sc-timeline i {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg) translateY(-1px);
+  background: var(--on-dark-line-strong);
+}
+
+.sc-timeline i:nth-child(2) {
+  background: var(--color-primary);
+}
+
+.sc-scrub {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--color-primary);
+  animation: sc-scrub 2.4s linear infinite;
+}
+
+/* Discipline marquee along the bottom edge. */
+.sc-marquee {
+  margin-top: clamp(48px, 6vw, 88px);
+  padding-block: 18px 22px;
+  border-top: 1px solid var(--on-dark-line);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.sc-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: sc-marquee 38s linear infinite;
+}
+
+.sc-marquee-track > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+  font-family: var(--display);
+  font-size: clamp(28px, 3.6vw, 52px);
+  font-weight: 600;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+  white-space: nowrap;
+  color: var(--on-dark-text);
+}
+
+.sc-marquee-track > span.is-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--on-dark-soft);
+}
+
+.sc-marquee-track em {
+  color: var(--sc-accent);
+  font-style: normal;
+  font-size: .5em;
+  -webkit-text-stroke: 0;
+}
+
+/* White variant: same layout, light panel. It follows the site theme switch:
+   these rules apply in light mode only, and in dark mode the panel falls back
+   to the black base styles above. */
+html:not([data-theme="dark"]) .sc-stage.is-light {
+  --on-dark-text: var(--color-text);
+  --on-dark-label: var(--color-text);
+  --on-dark-soft: color-mix(in srgb, var(--color-text) 80%, var(--color-white));
+  --on-dark-muted: color-mix(in srgb, var(--color-text) 68%, var(--color-white));
+  --on-dark-faint: color-mix(in srgb, var(--color-text) 58%, var(--color-white));
+  --on-dark-line-strong: color-mix(in srgb, var(--color-text) 24%, var(--color-white));
+  --on-dark-input-line: color-mix(in srgb, var(--color-text) 24%, var(--color-white));
+  --on-dark-line: color-mix(in srgb, var(--color-text) 12%, var(--color-white));
+  --on-dark-panel: var(--color-background);
+  --sc-accent: color-mix(in srgb, var(--color-primary) 32%, var(--color-text));
+  background: var(--color-white);
+  color-scheme: light;
+}
+
+html:not([data-theme="dark"]) .sc-stage.is-light::before {
+  background:
+    radial-gradient(520px circle at var(--sc-mx) var(--sc-my), color-mix(in srgb, var(--color-primary) 34%, transparent), transparent 62%),
+    radial-gradient(700px circle at 100% 0%, color-mix(in srgb, var(--color-primary) 14%, transparent), transparent 60%);
+}
+
+html:not([data-theme="dark"]) .sc-stage.is-light::after {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-text) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-text) 6%, transparent) 1px, transparent 1px);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-card {
+  background:
+    linear-gradient(160deg, var(--color-white), transparent 60%),
+    var(--on-dark-panel);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-ui {
+  background: var(--color-white);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-bars i {
+  background: color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-bars i:nth-child(5),
+html:not([data-theme="dark"]) .is-light .sc-ui-side i:first-child,
+html:not([data-theme="dark"]) .is-light .sc-ui-kpi b,
+html:not([data-theme="dark"]) .is-light .sc-timeline i:nth-child(2) {
+  background: var(--color-primary);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-frames i {
+  background:
+    linear-gradient(calc(120deg + var(--i) * 18deg), color-mix(in srgb, var(--color-primary) calc(24% + var(--i) * 8%), transparent), transparent 75%),
+    var(--color-white);
+}
+
+html:not([data-theme="dark"]) .is-light .sc-playhead,
+html:not([data-theme="dark"]) .is-light .sc-scrub {
+  background: var(--sc-accent);
+  box-shadow: none;
+}
+
+html:not([data-theme="dark"]) .is-light .sc-dot {
+  fill: var(--color-primary);
+  stroke: var(--sc-accent);
+  stroke-width: 2;
+  filter: none;
+}
+
+html:not([data-theme="dark"]) .is-light .sc-card-arrow {
+  background: var(--color-white);
+}
+
+@keyframes sc-bar {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(.55); }
+}
+
+@keyframes sc-draw {
+  0% { stroke-dashoffset: 1; }
+  55%, 80% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+
+@keyframes sc-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sc-sheen {
+  0%, 100% { background-position: 0% 0; }
+  50% { background-position: 100% 0; }
+}
+
+@keyframes sc-playhead {
+  from { left: 0; }
+  to { left: calc(100% - 2px); }
+}
+
+@keyframes sc-wave {
+  0%, 100% { transform: scaleY(.45); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes sc-scrub {
+  0% { width: 0; }
+  75%, 100% { width: 100%; }
+}
+
+@keyframes sc-marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 1000px) {
+  .sc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sc-lead {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 700px) {
+  .showcase + :not(.showcase) {
+    margin-top: 64px;
+  }
+
+  .sc-bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "product product"
+      "brand motion"
+      "video video";
+    gap: 10px;
+  }
+
+  .sc-card {
+    min-height: 196px;
+    padding: 13px;
+  }
+
+  .sc-card-caption {
+    display: none;
+  }
+
+  .sc-specimen {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 380px) {
+  .sc-bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "product" "brand" "motion" "video";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-stage *,
+  .sc-stage::before {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sc-spark path {
+    stroke-dashoffset: 0;
+  }
+
+  .sc-scrub {
+    width: 75%;
+  }
+
+  .sc-playhead {
+    left: 40%;
+  }
+
+  .sc-dot-moving {
+    display: none;
+  }
+
+  .sc-dot-static {
+    display: inline;
+  }
+
+  .sc-card {
+    transform: none;
+  }
+}

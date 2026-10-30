@@ -11,16 +11,18 @@ import {
 } from "@/lib/content/cms";
 import { pageContent, getPageSeo } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, JsonLd } from "@/components/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("pricing");
-  return {
+  return pageSeo({
     title: seo.title || "Pricing",
     description:
       seo.description ||
       "Transparent monthly design plans for UI/UX, brand identity, graphic design, motion design, and video editing by Drawtiq.",
     alternates: { canonical: "/pricing" },
-  };
+  });
 }
 
 const included = [
@@ -164,6 +166,12 @@ export default async function PricingPage() {
         </div>
 
          <Faq items={faqItems} />
+        <JsonLd
+          data={[
+            faqJsonLd(faqItems.map((item) => ({ question: item.q, answer: item.a }))),
+            breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Pricing", path: "/pricing" }]),
+          ]}
+        />
 
         <div className="page-cta">
           <div>

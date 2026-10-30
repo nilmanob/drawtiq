@@ -22,6 +22,8 @@ export function Nav({
   items?: NavItem[];
   site?: {
     logoPath?: string;
+    /** White logo shown in dark mode. */
+    darkLogoPath?: string;
     logoAlt?: string;
     logoAriaLabel?: string;
     navCtaLabel?: string;
@@ -91,7 +93,15 @@ export function Nav({
           <img
             src={site?.logoPath || "/assets/Drawtiq-logo.png"}
             alt={site?.logoAlt || "Drawtiq"}
-            className="site-logo"
+            className="site-logo site-logo-on-light"
+            width={162}
+            height={27}
+          />
+          <img
+            src={site?.darkLogoPath || "/assets/Drawtiq-logo-white.png"}
+            alt=""
+            aria-hidden="true"
+            className="site-logo site-logo-on-dark"
             width={162}
             height={27}
           />

@@ -53,7 +53,7 @@ export function PortfolioCard({
               <path
                 d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
                 fill="none"
-                stroke="#c8ff43"
+                style={{ stroke: "var(--accent)" }}
                 strokeWidth="3"
               />
             </svg>

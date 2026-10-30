@@ -3,20 +3,22 @@ import { Faq } from "@/components/faq";
 import { getCareersFaqs, getCareersPerks, getCareersProcess, getCareersRoles, getGlobalSettings } from "@/lib/content/cms";
 import { getPageSeo, pageContent } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, JsonLd } from "@/components/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, { data: settings }] = await Promise.all([
     getPageSeo("careers"),
     getGlobalSettings(),
   ]);
-  const careersEmail = settings?.careers_email || "careers@drawtiq.studio";
-  return {
+  const careersEmail = settings?.careers_email || "contact@drawtiq.com";
+  return pageSeo({
     title: seo.title || "Careers",
     description:
       seo.description ||
       `Join Drawtiq — product, brand, motion, and video roles for people who care about craft. Write to ${careersEmail}.`,
     alternates: { canonical: "/careers" },
-  };
+  });
 }
 
 const perks = [
@@ -86,7 +88,7 @@ export default async function CareersPage() {
       heading: "Do the best work<br />of your <em>career.</em>",
       lead: "We're a small studio. We care about the work, protect time to think, and don't confuse busy with good. If that sounds like you, send us something you're proud of.",
       primaryLabel: "Send your portfolio",
-      primaryEmail: "careers@drawtiq.studio",
+      primaryEmail: "contact@drawtiq.com",
       secondaryLabel: "See open roles",
     }),
     pageContent("careers", "why", {
@@ -104,7 +106,7 @@ export default async function CareersPage() {
       heading: "Don't see your role?",
       body: "Tell us what you do and what you would love to make. We keep a warm list and reach out when the right project appears.",
       label: "Send a speculative note",
-      email: "careers@drawtiq.studio",
+      email: "contact@drawtiq.com",
     }),
     pageContent("careers", "hiring", {
       eyebrow: "How hiring works",
@@ -118,10 +120,10 @@ export default async function CareersPage() {
       heading: "Ready when you are.",
       body: "Send your work — we read every note that lands in the studio.",
       label: "Email the studio",
-      email: "careers@drawtiq.studio",
+      email: "contact@drawtiq.com",
     }),
   ]);
-  const careersEmail = settings?.careers_email || "careers@drawtiq.studio";
+  const careersEmail = settings?.careers_email || "contact@drawtiq.com";
   const perkItems = perksResult.data.length
     ? perksResult.data.map((item) => ({ n: item.number, title: item.title, body: item.body })) : perks;
   const roleItems = rolesResult.data.length ? rolesResult.data : roles;
@@ -224,6 +226,12 @@ export default async function CareersPage() {
         </div>
 
          <Faq items={faqItems} />
+        <JsonLd
+          data={[
+            faqJsonLd(faqItems.map((item) => ({ question: item.q, answer: item.a }))),
+            breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Careers", path: "/careers" }]),
+          ]}
+        />
 
         <div className="page-cta">
           <div>

@@ -3,18 +3,19 @@ import { getPublishedServices } from "@/lib/content/data";
 import { getServiceIcon, serviceHref } from "@/lib/content/presentation";
 import { pageContent, getPageSeo } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("services");
-  return {
+  return pageSeo({
     title: seo.title || "Services",
     description:
       seo.description ||
       "UI/UX, digital product design, brand identity, graphic design, motion design, and video editing services by Drawtiq.",
     alternates: { canonical: "/services" },
-  };
+  });
 }
 
 export default async function ServicesPage() {

@@ -2,18 +2,19 @@ import Link from "next/link";
 import { getPublishedPosts } from "@/lib/content/data";
 import { getPageSeo, pageContent } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("insights");
-  return {
+  return pageSeo({
     title: seo.title || "Insights",
     description:
       seo.description ||
       "Notes from the Drawtiq studio on design principles, brand systems, product thinking, motion design, and video craft.",
     alternates: { canonical: "/insights" },
-  };
+  });
 }
 
 export default async function InsightsPage() {

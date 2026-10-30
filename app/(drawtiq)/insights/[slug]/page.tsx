@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { getPublishedPost, getPublishedPosts } from "@/lib/content/data";
 import { formatPostDate } from "@/lib/content/presentation";
 import { getPageSeo, pageContent } from "@/lib/content/page-content";
+import { pageSeo } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 
 export const revalidate = 60;
 
@@ -26,11 +28,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Note not found" };
   }
 
-  return {
+  return pageSeo({
     title: post.seoTitle || seo.title || `${post.title} — Insights`,
     description: post.seoDescription || seo.description || post.excerpt,
     alternates: { canonical: `/insights/${post.slug}` },
-  };
+  }, { type: "article", publishedTime: post.date || null });
 }
 
 export default async function PostPage({ params }: Props) {
@@ -60,6 +62,16 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          articleJsonLd(post),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Insights", path: "/insights" },
+            { name: post.title, path: `/insights/${post.slug}` },
+          ]),
+        ]}
+      />
       <article>
         <section className="page-hero section-wrap post-hero">
           <p className="eyebrow">

@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { StudioVisual } from "@/components/studio-visual";
+import { ShowcaseStage } from "@/components/showcase-motion";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
 import {
   getContactFormFields,
@@ -267,12 +268,17 @@ function getSection(sections: HomepageSection[], key: string, fallback: any) {
 }
 
 const HOMEPAGE_ORDER = [
-  "hero", "trust-strip", "work-section", "services-section", "process-section",
+  "showcase-light", "trust-strip", "work-section", "services-section", "process-section",
   "studio-section", "testimonials", "insights-section", "contact-section",
 ] as const;
 
+// Kept in the code (and in the CMS) for use elsewhere, but not shown on the
+// homepage: the original hero and the "Good work comes from" principles strip.
+const HIDDEN_ON_HOMEPAGE = new Set(["hero", "trust-strip"]);
+
 const HOMEPAGE_COMPONENTS: Record<string, () => Promise<any>> = {
   hero: HomepageHero,
+  "showcase-light": HomepageShowcaseLightSection,
   "trust-strip": HomepageTrustStrip,
   "work-section": HomepageWorkSection,
   "services-section": HomepageServicesSection,
@@ -292,11 +298,17 @@ const HOMEPAGE_COMPONENTS: Record<string, () => Promise<any>> = {
 export async function HomepageContent() {
   const { data: sections, source } = await getHomepageSections();
   const cmsKeys = sections.map((section) => section.section_key);
-  const keys = source === "database" && cmsKeys.length ? cmsKeys : [...HOMEPAGE_ORDER];
+  const keys: string[] = source === "database" && cmsKeys.length ? cmsKeys : [...HOMEPAGE_ORDER];
+  // The showcase is the homepage hero. It takes the original hero's place
+  // until the CMS has its own "showcase-light" row to position it.
+  if (!keys.includes("showcase-light")) {
+    const heroIndex = keys.indexOf("hero");
+    keys.splice(heroIndex === -1 ? 0 : heroIndex, 0, "showcase-light");
+  }
 
   return (
     <>
-      {keys.map((key) => {
+      {keys.filter((key) => !HIDDEN_ON_HOMEPAGE.has(key)).map((key) => {
         const Component = HOMEPAGE_COMPONENTS[key];
         return Component ? <Component key={key} /> : null;
       })}
@@ -440,6 +452,181 @@ export async function HomepageHero() {
   );
 }
 
+const SHOWCASE_FALLBACK = {
+  eyebrow: "Studio in motion",
+  lead: "Strategy, interface, identity, and motion, designed together by one small team, so every touchpoint feels like the same brand.",
+  ctaPrimary: { label: "Start a project", href: "/contact" },
+  ctaSecondary: { label: "See selected work", href: "/work" },
+  cards: {
+    product: { index: "01", label: "UI/UX & Product", caption: "Interfaces that make the complex feel obvious.", href: "/service-ui-ux" },
+    brand: { index: "02", label: "Brand identity", caption: "Systems that look like you mean it.", href: "/service-graphic-design" },
+    motion: { index: "03", label: "Motion design", caption: "Movement with a job to do.", href: "/service-motion-design" },
+    video: { index: "04", label: "Video editing", caption: "Stories cut to hold attention.", href: "/service-video-editing" },
+  },
+  marquee: ["Product design", "Brand identity", "UI/UX", "Motion", "Video", "Design systems", "Websites"],
+};
+
+type ShowcaseCard = { index: string; label: string; caption: string; href: string };
+
+function ShowcaseCardShell({
+  card,
+  area,
+  children,
+}: {
+  card: ShowcaseCard;
+  area: string;
+  children: ReactNode;
+}) {
+  return (
+    <Link href={card.href} className={`sc-card sc-card-${area}`}>
+      <span className="sc-card-head">
+        <span className="mono">{card.index}</span>
+        <span className="sc-card-label">{card.label}</span>
+        <span className="sc-card-arrow" aria-hidden="true">↗</span>
+      </span>
+      <span className="sc-card-art" aria-hidden="true">{children}</span>
+      <span className="sc-card-caption">{card.caption}</span>
+    </Link>
+  );
+}
+
+/**
+ * "Studio in motion": a second, more kinetic hero directly below the main
+ * one. Every visual is drawn in code (no images), follows the theme colours,
+ * and stops moving for visitors who prefer reduced motion.
+ */
+export async function HomepageShowcaseSection({ variant = "dark" }: { variant?: "dark" | "light" } = {}) {
+  const { data: sections } = await getHomepageSections();
+  // Each variant has its own CMS key, so their copy can differ.
+  const key = variant === "light" ? "showcase-light" : "showcase";
+  const content = getSection(sections || [], key, SHOWCASE_FALLBACK);
+  // The original hero title ("Make it meaningful. Make it move."), with its
+  // outline and italic styling, from the same CMS record.
+  const heading = getSection(sections || [], "hero", HERO_FALLBACK).heading as string;
+  // The light showcase is the homepage's main hero, so it carries the h1.
+  const Title = variant === "light" ? "h1" : "h2";
+  const id = `${key}-title`;
+  const ringId = `${key}-ring`;
+  const cards = content.cards as Record<"product" | "brand" | "motion" | "video", ShowcaseCard>;
+  const marquee = (content.marquee as string[]).filter(Boolean);
+
+  return (
+    <section className={`showcase showcase-${variant}`} aria-labelledby={id}>
+      <ShowcaseStage className={`sc-stage${variant === "light" ? " is-light" : ""}`}>
+        <div className="sc-layout">
+          <div className="sc-copy">
+            <p className="sc-eyebrow mono">
+              <span className="status-dot" aria-hidden="true"></span>
+              {content.eyebrow}
+            </p>
+            <Title id={id} className="sc-title">
+              <RichText value={heading} />
+            </Title>
+            <p className="sc-lead">{content.lead}</p>
+            <div className="sc-actions">
+              <Link href={content.ctaPrimary.href} className="button button-accent">
+                {content.ctaPrimary.label} <span>↗</span>
+              </Link>
+              <Link href={content.ctaSecondary.href} className="sc-link">
+                {content.ctaSecondary.label} <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="sc-bento">
+            <ShowcaseCardShell card={cards.product} area="product">
+              <span className="sc-ui">
+                <span className="sc-ui-top"><i /><i /><i /><b /></span>
+                <span className="sc-ui-body">
+                  <span className="sc-ui-side"><i /><i /><i /><i /></span>
+                  <span className="sc-ui-main">
+                    <span className="sc-ui-kpi"><i /><b /></span>
+                    <span className="sc-bars">
+                      {[62, 38, 74, 50, 88, 44, 70].map((height, i) => (
+                        <i key={i} style={{ "--h": `${height}%`, "--i": i } as CSSProperties} />
+                      ))}
+                    </span>
+                    <svg className="sc-spark" viewBox="0 0 200 48" preserveAspectRatio="none">
+                      <path d="M2 40 C28 38 40 22 66 26 S112 12 140 16 S180 6 198 6" pathLength="1" />
+                    </svg>
+                  </span>
+                </span>
+              </span>
+            </ShowcaseCardShell>
+
+            <ShowcaseCardShell card={cards.brand} area="brand">
+              <span className="sc-brand">
+                <svg className="sc-ring" viewBox="0 0 200 200">
+                  <defs>
+                    <path id={ringId} d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+                  </defs>
+                  <text>
+                    <textPath href={`#${ringId}`}>IDENTITY · TYPE · COLOUR · VOICE · SYSTEM · </textPath>
+                  </text>
+                </svg>
+                <span className="sc-specimen">Aa</span>
+                <span className="sc-swatches">
+                  <i className="sw-primary" /><i className="sw-black" /><i className="sw-background" /><i className="sw-white" />
+                </span>
+              </span>
+            </ShowcaseCardShell>
+
+            <ShowcaseCardShell card={cards.motion} area="motion">
+              <span className="sc-motion">
+                <svg className="sc-curve" viewBox="0 0 240 120">
+                  <path className="sc-curve-guide" d="M12 108 L228 12" />
+                  <path className="sc-curve-path" d="M12 108 C92 108 116 12 228 12" />
+                  <circle className="sc-handle" cx="92" cy="108" r="3.5" />
+                  <circle className="sc-handle" cx="116" cy="12" r="3.5" />
+                  <circle className="sc-dot sc-dot-moving" r="7">
+                    <animateMotion dur="2.4s" repeatCount="indefinite" path="M12 108 C92 108 116 12 228 12" keyPoints="0;1;1" keyTimes="0;0.75;1" calcMode="linear" />
+                  </circle>
+                  <circle className="sc-dot sc-dot-static" cx="228" cy="12" r="7" />
+                </svg>
+                <span className="sc-timeline">
+                  <i /><i /><i />
+                  <b className="sc-scrub" />
+                </span>
+              </span>
+            </ShowcaseCardShell>
+
+            <ShowcaseCardShell card={cards.video} area="video">
+              <span className="sc-video">
+                <span className="sc-frames">
+                  {[0, 1, 2, 3, 4, 5].map((i) => <i key={i} style={{ "--i": i } as CSSProperties} />)}
+                  <b className="sc-playhead" />
+                </span>
+                <span className="sc-wave">
+                  {Array.from({ length: 28 }, (_, i) => (
+                    <i key={i} style={{ "--i": i, "--h": `${30 + ((i * 37) % 65)}%` } as CSSProperties} />
+                  ))}
+                </span>
+                <span className="sc-timecode mono">00:00:24:12</span>
+              </span>
+            </ShowcaseCardShell>
+          </div>
+        </div>
+
+        <div className="sc-marquee" aria-hidden="true">
+          <span className="sc-marquee-track">
+            {[...marquee, ...marquee].map((item, i) => (
+              <span key={`${item}-${i}`} className={i % 2 ? "is-outline" : undefined}>
+                {item}
+                <em>✳</em>
+              </span>
+            ))}
+          </span>
+        </div>
+      </ShowcaseStage>
+    </section>
+  );
+}
+
+/** The same showcase on a white panel, directly below the black one. */
+export async function HomepageShowcaseLightSection() {
+  return HomepageShowcaseSection({ variant: "light" });
+}
+
 export async function HomepageTrustStrip() {
   const { data: sections } = await getHomepageSections();
   const content = getSection(sections || [], "trust-strip", TRUST_STRIP_FALLBACK);
@@ -527,7 +714,7 @@ export async function HomepageWorkSection() {
                       <path
                         d="M0 110 C40 96 45 112 80 76 S130 88 165 53 S230 76 270 38 S330 63 370 24 S435 36 500 8"
                         fill="none"
-                        stroke="#c8ff43"
+                        style={{ stroke: "var(--accent)" }}
                         strokeWidth="3"
                       />
                     </svg>
@@ -730,6 +917,28 @@ export async function HomepageProcessSection() {
   );
 }
 
+/** The framed orbital artwork from "04 / The studio". Also used on About. */
+function StudioArt({ content }: { content: any }) {
+  return (
+    <div className="studio-art">
+      <div className="studio-paper">
+        <span className="mono">{content.artIndex}</span>
+        <StudioVisual />
+        <span className="mono">{content.artCaption}</span>
+      </div>
+      <div className="studio-stamp">
+        <RichText value={content.stamp} />
+      </div>
+    </div>
+  );
+}
+
+/** The homepage studio artwork, with the same CMS content, for other pages. */
+export async function HomepageStudioArt() {
+  const { data: sections } = await getHomepageSections();
+  return <StudioArt content={getSection(sections || [], "studio-section", STUDIO_FALLBACK)} />;
+}
+
 export async function HomepageStudioSection() {
   const { data: sections } = await getHomepageSections();
   const content = getSection(sections || [], "studio-section", STUDIO_FALLBACK);
@@ -737,16 +946,7 @@ export async function HomepageStudioSection() {
   return (
     <section className="studio-section" id="studio">
       <div className="section-wrap studio-grid">
-        <div className="studio-art">
-          <div className="studio-paper">
-            <span className="mono">{content.artIndex}</span>
-            <StudioVisual />
-            <span className="mono">{content.artCaption}</span>
-          </div>
-          <div className="studio-stamp">
-            <RichText value={content.stamp} />
-          </div>
-        </div>
+        <StudioArt content={content} />
         <div className="studio-copy">
           <p className="eyebrow">{content.eyebrow}</p>
           <h2><RichText value={content.heading} /></h2>
@@ -889,8 +1089,8 @@ export async function HomepageContactSection() {
           </p>
           <h2><RichText value={content.heading} /></h2>
           <p>{content.paragraph}</p>
-          <a className="contact-email" href={`mailto:${content.email || settings?.email_address || "hello@drawtiq.studio"}`}>
-            {content.email || settings?.email_address || "hello@drawtiq.studio"} <span>↗</span>
+          <a className="contact-email" href={`mailto:${content.email || settings?.email_address || "contact@drawtiq.com"}`}>
+            {content.email || settings?.email_address || "contact@drawtiq.com"} <span>↗</span>
           </a>
         </div>
         <form className="contact-form" id="project-form" method="post" action="/api/inquiries">

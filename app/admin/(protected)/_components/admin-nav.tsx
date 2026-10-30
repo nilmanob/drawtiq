@@ -28,7 +28,8 @@ type IconName =
   | "list"
   | "shield"
   | "user"
-  | "settings";
+  | "settings"
+  | "palette";
 
 // 16px stroke icons drawn on a 24px grid, so they inherit the link colour.
 const ICON_PATHS: Record<IconName, string> = {
@@ -50,6 +51,7 @@ const ICON_PATHS: Record<IconName, string> = {
   list: "M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01",
   shield: "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z",
   user: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6",
+  palette: "M12 3a9 9 0 100 18c1.2 0 1.6-.9 1.2-1.8-.5-1-.1-2.2 1.2-2.2H17a4 4 0 004-4c0-5.5-4-10-9-10zM7.5 12h.01M9.5 7.5h.01M14.5 7.5h.01M17 11h.01",
   settings: "M12 15a3 3 0 100-6 3 3 0 000 6zM19 12l2-1-1-3-2 .2-1.5-1.5L16.7 4l-3-1-1 2h-1.4l-1-2-3 1 .2 2.7L6 8.2 4 8l-1 3 2 1v1.4l-2 1 1 3 2-.2 1.5 1.5L7.3 20l3 1 1-2h1.4l1 2 3-1-.2-2.7 1.5-1.5 2 .2 1-3-2-1z",
 };
 
@@ -150,6 +152,12 @@ const navGroups: NavGroup[] = [
         icon: "settings",
         permission: "settings:write",
         matches: SETTINGS_PATHS,
+      },
+      {
+        href: "/admin/settings/theme",
+        label: "Theme & colors",
+        icon: "palette",
+        permission: "settings:write",
       },
     ],
   },

@@ -31,8 +31,29 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Unable to load content.";
 }
 
+// Old studio addresses still stored in some CMS rows. Every public CMS read is
+// rewritten to the current address, so the site is correct even before the
+// 20261030000300_contact_email.sql cleanup has been applied.
+const LEGACY_EMAIL = /\b(?:hello|careers)@drawtiq\.studio\b/gi;
+const CONTACT_EMAIL = "contact@drawtiq.com";
+
+function replaceLegacyEmails<T>(value: T): T {
+  if (typeof value === "string") {
+    return value.replace(LEGACY_EMAIL, CONTACT_EMAIL) as T;
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => replaceLegacyEmails(item)) as T;
+  }
+  if (value && typeof value === "object" && Object.getPrototypeOf(value) === Object.prototype) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, replaceLegacyEmails(item)])
+    ) as T;
+  }
+  return value;
+}
+
 function emptyResult<T>(data: T, source: ContentSource, error: string | null = null): ContentResult<T> {
-  return { data, source, error };
+  return { data: source === "database" ? replaceLegacyEmails(data) : data, source, error };
 }
 
 /**

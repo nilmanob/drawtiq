@@ -3,18 +3,19 @@ import { PortfolioCard } from "@/components/portfolio-card";
 import { getPublishedProjects } from "@/lib/content/data";
 import { pageContent, getPageSeo } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("work");
-  return {
+  return pageSeo({
     title: seo.title || "Selected Work",
     description:
       seo.description ||
       "Explore Drawtiq concept projects across UI/UX design, brand identity, and graphic design.",
     alternates: { canonical: "/work" },
-  };
+  });
 }
 
 export default async function WorkPage() {

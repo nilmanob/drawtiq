@@ -3,17 +3,18 @@ import { getContactFormFields, getContactSettings, type ContactFormField } from 
 import { CONTACT_FIELD_FALLBACKS } from "@/lib/content/contact-fallbacks";
 import { getPageSeo, pageContent } from "@/lib/content/page-content";
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, { data: cms }] = await Promise.all([getPageSeo("contact"), getContactSettings()]);
-  return {
+  return pageSeo({
     title: seo.title || "Contact",
     description:
       seo.description ||
       cms?.hero_lead ||
       "Start a conversation with Drawtiq about UI/UX design, branding, or graphic design.",
     alternates: { canonical: "/contact" },
-  };
+  });
 }
 
 export default async function ContactPage() {
@@ -38,7 +39,7 @@ export default async function ContactPage() {
     copyHeading: cms?.copy_heading || "Good things start with <em>a note.</em>",
     copyParagraph: cms?.copy_paragraph || "You don’t need a perfect brief. A little context about the idea, the challenge, and what success could look like is a great place to start.",
     emailLabel: cms?.email_label || "EMAIL US",
-    email: cms?.email_address || "hello@drawtiq.studio",
+    email: cms?.email_address || "contact@drawtiq.com",
     formHeading: cms?.form_heading || "PROJECT INQUIRY / 001",
     formSubheading: cms?.form_subheading || "Share as much or as little as you know. A sentence is enough.",
     submitLabel: cms?.submit_label || "Send inquiry",

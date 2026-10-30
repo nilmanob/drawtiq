@@ -25,6 +25,24 @@ export default function GsapBootstrap() {
           if (!form || !hint) return;
           const loadedAt = Date.now();
 
+          // Outcome of a plain form post (sent before this script loaded),
+          // passed back by /api/inquiries as ?inquiry=...
+          const outcomes = {
+            sent: "Thanks — your inquiry is with us. We usually reply within 2 business days.",
+            invalid: "Some details were missing or invalid. Please check the form and try again.",
+            limited: "Too many inquiries from this connection. Please try again later or email contact@drawtiq.com.",
+            unavailable: "Online inquiries are not available right now. Please email contact@drawtiq.com.",
+            error: "We could not send your inquiry. Please try again or email contact@drawtiq.com.",
+          };
+          const params = new URLSearchParams(window.location.search);
+          const outcome = params.get("inquiry");
+          if (outcome && Object.prototype.hasOwnProperty.call(outcomes, outcome)) {
+            hint.textContent = outcomes[outcome];
+            params.delete("inquiry");
+            const query = params.toString();
+            window.history.replaceState(null, "", window.location.pathname + (query ? "?" + query : "") + window.location.hash);
+          }
+
           form.onsubmit = async (e) => {
             e.preventDefault();
             if (!form.reportValidity()) return;
@@ -83,15 +101,15 @@ export default function GsapBootstrap() {
               }
 
               if (response.status === 429) {
-                hint.textContent = "Too many inquiries from this connection. Please try again later or email hello@drawtiq.studio.";
+                hint.textContent = "Too many inquiries from this connection. Please try again later or email contact@drawtiq.com.";
               } else if (response.status === 503) {
-                hint.textContent = "Online inquiries are not available right now. Please email hello@drawtiq.studio.";
+                hint.textContent = "Online inquiries are not available right now. Please email contact@drawtiq.com.";
               } else {
                 const fields = result && result.fields ? Object.values(result.fields).flat() : [];
-                hint.textContent = fields[0] || (result && result.error) || "We could not send your inquiry. Please try again or email hello@drawtiq.studio.";
+                hint.textContent = fields[0] || (result && result.error) || "We could not send your inquiry. Please try again or email contact@drawtiq.com.";
               }
             } catch {
-              hint.textContent = "We could not reach the server. Please try again or email hello@drawtiq.studio.";
+              hint.textContent = "We could not reach the server. Please try again or email contact@drawtiq.com.";
             }
 
             form.dataset.submitting = "false";

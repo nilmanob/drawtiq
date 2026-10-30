@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { AdminPageHeader } from "../_components/admin-ui";
 import { CmsCollectionTable } from "../cms/collection-table";
 import type { CmsTable } from "../cms/config";
@@ -54,6 +55,11 @@ export default function SiteSettingsPage() {
         title="Site settings"
         description="Global configuration shared by every page. Page content is edited under Website pages."
       />
+
+      <Link className="admin-panel admin-record-link admin-settings-theme-link" href="/admin/settings/theme">
+        <strong>Theme & colors →</strong>
+        <span>Primary, background, text, white, and black colors used across the public site.</span>
+      </Link>
 
       <div className="admin-page-sections">
         {SETTINGS.map((setting) => (

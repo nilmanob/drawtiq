@@ -12,6 +12,7 @@ import AnimationsProvider from "@/components/animations-provider";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { getFooterLinks, getFooterSocial, getGlobalSettings, getNavItems } from "@/lib/content/cms";
 import { pageContent } from "@/lib/content/page-content";
+import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/components/json-ld";
 
 export default async function DrawtiqLayout({ children }: { children: ReactNode }) {
   const [{ data: navItems }, { data: footerLinks }, { data: footerSocial }, { data: settings }, site] = await Promise.all([
@@ -30,17 +31,22 @@ export default async function DrawtiqLayout({ children }: { children: ReactNode 
       copyrightSuffix: "Made with care.",
     }),
   ]);
+  // The white logo is used wherever the background is dark: the footer, and
+  // the header in dark mode.
+  const whiteLogoPath = site.footerLogoPath || settings?.footer_logo_path || "/assets/Drawtiq-logo-white.png";
   const navSite = {
     ...site,
     logoPath: site.logoPath || settings?.logo_path || "/assets/Drawtiq-logo.png",
+    darkLogoPath: whiteLogoPath,
   };
   const footerSite = {
     ...site,
-    logoPath: site.footerLogoPath || settings?.footer_logo_path || "/assets/Drawtiq-logo-white.png",
+    logoPath: whiteLogoPath,
   };
   return (
     <ThemeProvider>
       <>
+        <JsonLd data={[organizationJsonLd(settings, footerSocial), websiteJsonLd(settings)]} />
         <SkipLink />
          <Nav items={navItems} site={navSite} />
 

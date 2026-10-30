@@ -1,9 +1,15 @@
 import { createHash } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { getContactFormFields } from "@/lib/content/cms";
 import { sendInquiryNotification } from "@/lib/email/notify";
 import { getSupabasePublicEnv, hasSupabaseEnv } from "@/lib/env";
-import { inquirySchema } from "@/lib/validation/inquiry";
+import {
+  INQUIRY_BUDGETS,
+  INQUIRY_SERVICES,
+  inquirySchema,
+  matchOption,
+} from "@/lib/validation/inquiry";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,6 +36,52 @@ function jsonSuccess() {
     { ok: true },
     { status: 201, headers: { "Cache-Control": "no-store" } }
   );
+}
+
+type Outcome = "sent" | "invalid" | "limited" | "unavailable" | "error";
+
+/**
+ * Plain HTML form posts (JavaScript not loaded yet, or blocked) get a redirect
+ * back to the page they came from, where the form shows the outcome.
+ */
+function formRedirect(request: Request, outcome: Outcome) {
+  let path = "/contact";
+  try {
+    const referer = new URL(request.headers.get("referer") ?? "");
+    if (referer.origin === new URL(request.url).origin && referer.pathname.startsWith("/")) {
+      path = referer.pathname;
+    }
+  } catch {
+    // Missing or foreign referer: fall back to the contact page.
+  }
+  const target = new URL(path, request.url);
+  target.searchParams.set("inquiry", outcome);
+  target.hash = "project-form";
+  return NextResponse.redirect(target, 303);
+}
+
+/**
+ * Allowed select values: whatever the CMS contact form currently offers, plus
+ * the built-in defaults, so editing options in the admin never breaks the form.
+ */
+async function allowedOptions() {
+  const services = new Set<string>(INQUIRY_SERVICES);
+  const budgets = new Set<string>(INQUIRY_BUDGETS);
+
+  try {
+    const { data } = await getContactFormFields();
+    for (const field of data ?? []) {
+      const options = (field.options ?? []).filter(
+        (option): option is string => typeof option === "string"
+      );
+      if (field.field_name === "service") options.forEach((option) => services.add(option));
+      if (field.field_name === "budget") options.forEach((option) => budgets.add(option));
+    }
+  } catch {
+    // Defaults only.
+  }
+
+  return { services, budgets };
 }
 
 function clientIp(request: Request): string | null {
@@ -75,9 +127,15 @@ function isMissingFunctionError(code: string | undefined, message: string): bool
  */
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
-  if (!contentType.includes("application/json")) {
+  const isForm = contentType.includes("application/x-www-form-urlencoded");
+  if (!contentType.includes("application/json") && !isForm) {
     return jsonError("Send the inquiry as JSON.", 415);
   }
+
+  // Same outcome, shaped for the caller: JSON for the page script, a redirect
+  // for a plain form post.
+  const respond = (outcome: Outcome, json: () => Response) =>
+    isForm ? formRedirect(request, outcome) : json();
 
   const declaredLength = Number(request.headers.get("content-length") ?? "0");
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
@@ -96,37 +154,61 @@ export async function POST(request: Request) {
   }
 
   let payload: unknown;
-  try {
-    payload = JSON.parse(rawBody);
-  } catch {
-    return jsonError("Invalid JSON body.", 400);
+  if (isForm) {
+    const fields = new URLSearchParams(rawBody);
+    payload = {
+      name: fields.get("name") ?? "",
+      email: fields.get("email") ?? "",
+      service: fields.get("service") ?? "",
+      budget: fields.get("budget") ?? "",
+      message: fields.get("message") ?? "",
+      website: fields.get("website") ?? "",
+    };
+  } else {
+    try {
+      payload = JSON.parse(rawBody);
+    } catch {
+      return jsonError("Invalid JSON body.", 400);
+    }
   }
 
   const parsed = inquirySchema.safeParse(payload);
+  const invalid = (fields: Record<string, string[] | undefined>) =>
+    respond("invalid", () =>
+      NextResponse.json(
+        { ok: false, error: "Please check the highlighted fields.", fields },
+        { status: 400, headers: { "Cache-Control": "no-store" } }
+      )
+    );
 
   if (!parsed.success) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "Please check the highlighted fields.",
-        fields: parsed.error.flatten().fieldErrors,
-      },
-      { status: 400, headers: { "Cache-Control": "no-store" } }
-    );
+    return invalid(parsed.error.flatten().fieldErrors);
   }
 
-  const { name, email, service, budget, message, website, elapsedMs } =
-    parsed.data;
+  const { name, email, message, website, elapsedMs } = parsed.data;
 
   // Honeypot and too-fast submissions receive a normal-looking response but
   // are not inserted, so automated senders cannot tune around the trap.
   if (website || (elapsedMs !== undefined && elapsedMs < MIN_FORM_TIME_MS)) {
-    return jsonSuccess();
+    return respond("sent", jsonSuccess);
   }
 
   if (!hasSupabaseEnv()) {
-    return jsonError("Inquiry submissions are not configured yet.", 503);
+    return respond("unavailable", () =>
+      jsonError("Inquiry submissions are not configured yet.", 503)
+    );
   }
+
+  const allowed = await allowedOptions();
+  const service = matchOption(parsed.data.service, allowed.services);
+  if (!service) {
+    return invalid({ service: ["Choose a valid service."] });
+  }
+  // Budget is optional: an unrecognized value (such as a "Choose a range"
+  // prompt saved as an option) is stored as no budget instead of rejecting
+  // the whole inquiry.
+  const budget = matchOption(parsed.data.budget, allowed.budgets) ?? "";
+  const budgetValue = /^choose\b/i.test(budget) ? "" : budget;
 
   const env = getSupabasePublicEnv();
   const supabase = createClient(
@@ -148,7 +230,7 @@ export async function POST(request: Request) {
     p_name: name,
     p_email: email,
     p_service: service,
-    p_budget: budget || null,
+    p_budget: budgetValue || null,
     p_message: message,
     p_ip_hash: ipHash,
   });
@@ -158,16 +240,22 @@ export async function POST(request: Request) {
     console.error("Inquiry submission failed:", error.code, error.message);
 
     if (isRateLimitError(error.code, error.message)) {
-      return jsonError("Too many inquiries. Please try again later.", 429, {
-        "Retry-After": String(RATE_LIMIT_RETRY_SECONDS),
-      });
+      return respond("limited", () =>
+        jsonError("Too many inquiries. Please try again later.", 429, {
+          "Retry-After": String(RATE_LIMIT_RETRY_SECONDS),
+        })
+      );
     }
 
     if (isMissingFunctionError(error.code, error.message)) {
-      return jsonError("Inquiry submissions are not configured yet.", 503);
+      return respond("unavailable", () =>
+        jsonError("Inquiry submissions are not configured yet.", 503)
+      );
     }
 
-    return jsonError("We could not save your inquiry. Please try again.", 500);
+    return respond("error", () =>
+      jsonError("We could not save your inquiry. Please try again.", 500)
+    );
   }
 
   const inquiryId = typeof data === "string" ? data : null;
@@ -178,7 +266,7 @@ export async function POST(request: Request) {
       name,
       email,
       service: service || null,
-      budget: budget || null,
+      budget: budgetValue || null,
       message,
       createdAt: new Date().toISOString(),
     });
@@ -188,5 +276,5 @@ export async function POST(request: Request) {
     console.error("Inquiry notification failed unexpectedly.");
   }
 
-  return jsonSuccess();
+  return respond("sent", jsonSuccess);
 }

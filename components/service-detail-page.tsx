@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Faq } from "@/components/faq";
 import { getPublishedServiceDetail } from "@/lib/content/data";
 import { pageContent } from "@/lib/content/page-content";
+import { breadcrumbJsonLd, faqJsonLd, JsonLd, serviceJsonLd } from "@/components/json-ld";
 
 export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
   const [{ data: detail }, copy] = await Promise.all([
@@ -16,6 +17,17 @@ export async function ServiceDetailPage({ routeSlug }: { routeSlug: string }) {
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          serviceJsonLd({ name: detail.heroTitle, description: detail.lead, path: `/${routeSlug}` }),
+          faqJsonLd(detail.faqs.map((item) => ({ question: item.q, answer: item.a }))),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: detail.heroTitle, path: `/${routeSlug}` },
+          ]),
+        ]}
+      />
       <section className="page-hero section-wrap">
         <p className="eyebrow">
           <span className="status-dot"></span>

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { CaseStudyVisual } from "@/components/case-study-visual";
 import { getPublishedProject } from "@/lib/content/data";
 import { getPageSeo, pageContent } from "@/lib/content/page-content";
+import { pageSeo } from "@/lib/seo";
+import { breadcrumbJsonLd, caseStudyJsonLd, JsonLd } from "@/components/json-ld";
 
 export const revalidate = 60;
 
@@ -71,11 +73,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     seo.description ||
     `Design concept for ${project.title}. ${project.lead ?? project.summary ?? ""}`.trim();
 
-  return {
+  return pageSeo({
     title: project.seoTitle || seo.title || `${project.title} — Case Study`,
     description,
     alternates: { canonical: `/case-study/${project.slug}` },
-  };
+  });
 }
 
 export default async function CaseStudyPage({ params }: Props) {
@@ -96,6 +98,21 @@ export default async function CaseStudyPage({ params }: Props) {
 
   return (
     <main id="main">
+      <JsonLd
+        data={[
+          caseStudyJsonLd({
+            slug: project.slug,
+            title: project.title,
+            description: lead,
+            category: project.category,
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Work", path: "/work" },
+            { name: project.title, path: `/case-study/${project.slug}` },
+          ]),
+        ]}
+      />
       <section className="page-hero section-wrap detail-hero">
         <p className="eyebrow">
           <span className="status-dot"></span>
